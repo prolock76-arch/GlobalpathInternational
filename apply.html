@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Apply — GlobalPath International</title>
-<meta name="description" content="Apply for passport, visa, or international job assistance. Get a reference number and track progress.">
+<meta name="description" content="Apply for passport, visa, or international job assistance. Instant reference number and 24/7 tracker.">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
@@ -16,7 +16,6 @@
   --accent-dark: #d98c0f;
   --accent-soft: #fff5e1;
   --bg: #F7F9FC;
-  --bg-alt: #ffffff;
   --text: #0f172a;
   --muted: #64748b;
   --border: #e5e9f0;
@@ -26,6 +25,8 @@
   --danger-bg: #fdeceb;
   --warn: #b45309;
   --warn-bg: #fff7e6;
+  --telegram: #229ED9;
+  --telegram-dark: #1a7ab0;
   --radius: 10px;
   --radius-lg: 16px;
   --radius-xl: 20px;
@@ -44,7 +45,7 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
 }
-a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
+a { color: var(--primary); text-decoration: none; }
 a:hover { color: var(--primary-dark); }
 .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
 
@@ -81,9 +82,7 @@ a:hover { color: var(--primary-dark); }
   box-shadow: 0 4px 14px rgba(11,61,145,0.28);
   border-radius: 10px;
   flex-shrink: 0;
-  transition: transform 0.25s;
 }
-.logo-mark:hover { transform: translateY(-1px) rotate(-3deg); }
 .logo-mark svg { display: block; width: 100%; height: 100%; }
 .logo-text small {
   display: block;
@@ -121,37 +120,62 @@ a:hover { color: var(--primary-dark); }
   border-radius: 8px;
 }
 
-/* PAGE HERO */
-.page-hero {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  color: #fff;
-  padding: 48px 24px 56px;
-  text-align: center;
+/* HERO WITH IMAGE */
+.hero-apply {
   position: relative;
+  background: linear-gradient(135deg, rgba(11,61,145,0.92), rgba(26,91,196,0.85));
+  color: #fff;
+  padding: 72px 24px 88px;
+  text-align: center;
   overflow: hidden;
 }
-.page-hero::before {
+.hero-apply::before {
   content: '';
   position: absolute;
-  top: -40%; right: -10%;
-  width: 460px; height: 460px;
-  background: radial-gradient(circle, rgba(245,166,35,0.18) 0%, transparent 70%);
-  border-radius: 50%;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+  z-index: 0;
 }
-.page-hero > * { position: relative; z-index: 1; }
-.page-hero h1 {
-  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-  margin-bottom: 12px;
+.hero-apply > * { position: relative; z-index: 1; }
+.hero-apply h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 800;
   letter-spacing: -0.02em;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
 }
-.page-hero p { max-width: 620px; margin: 0 auto; opacity: 0.94; font-size: 1rem; }
-.page-hero .breadcrumb {
+.hero-apply p {
+  font-size: 1.08rem;
+  max-width: 640px;
+  margin: 0 auto;
+  opacity: 0.96;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+}
+.hero-apply .breadcrumb {
   font-size: 0.82rem;
-  opacity: 0.85;
-  margin-bottom: 10px;
+  opacity: 0.9;
+  margin-bottom: 14px;
 }
-.page-hero .breadcrumb a { color: #fff; text-decoration: underline; }
+.hero-apply .breadcrumb a { color: #fff; text-decoration: underline; }
+.hero-trust-chips {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.hero-trust-chips span {
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(8px);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
 
 /* PROGRESS */
 .progress-bar {
@@ -162,6 +186,7 @@ a:hover { color: var(--primary-dark); }
   top: 67px;
   z-index: 900;
   overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(11,61,145,0.04);
 }
 .progress-inner {
   max-width: 960px;
@@ -176,9 +201,10 @@ a:hover { color: var(--primary-dark); }
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+  position: relative;
 }
 .p-dot {
-  width: 30px; height: 30px;
+  width: 32px; height: 32px;
   border-radius: 50%;
   background: var(--bg);
   border: 2px solid var(--border);
@@ -217,6 +243,239 @@ a:hover { color: var(--primary-dark); }
   min-width: 16px;
 }
 .p-step.done + .p-line { background: var(--success); }
+
+/* STEP NOTIFICATIONS */
+.step-alert {
+  background: linear-gradient(135deg, #fff8ec 0%, #fff 100%);
+  border: 2px solid #f5d99b;
+  border-left: 5px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.step-alert .sa-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.step-alert .sa-content { flex: 1; }
+.step-alert .sa-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #8a5a00;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.step-alert .sa-text {
+  font-size: 0.86rem;
+  color: #4a3500;
+  line-height: 1.6;
+}
+
+/* FEATURED JOBS */
+.featured-section {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  padding: 32px 32px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.featured-header h2 {
+  font-size: 1.35rem;
+  color: var(--primary);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.featured-header p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.featured-badge {
+  background: var(--accent);
+  color: #1a1a1a;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* SEARCH BAR */
+.search-wrap {
+  position: relative;
+  margin-bottom: 24px;
+}
+.search-input {
+  width: 100%;
+  padding: 16px 20px 16px 52px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+  transition: all 0.2s;
+}
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(11,61,145,0.08);
+}
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* CATEGORY FILTERS */
+.cat-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.cat-chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.cat-chip:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.cat-chip.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 4px 10px rgba(11,61,145,0.2);
+}
+
+/* JOB CARDS */
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.job-card-mini {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all 0.22s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.job-card-mini::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+.job-card-mini:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.job-card-mini:hover::before { transform: scaleX(1); }
+.job-card-mini .jc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.job-card-mini .jc-flag {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.job-card-mini .jc-badge {
+  background: var(--success-bg);
+  color: var(--success);
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+.job-card-mini h4 {
+  font-size: 1rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.job-card-mini .jc-employer {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.job-card-mini .jc-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.job-card-mini .jc-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.job-card-mini .jc-salary {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 12px;
+}
+.job-card-mini .jc-cta {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.job-card-mini .jc-cta::after { content: '→'; transition: transform 0.2s; }
+.job-card-mini:hover .jc-cta::after { transform: translateX(4px); }
+
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
 
 /* FORM WRAP */
 .form-wrap {
@@ -271,7 +530,7 @@ a:hover { color: var(--primary-dark); }
 /* PATH SELECTION */
 .path-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
   margin-bottom: 28px;
 }
@@ -279,7 +538,7 @@ a:hover { color: var(--primary-dark); }
   background: #fff;
   border: 2px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 28px 20px;
+  padding: 28px 22px;
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
@@ -382,14 +641,8 @@ a:hover { color: var(--primary-dark); }
   background: var(--primary-soft);
   color: var(--primary);
 }
-.visa-option .v-tag.warn {
-  background: var(--warn-bg);
-  color: var(--warn);
-}
-.visa-option .v-tag.easy {
-  background: var(--success-bg);
-  color: var(--success);
-}
+.visa-option .v-tag.warn { background: var(--warn-bg); color: var(--warn); }
+.visa-option .v-tag.easy { background: var(--success-bg); color: var(--success); }
 
 /* FORM FIELDS */
 .form-row {
@@ -399,7 +652,6 @@ a:hover { color: var(--primary-dark); }
   margin-bottom: 18px;
 }
 .form-row.single { grid-template-columns: 1fr; }
-.form-row.three { grid-template-columns: repeat(3, 1fr); }
 .form-group { margin-bottom: 18px; }
 .form-group label {
   display: block;
@@ -567,6 +819,44 @@ a:hover { color: var(--primary-dark); }
   margin-top: 18px;
 }
 
+/* AGENT CARD */
+.agent-benefits {
+  background: linear-gradient(135deg, #f0f7ff 0%, #fff 100%);
+  border: 2px solid #b8d4f5;
+  border-radius: var(--radius-lg);
+  padding: 28px 26px;
+  margin-bottom: 24px;
+}
+.agent-benefits h3 {
+  color: var(--primary);
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.agent-benefits ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+.agent-benefits ul li {
+  font-size: 0.92rem;
+  color: var(--primary-dark);
+  padding: 6px 0 6px 26px;
+  position: relative;
+  line-height: 1.6;
+}
+.agent-benefits ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 4px;
+  color: var(--success);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
 /* CHECKBOX GROUP */
 .checkbox-group {
   display: grid;
@@ -627,6 +917,12 @@ a:hover { color: var(--primary-dark); }
   border: 1px solid var(--border);
 }
 .btn-ghost:hover { background: var(--bg); color: var(--text); }
+.btn-telegram {
+  background: var(--telegram);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(34,158,217,0.3);
+}
+.btn-telegram:hover { background: var(--telegram-dark); color: #fff; }
 .btn-lg { padding: 15px 34px; font-size: 1rem; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
@@ -732,9 +1028,10 @@ a:hover { color: var(--primary-dark); }
 
 /* RESPONSIVE */
 @media (max-width: 720px) {
-  .form-row, .form-row.three { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
   .choice-grid { grid-template-columns: 1fr 1fr; }
   .panel { padding: 32px 24px; }
+  .featured-section { padding: 24px 20px; }
   .p-label { display: none; }
   .btn-row { flex-direction: column-reverse; }
   .btn-row .btn { width: 100%; }
@@ -784,11 +1081,16 @@ a:hover { color: var(--primary-dark); }
   </div>
 </header>
 
-<!-- PAGE HERO -->
-<section class="page-hero">
+<!-- HERO -->
+<section class="hero-apply">
   <div class="breadcrumb"><a href="index.html">Home</a> / Apply</div>
-  <h1>Start Your Application</h1>
-  <p>Answer a few questions so we can guide you correctly. You'll get a reference number to track progress.</p>
+  <h1>Start Your International Journey</h1>
+  <p>Apply for your passport, visa, or international job. Track every step. Get help from a Verified Agent.</p>
+  <div class="hero-trust-chips">
+    <span>✓ Verified employers</span>
+    <span>✓ Live tracking</span>
+    <span>✓ Verified agents</span>
+  </div>
 </section>
 
 <!-- PROGRESS -->
@@ -806,6 +1108,14 @@ a:hover { color: var(--primary-dark); }
       <span class="panel-eyebrow">Step 1</span>
       <h2>What do you need help with?</h2>
       <p>Choose the option that best describes your situation.</p>
+    </div>
+
+    <div class="step-alert">
+      <div class="sa-icon">💡</div>
+      <div class="sa-content">
+        <div class="sa-title">Not sure where to start?</div>
+        <div class="sa-text">If you plan to work or travel abroad but don't have a passport yet, choose <strong>Passport</strong> first. We'll guide you through the rest.</div>
+      </div>
     </div>
 
     <div class="path-grid" id="pathGrid">
@@ -831,10 +1141,6 @@ a:hover { color: var(--primary-dark); }
       </div>
     </div>
 
-    <div class="info-box blue">
-      <strong>Not sure which one?</strong> If you plan to work or travel abroad but don't have a passport yet, choose <em>Passport</em> first. We'll guide you through the rest.
-    </div>
-
     <div class="btn-row">
       <span></span>
       <button class="btn btn-secondary btn-lg" onclick="goNext()">Continue →</button>
@@ -849,45 +1155,49 @@ a:hover { color: var(--primary-dark); }
       <p>We'll use this to contact you and track your application.</p>
     </div>
 
+    <div class="step-alert">
+      <div class="sa-icon">🔒</div>
+      <div class="sa-content">
+        <div class="sa-title">Your information is secure</div>
+        <div class="sa-text">We use bank-grade encryption. Your details are never shared without your consent.</div>
+      </div>
+    </div>
+
     <div class="form-row">
       <div class="form-group">
         <label for="full_name">Full Name <span class="req">*</span></label>
-        <input type="text" id="full_name" placeholder="e.g. Mary Wanjiku Kamau" autocomplete="name">
+        <input type="text" id="full_name" placeholder="e.g. Sarah Elizabeth Thompson" autocomplete="name">
       </div>
       <div class="form-group">
         <label for="phone">Phone (WhatsApp) <span class="req">*</span></label>
         <input type="tel" id="phone" placeholder="+44 7XXX XXXXXX" autocomplete="tel">
       </div>
     </div>
-
     <div class="form-row single">
       <div class="form-group">
         <label for="email">Email Address <span class="req">*</span></label>
-        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+        <input type="email" id="email" placeholder="you@example.co.uk" autocomplete="email">
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label for="country">Country <span class="req">*</span></label>
         <select id="country">
           <option value="">Select country</option>
-          <option value="Kenya" selected>Kenya</option>
-          <option value="Uganda">Uganda</option>
-          <option value="Tanzania">Tanzania</option>
-          <option value="Rwanda">Rwanda</option>
-          <option value="Nigeria">Nigeria</option>
-          <option value="Ghana">Ghana</option>
-          <option value="South Africa">South Africa</option>
+          <option value="United Kingdom" selected>United Kingdom</option>
+          <option value="Ireland">Ireland</option>
+          <option value="France">France</option>
+          <option value="Germany">Germany</option>
+          <option value="Spain">Spain</option>
+          <option value="Netherlands">Netherlands</option>
           <option value="Other">Other</option>
         </select>
       </div>
       <div class="form-group">
         <label for="city">City / Town <span class="req">*</span></label>
-        <input type="text" id="city" placeholder="e.g. Kiserian" autocomplete="address-level2">
+        <input type="text" id="city" placeholder="e.g. London" autocomplete="address-level2">
       </div>
     </div>
-
     <div class="btn-row">
       <button class="btn btn-ghost btn-lg" onclick="goPrev()">← Back</button>
       <button class="btn btn-secondary btn-lg" onclick="goNext()">Continue →</button>
@@ -901,7 +1211,6 @@ a:hover { color: var(--primary-dark); }
       <h2>Do you have a valid passport?</h2>
       <p>This helps us route your application correctly.</p>
     </div>
-
     <div class="choice-grid" id="passportChoice">
       <div class="choice-card" data-has="yes">
         <div class="choice-icon">✅</div>
@@ -914,25 +1223,22 @@ a:hover { color: var(--primary-dark); }
         <small>I'll need to apply for a passport</small>
       </div>
     </div>
-
     <div id="passportRedirectNotice" class="info-box" style="display:none;">
-      <strong>Good to know:</strong> Since you don't have a passport yet, we'll start you with a passport application. Once you have it, we can help you with visas and jobs.
+      <strong>Good to know:</strong> Since you don't have a passport yet, we'll start you with a passport application.
     </div>
-
     <div class="btn-row">
       <button class="btn btn-ghost btn-lg" onclick="goPrev()">← Back</button>
       <button class="btn btn-secondary btn-lg" onclick="goNext()">Continue →</button>
     </div>
   </div>
 
-  <!-- STEP 4: VISA TYPE (only for visa path) -->
+  <!-- STEP 4: VISA TYPE -->
   <div class="panel" data-panel="visa-type">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 4 · Visa</span>
       <h2>What type of visa do you need?</h2>
-      <p>Each visa type has different requirements. Choose the one that matches your situation.</p>
+      <p>Each visa type has different requirements.</p>
     </div>
-
     <div class="visa-grid" id="visaGrid">
       <div class="visa-option" data-visa="work">
         <span class="v-icon">💼</span>
@@ -943,7 +1249,7 @@ a:hover { color: var(--primary-dark); }
       <div class="visa-option" data-visa="family">
         <span class="v-icon">👨‍👩‍👧</span>
         <h4>Spouse / Family Visa</h4>
-        <p>To join a spouse, parent, or child who is a resident or citizen abroad.</p>
+        <p>To join a spouse, parent, or child abroad.</p>
         <span class="v-tag">Sponsor required</span>
       </div>
       <div class="visa-option" data-visa="student">
@@ -955,46 +1261,44 @@ a:hover { color: var(--primary-dark); }
       <div class="visa-option" data-visa="tourist">
         <span class="v-icon">🧳</span>
         <h4>Tourist / Visit Visa</h4>
-        <p>For short visits, holidays, and family trips. Usually valid 30–90 days.</p>
+        <p>For short visits and holidays.</p>
         <span class="v-tag easy">Easy to apply</span>
       </div>
       <div class="visa-option" data-visa="medical">
         <span class="v-icon">🏥</span>
         <h4>Medical Visa</h4>
-        <p>For medical treatment abroad. Requires hospital invitation.</p>
+        <p>For medical treatment abroad.</p>
         <span class="v-tag">Hospital letter needed</span>
       </div>
       <div class="visa-option" data-visa="transit">
         <span class="v-icon">🚏</span>
         <h4>Transit Visa</h4>
-        <p>For passing through a country on the way to another destination.</p>
+        <p>For passing through a country en route.</p>
         <span class="v-tag easy">Quick process</span>
       </div>
       <div class="visa-option" data-visa="business">
         <span class="v-icon">📊</span>
         <h4>Business Visa</h4>
-        <p>For business meetings, conferences, or short-term commercial activity.</p>
+        <p>For business meetings or conferences.</p>
         <span class="v-tag">Company invite needed</span>
       </div>
     </div>
-
     <div class="btn-row">
       <button class="btn btn-ghost btn-lg" onclick="goPrev()">← Back</button>
       <button class="btn btn-secondary btn-lg" onclick="goNext()">Continue →</button>
     </div>
   </div>
 
-  <!-- STEP 5: VISA REALITY CHECK (only for work visa) -->
+  <!-- STEP 5: VISA REALITY -->
   <div class="panel" data-panel="visa-reality">
     <div class="panel-head">
       <span class="panel-eyebrow">Important</span>
       <h2>Before you continue — how work visas work</h2>
-      <p>Please read this carefully. It will save you time and money.</p>
+      <p>Please read this carefully.</p>
     </div>
-
     <div class="reality-card">
       <h3>⚠️ The truth about work visas</h3>
-      <p><strong>You cannot apply for a work visa without a job offer.</strong> This is the most important rule. Most countries require an employer to sponsor you before you can even apply.</p>
+      <p><strong>You cannot apply for a work visa without a job offer.</strong> Most countries require an employer to sponsor you before you can even apply.</p>
       <p>Here's how it actually works:</p>
       <ul>
         <li>First, you find and secure a job with an employer abroad</li>
@@ -1002,26 +1306,19 @@ a:hover { color: var(--primary-dark); }
         <li>Then you submit your visa application with the job offer letter</li>
         <li>The embassy reviews it and makes a decision</li>
       </ul>
-      <p><strong>No job offer = no work visa.</strong> Anyone who tells you otherwise is not being honest with you.</p>
-      <p>You have two options:</p>
+      <p><strong>No job offer = no work visa.</strong></p>
     </div>
-
     <div class="reality-actions">
-      <a href="apply.html?type=job" class="btn btn-primary btn-lg">💼 Browse Jobs on GlobalPath</a>
+      <a href="#" onclick="scrollToJobs(event)" class="btn btn-primary btn-lg">💼 Browse Featured Jobs</a>
       <button class="btn btn-secondary btn-lg" onclick="visaContinueWithOffer()">✅ I Already Have a Job Offer</button>
     </div>
-
-    <div class="info-box blue" style="margin-top:24px;">
-      <strong>Not sure?</strong> If you don't have a job offer yet, click <em>Browse Jobs</em> to find verified international vacancies with direct employer links. Once you get an offer, come back here and we'll help with the visa.
-    </div>
-
     <div class="btn-row">
       <button class="btn btn-ghost btn-lg" onclick="goPrev()">← Back</button>
       <span></span>
     </div>
   </div>
 
-  <!-- STEP 6: DETAILS (path-specific) -->
+  <!-- STEP 6: DETAILS -->
   <div class="panel" data-panel="details">
     <div class="panel-head">
       <span class="panel-eyebrow" id="detailsEyebrow">Step 6</span>
@@ -1038,17 +1335,52 @@ a:hover { color: var(--primary-dark); }
   <!-- STEP 7: REVIEW -->
   <div class="panel" data-panel="review">
     <div class="panel-head">
-      <span class="panel-eyebrow">Final Step</span>
+      <span class="panel-eyebrow">Step 7</span>
       <h2>Review your application</h2>
-      <p>Please check everything is correct before submitting.</p>
+      <p>Please check everything is correct before continuing.</p>
     </div>
     <div id="reviewBody"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost btn-lg" onclick="goPrev()">← Back</button>
+      <button class="btn btn-secondary btn-lg" onclick="goNext()">Continue →</button>
+    </div>
+  </div>
 
-    <div class="info-box">
-      <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
-        <input type="checkbox" id="consent1" style="margin-top:4px;width:18px;height:18px;accent-color:var(--primary);">
-        <span>I confirm the information is accurate. I understand this is an application for assistance, not a guarantee of a passport, visa, or job.</span>
-      </label>
+  <!-- STEP 8: VERIFIED AGENT -->
+  <div class="panel" data-panel="agent">
+    <div class="panel-head">
+      <span class="panel-eyebrow">Step 8</span>
+      <h2>Would you like a Verified Agent?</h2>
+      <p>A trained GlobalPath agent will handle your application from start to finish.</p>
+    </div>
+
+    <div class="agent-benefits">
+      <h3>🛡️ What a Verified Agent does for you</h3>
+      <ul>
+        <li><strong>Verifies your documents</strong> — checks every certificate, ID, and form before submission</li>
+        <li><strong>Prepares your file</strong> — fills official forms, prints, and assembles the pack</li>
+        <li><strong>Books your appointments</strong> — passport office, embassy, or interview</li>
+        <li><strong>Guides you step by step</strong> — tells you exactly what to bring, where to go, when</li>
+        <li><strong>Tracks with you</strong> — monitors progress and updates you at each stage</li>
+        <li><strong>Stays with you</strong> — answers questions until your documents are in your hands</li>
+      </ul>
+    </div>
+
+    <div class="info-box blue">
+      <strong>How communication works:</strong> Once assigned, your agent will contact you through your GlobalPath account. You can message them securely through the portal or via Telegram for instant replies. Everything is tracked. No personal numbers, no cash payments.
+    </div>
+
+    <div class="choice-grid" id="agentChoice">
+      <div class="choice-card" data-agent="yes">
+        <div class="choice-icon">🛡️</div>
+        <strong>Yes, assign me an agent</strong>
+        <small>Free while in beta</small>
+      </div>
+      <div class="choice-card" data-agent="no">
+        <div class="choice-icon">📝</div>
+        <strong>No, I'll handle it myself</strong>
+        <small>You'll get full tracker access</small>
+      </div>
     </div>
 
     <div class="btn-row">
@@ -1062,7 +1394,7 @@ a:hover { color: var(--primary-dark); }
     <div class="success-panel">
       <div class="success-icon">✓</div>
       <h2>Application Received</h2>
-      <p>Your application has been submitted successfully. Save your reference number to track progress.</p>
+      <p>Save your reference number to track progress.</p>
 
       <div class="reference-box">
         <div class="reference-label">Your Reference Number</div>
@@ -1074,9 +1406,61 @@ a:hover { color: var(--primary-dark); }
         <strong>What happens next:</strong> We'll review your application within 1–2 business days. You can track progress anytime with your reference number.
       </div>
 
+      <div class="info-box" id="agentConfirmBox" style="display:none;background:linear-gradient(135deg,#f0f7ff 0%,#fff 100%);border-left-color:var(--primary);color:var(--primary-dark);">
+        <strong>🛡️ Verified Agent requested</strong><br>
+        We'll assign a trained agent to your application within 48 hours. You'll see their name and contact options in your tracker and portal.
+      </div>
+
+      <div id="telegramConnectBox" style="display:none;background:#e7f6fb;border:2px solid var(--telegram);border-radius:var(--radius-lg);padding:22px 24px;margin:20px auto;max-width:520px;text-align:left;">
+        <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--telegram-dark);font-weight:700;margin-bottom:8px;">💬 Instant Support</div>
+        <div style="font-size:1.05rem;font-weight:800;color:#0a3d52;margin-bottom:8px;">Connect on Telegram</div>
+        <div style="font-size:0.9rem;color:#0a3d52;line-height:1.6;margin-bottom:16px;">
+          Get instant answers from our assistant. A human agent will join shortly. All messages are tracked securely.
+        </div>
+        <a id="telegramLink" href="#" target="_blank" rel="noopener" class="btn btn-telegram" style="display:inline-block;padding:12px 22px;font-weight:600;">
+          💬 Message on Telegram
+        </a>
+      </div>
+
       <div class="success-actions">
         <a href="track.html" class="btn btn-secondary btn-lg">Track My Application</a>
         <a href="portal.html" class="btn btn-ghost btn-lg">Create Account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED JOBS (shown after step 1) -->
+  <div id="featuredJobsSection" style="display:none;">
+    <div class="featured-section">
+      <div class="featured-header">
+        <div>
+          <h2>🌟 Featured International Jobs</h2>
+          <p>Verified employers · No application fees · Direct links</p>
+        </div>
+        <span class="featured-badge">Updated Weekly</span>
+      </div>
+
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" id="jobSearch" placeholder="Search jobs by title, employer, or country..." oninput="filterJobs()">
+      </div>
+
+      <div class="cat-filters" id="catFilters">
+        <div class="cat-chip active" data-cat="all">All</div>
+        <div class="cat-chip" data-cat="Healthcare">Healthcare</div>
+        <div class="cat-chip" data-cat="Construction">Construction</div>
+        <div class="cat-chip" data-cat="Hospitality">Hospitality</div>
+        <div class="cat-chip" data-cat="IT & Tech">IT &amp; Tech</div>
+        <div class="cat-chip" data-cat="Logistics">Logistics</div>
+        <div class="cat-chip" data-cat="Agriculture">Agriculture</div>
+        <div class="cat-chip" data-cat="Education">Education</div>
+        <div class="cat-chip" data-cat="Engineering">Engineering</div>
+        <div class="cat-chip" data-cat="Finance">Finance</div>
+        <div class="cat-chip" data-cat="Domestic">Domestic</div>
+      </div>
+
+      <div class="jobs-grid" id="jobsGrid">
+        <!-- Populated by JS -->
       </div>
     </div>
   </div>
@@ -1089,12 +1473,40 @@ a:hover { color: var(--primary-dark); }
 const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
+
+// ============================================================
+// FEATURED JOBS DATA
+// ============================================================
+const FEATURED_JOBS = [
+  { title: 'Registered Nurse', employer: 'NHS Trust', country: 'United Kingdom', flag: '🇬🇧', category: 'Healthcare', salary: '£32,000–£42,000/yr', verified: true },
+  { title: 'Care Assistant', employer: 'Care UK', country: 'United Kingdom', flag: '🇬🇧', category: 'Healthcare', salary: '£22,000–£26,000/yr', verified: true },
+  { title: 'Construction Site Manager', employer: 'Balfour Beatty', country: 'United Kingdom', flag: '🇬🇧', category: 'Construction', salary: '£45,000–£60,000/yr', verified: true },
+  { title: 'Software Developer', employer: 'Tech Innovations Ltd', country: 'United Kingdom', flag: '🇬🇧', category: 'IT & Tech', salary: '£50,000–£75,000/yr', verified: true },
+  { title: 'Warehouse Operative', employer: 'DHL Logistics', country: 'United Kingdom', flag: '🇬🇧', category: 'Logistics', salary: '£24,000–£28,000/yr', verified: true },
+  { title: 'Hotel Receptionist', employer: 'Premier Inn', country: 'United Kingdom', flag: '🇬🇧', category: 'Hospitality', salary: '£22,000–£26,000/yr', verified: true },
+  { title: 'Chef de Partie', employer: 'Marriott Hotels', country: 'United Kingdom', flag: '🇬🇧', category: 'Hospitality', salary: '£28,000–£34,000/yr', verified: true },
+  { title: 'Registered Nurse', employer: 'Toronto General', country: 'Canada', flag: '🇨🇦', category: 'Healthcare', salary: 'CAD 65,000–85,000/yr', verified: true },
+  { title: 'Construction Supervisor', employer: 'Emaar Group', country: 'UAE', flag: '🇦🇪', category: 'Construction', salary: 'AED 8,000–12,000/mo', verified: true },
+  { title: 'Software Engineer', employer: 'Atlassian', country: 'Australia', flag: '🇦🇺', category: 'IT & Tech', salary: 'AUD 90,000–120,000/yr', verified: true },
+  { title: 'Farm Worker', employer: 'AgriGrow', country: 'Australia', flag: '🇦🇺', category: 'Agriculture', salary: 'AUD 55,000–70,000/yr', verified: true },
+  { title: 'Primary School Teacher', employer: 'Ministry of Education', country: 'Qatar', flag: '🇶🇦', category: 'Education', salary: 'QAR 8,000–12,000/mo', verified: true },
+  { title: 'Civil Engineer', employer: 'AECOM', country: 'Saudi Arabia', flag: '🇸🇦', category: 'Engineering', salary: 'SAR 12,000–18,000/mo', verified: true },
+  { title: 'Financial Analyst', employer: 'HSBC', country: 'United Kingdom', flag: '🇬🇧', category: 'Finance', salary: '£38,000–£55,000/yr', verified: true },
+  { title: 'Live-in Carer', employer: 'Private Household', country: 'United Kingdom', flag: '🇬🇧', category: 'Domestic', salary: '£500–£700/week', verified: true },
+  { title: 'Truck Driver', employer: 'Logistics Express', country: 'Germany', flag: '🇩🇪', category: 'Logistics', salary: '€2,800–€3,600/mo', verified: true },
+  { title: 'Hotel Manager', employer: 'Hilton', country: 'United Kingdom', flag: '🇬🇧', category: 'Hospitality', salary: '£38,000–£48,000/yr', verified: true },
+  { title: 'Data Analyst', employer: 'Deloitte', country: 'United Kingdom', flag: '🇬🇧', category: 'IT & Tech', salary: '£40,000–£55,000/yr', verified: true },
+  { title: 'Electrician', employer: 'Skanska UK', country: 'United Kingdom', flag: '🇬🇧', category: 'Construction', salary: '£32,000–£42,000/yr', verified: true },
+  { title: 'Support Worker', employer: 'Mencap', country: 'United Kingdom', flag: '🇬🇧', category: 'Healthcare', salary: '£22,000–£27,000/yr', verified: true }
+];
 
 // ============================================================
 // STATE
 // ============================================================
 let flow = [];
 let currentIndex = 0;
+let selectedCategory = 'all';
 let formData = {
   service_type: '',
   visa_type: '',
@@ -1104,41 +1516,27 @@ let formData = {
   country: '',
   city: '',
   has_passport: null,
+  agent_requested: false,
   details: {}
 };
 
 // ============================================================
-// FLOW DEFINITIONS
+// FLOW
 // ============================================================
 function buildFlow() {
   const type = formData.service_type;
-
-  if (type === 'passport') {
-    return ['path', 'basic', 'details', 'review'];
-  }
-
+  if (type === 'passport') return ['path', 'basic', 'details', 'review', 'agent'];
   if (type === 'visa') {
-    if (formData.has_passport === false) {
-      return ['path', 'basic', 'passport-check', 'details', 'review'];
-    }
+    if (formData.has_passport === false) return ['path', 'basic', 'passport-check', 'details', 'review', 'agent'];
     const base = ['path', 'basic', 'passport-check', 'visa-type'];
-    if (formData.visa_type === 'work') {
-      return [...base, 'visa-reality', 'details', 'review'];
-    }
-    return [...base, 'details', 'review'];
+    if (formData.visa_type === 'work') return [...base, 'visa-reality', 'details', 'review', 'agent'];
+    return [...base, 'details', 'review', 'agent'];
   }
-
   if (type === 'job') {
-    if (formData.has_passport === false) {
-      return ['path', 'basic', 'passport-check', 'details', 'review'];
-    }
-    return ['path', 'basic', 'passport-check', 'details', 'review'];
+    if (formData.has_passport === false) return ['path', 'basic', 'passport-check', 'details', 'review', 'agent'];
+    return ['path', 'basic', 'passport-check', 'details', 'review', 'agent'];
   }
-
-  if (type === 'documents') {
-    return ['path', 'basic', 'details', 'review'];
-  }
-
+  if (type === 'documents') return ['path', 'basic', 'details', 'review', 'agent'];
   return ['path'];
 }
 
@@ -1148,29 +1546,21 @@ function buildFlow() {
 function renderProgress() {
   const inner = document.getElementById('progressInner');
   inner.innerHTML = '';
-
   const labels = {
-    'path': 'Path',
-    'basic': 'Your Info',
-    'passport-check': 'Passport',
-    'visa-type': 'Visa Type',
-    'visa-reality': 'Important',
-    'details': 'Details',
-    'review': 'Review'
+    'path': 'Path', 'basic': 'Your Info', 'passport-check': 'Passport',
+    'visa-type': 'Visa Type', 'visa-reality': 'Important', 'details': 'Details',
+    'review': 'Review', 'agent': 'Agent'
   };
-
   flow.forEach((panelName, idx) => {
     const step = document.createElement('div');
     step.className = 'p-step';
     if (idx < currentIndex) step.classList.add('done');
     if (idx === currentIndex) step.classList.add('active');
-
     step.innerHTML = `
       <div class="p-dot">${idx < currentIndex ? '✓' : idx + 1}</div>
       <div class="p-label">${labels[panelName] || panelName}</div>
     `;
     inner.appendChild(step);
-
     if (idx < flow.length - 1) {
       const line = document.createElement('div');
       line.className = 'p-line';
@@ -1184,46 +1574,49 @@ function showPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   const panel = document.querySelector(`.panel[data-panel="${name}"]`);
   if (panel) panel.classList.add('active');
+
+  // Show featured jobs when on job path
+  const featured = document.getElementById('featuredJobsSection');
+  if (name === 'details' && formData.service_type === 'job') {
+    featured.style.display = 'block';
+    renderJobs();
+  } else {
+    featured.style.display = 'none';
+  }
+
   window.scrollTo({ top: 200, behavior: 'smooth' });
 }
 
 function goNext() {
   hideError();
-
   const current = flow[currentIndex];
 
   if (current === 'path') {
     if (!formData.service_type) return showError('Please select what you need help with.');
   }
-
   if (current === 'basic') {
     formData.full_name = document.getElementById('full_name').value.trim();
     formData.email = document.getElementById('email').value.trim();
     formData.phone = document.getElementById('phone').value.trim();
     formData.country = document.getElementById('country').value;
     formData.city = document.getElementById('city').value.trim();
-
     if (!formData.full_name) return showError('Please enter your full name.');
-    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return showError('Please enter a valid email address.');
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return showError('Please enter a valid email.');
     if (!formData.phone) return showError('Please enter your phone number.');
     if (!formData.country) return showError('Please select your country.');
-    if (!formData.city) return showError('Please enter your city or town.');
+    if (!formData.city) return showError('Please enter your city.');
   }
-
   if (current === 'passport-check') {
     if (formData.has_passport === null) return showError('Please tell us if you have a passport.');
   }
-
   if (current === 'visa-type') {
     if (!formData.visa_type) return showError('Please select a visa type.');
   }
-
   if (current === 'details') {
     if (!validateDetails()) return;
   }
 
   flow = buildFlow();
-
   if (currentIndex < flow.length - 1) {
     currentIndex++;
     const nextPanel = flow[currentIndex];
@@ -1246,6 +1639,92 @@ function goPrev() {
 }
 
 // ============================================================
+// FEATURED JOBS
+// ============================================================
+function renderJobs() {
+  const grid = document.getElementById('jobsGrid');
+  if (!grid) return;
+
+  const search = (document.getElementById('jobSearch')?.value || '').toLowerCase().trim();
+
+  let filtered = FEATURED_JOBS;
+  if (selectedCategory !== 'all') {
+    filtered = filtered.filter(j => j.category === selectedCategory);
+  }
+  if (search) {
+    filtered = filtered.filter(j =>
+      j.title.toLowerCase().includes(search) ||
+      j.employer.toLowerCase().includes(search) ||
+      j.country.toLowerCase().includes(search) ||
+      j.category.toLowerCase().includes(search)
+    );
+  }
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="no-results" style="grid-column:1/-1;">No jobs match your search. Try different keywords.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(j => `
+    <div class="job-card-mini" onclick="pickJob('${escapeHtml(j.title)}', '${escapeHtml(j.country)}')">
+      <div class="jc-head">
+        <span class="jc-flag">${j.flag}</span>
+        ${j.verified ? '<span class="jc-badge">✓ Verified</span>' : ''}
+      </div>
+      <h4>${escapeHtml(j.title)}</h4>
+      <div class="jc-employer">${escapeHtml(j.employer)}</div>
+      <div class="jc-meta">
+        <span>📍 ${escapeHtml(j.country)}</span>
+        <span>🏷️ ${escapeHtml(j.category)}</span>
+      </div>
+      <div class="jc-salary">${escapeHtml(j.salary)}</div>
+      <div class="jc-cta">Select this job</div>
+    </div>
+  `).join('');
+}
+
+function filterJobs() {
+  renderJobs();
+}
+
+document.getElementById('catFilters')?.addEventListener('click', (e) => {
+  const chip = e.target.closest('.cat-chip');
+  if (!chip) return;
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  selectedCategory = chip.dataset.cat;
+  renderJobs();
+});
+
+function pickJob(title, country) {
+  formData.details = formData.details || {};
+  formData.details.job_title = title;
+  formData.details.preferred_country = country;
+  formData.details.job_category = formData.details.job_category || title;
+  showAlert('Selected: ' + title + ' in ' + country, 'success');
+}
+
+function scrollToJobs(e) {
+  if (e) e.preventDefault();
+  const section = document.getElementById('featuredJobsSection');
+  if (section) {
+    section.style.display = 'block';
+    renderJobs();
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function showAlert(msg, type = 'info') {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.background = type === 'success' ? 'var(--success-bg)' : 'var(--danger-bg)';
+  el.style.color = type === 'success' ? 'var(--success)' : 'var(--danger)';
+  el.style.borderLeftColor = type === 'success' ? 'var(--success)' : 'var(--danger)';
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+// ============================================================
 // PATH SELECTION
 // ============================================================
 document.getElementById('pathGrid').addEventListener('click', (e) => {
@@ -1265,7 +1744,6 @@ document.getElementById('passportChoice').addEventListener('click', (e) => {
   document.querySelectorAll('#passportChoice .choice-card').forEach(el => el.classList.remove('selected'));
   card.classList.add('selected');
   formData.has_passport = card.dataset.has === 'yes';
-
   const notice = document.getElementById('passportRedirectNotice');
   if (card.dataset.has === 'no' && (formData.service_type === 'visa' || formData.service_type === 'job')) {
     notice.style.display = 'block';
@@ -1286,15 +1764,23 @@ document.getElementById('visaGrid').addEventListener('click', (e) => {
 });
 
 // ============================================================
-// VISA REALITY — user confirms they have a job offer
+// AGENT CHOICE
 // ============================================================
+document.getElementById('agentChoice').addEventListener('click', (e) => {
+  const card = e.target.closest('.choice-card');
+  if (!card) return;
+  document.querySelectorAll('#agentChoice .choice-card').forEach(el => el.classList.remove('selected'));
+  card.classList.add('selected');
+  formData.agent_requested = card.dataset.agent === 'yes';
+});
+
 function visaContinueWithOffer() {
   formData.details.has_job_offer = true;
   goNext();
 }
 
 // ============================================================
-// DETAILS — dynamic based on path
+// DETAILS
 // ============================================================
 function renderDetails() {
   const body = document.getElementById('detailsBody');
@@ -1313,15 +1799,6 @@ function renderDetails() {
   if (effectiveType === 'passport') {
     title.textContent = 'Passport details';
     subtitle.textContent = 'Tell us about your passport application.';
-
-    if (formData.details.redirected_from) {
-      body.innerHTML = `
-        <div class="info-box">
-          <strong>Note:</strong> You originally selected <em>${formData.details.redirected_from}</em>. Since you don't have a passport yet, we've started you with the passport application.
-        </div>
-      `;
-    }
-
     body.innerHTML += `
       <div class="form-group">
         <label>Application Type <span class="req">*</span></label>
@@ -1335,28 +1812,20 @@ function renderDetails() {
       <div class="form-row">
         <div class="form-group">
           <label>Do you have a birth certificate? <span class="req">*</span></label>
-          <select id="d_birth_cert">
-            <option value="">Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No — I need help getting one</option>
-          </select>
+          <select id="d_birth_cert"><option value="">Select</option><option value="yes">Yes</option><option value="no">No — I need help getting one</option></select>
         </div>
         <div class="form-group">
           <label>Do you have a national ID? <span class="req">*</span></label>
-          <select id="d_national_id">
-            <option value="">Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No — I need help</option>
-          </select>
+          <select id="d_national_id"><option value="">Select</option><option value="yes">Yes</option><option value="no">No — I need help</option></select>
         </div>
       </div>
       <div class="form-group">
-        <label>Preferred appointment location <span class="hint">(where you'd like to submit documents)</span></label>
-        <input type="text" id="d_appointment_location" placeholder="e.g. Nyayo House, Nairobi">
+        <label>Preferred appointment location</label>
+        <input type="text" id="d_appointment_location" placeholder="e.g. HM Passport Office, London">
       </div>
       <div class="form-group">
-        <label>Anything else we should know?</label>
-        <textarea id="d_notes" placeholder="Optional — any additional information..."></textarea>
+        <label>Anything else?</label>
+        <textarea id="d_notes" placeholder="Optional..."></textarea>
       </div>
     `;
   }
@@ -1364,35 +1833,21 @@ function renderDetails() {
   else if (effectiveType === 'visa') {
     title.textContent = 'Visa details';
     subtitle.textContent = 'Tell us where you\'re going and why.';
-
     const visaTypeLabels = {
-      work: 'Work Visa',
-      family: 'Spouse / Family Visa',
-      student: 'Student Visa',
-      tourist: 'Tourist / Visit Visa',
-      medical: 'Medical Visa',
-      transit: 'Transit Visa',
-      business: 'Business Visa'
+      work: 'Work Visa', family: 'Spouse / Family Visa', student: 'Student Visa',
+      tourist: 'Tourist / Visit Visa', medical: 'Medical Visa',
+      transit: 'Transit Visa', business: 'Business Visa'
     };
-
     body.innerHTML = `
-      <div class="info-box blue">
-        <strong>Visa type:</strong> ${visaTypeLabels[formData.visa_type] || '—'}
-      </div>
+      <div class="info-box blue"><strong>Visa type:</strong> ${visaTypeLabels[formData.visa_type] || '—'}</div>
       <div class="form-row">
         <div class="form-group">
           <label>Destination Country <span class="req">*</span></label>
           <select id="d_destination">
             <option value="">Select country</option>
-            <option>Canada</option>
-            <option>United Kingdom</option>
-            <option>United States</option>
-            <option>Australia</option>
-            <option>Germany</option>
-            <option>UAE</option>
-            <option>Saudi Arabia</option>
-            <option>Qatar</option>
-            <option>Other</option>
+            <option>Canada</option><option>United Kingdom</option><option>United States</option>
+            <option>Australia</option><option>Germany</option><option>UAE</option>
+            <option>Saudi Arabia</option><option>Qatar</option><option>Other</option>
           </select>
         </div>
         <div class="form-group">
@@ -1401,277 +1856,119 @@ function renderDetails() {
         </div>
       </div>
     `;
-
     if (formData.visa_type === 'work') {
       body.innerHTML += `
         <div class="form-row">
-          <div class="form-group">
-            <label>Employer Name <span class="req">*</span></label>
-            <input type="text" id="d_employer_name" placeholder="Company or employer name">
-          </div>
-          <div class="form-group">
-            <label>Job Title <span class="req">*</span></label>
-            <input type="text" id="d_job_title" placeholder="e.g. Registered Nurse">
-          </div>
+          <div class="form-group"><label>Employer Name <span class="req">*</span></label><input type="text" id="d_employer_name" placeholder="Company name"></div>
+          <div class="form-group"><label>Job Title <span class="req">*</span></label><input type="text" id="d_job_title" placeholder="e.g. Registered Nurse"></div>
         </div>
-        <div class="form-group">
-          <label>Do you have a signed offer letter?</label>
-          <select id="d_offer_letter">
-            <option value="">Select</option>
-            <option value="yes">Yes, I have it</option>
-            <option value="pending">Still waiting</option>
-            <option value="no">Not yet</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Do you have a signed offer letter?</label><select id="d_offer_letter"><option value="">Select</option><option value="yes">Yes</option><option value="pending">Still waiting</option></select></div>
       `;
     }
-
     if (formData.visa_type === 'family') {
       body.innerHTML += `
         <div class="form-row">
-          <div class="form-group">
-            <label>Relationship to Sponsor <span class="req">*</span></label>
-            <select id="d_relationship">
-              <option value="">Select</option>
-              <option>Spouse / Partner</option>
-              <option>Parent</option>
-              <option>Child</option>
-              <option>Sibling</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Sponsor's Status <span class="req">*</span></label>
-            <select id="d_sponsor_status">
-              <option value="">Select</option>
-              <option>Citizen</option>
-              <option>Permanent Resident</option>
-              <option>Work Visa Holder</option>
-              <option>Student Visa Holder</option>
-            </select>
-          </div>
+          <div class="form-group"><label>Relationship <span class="req">*</span></label><select id="d_relationship"><option value="">Select</option><option>Spouse / Partner</option><option>Parent</option><option>Child</option><option>Sibling</option><option>Other</option></select></div>
+          <div class="form-group"><label>Sponsor's Status <span class="req">*</span></label><select id="d_sponsor_status"><option value="">Select</option><option>Citizen</option><option>Permanent Resident</option><option>Work Visa Holder</option><option>Student Visa Holder</option></select></div>
         </div>
-        <div class="form-group">
-          <label>Sponsor's Full Name</label>
-          <input type="text" id="d_sponsor_name" placeholder="Full name of your sponsor">
-        </div>
+        <div class="form-group"><label>Sponsor's Full Name</label><input type="text" id="d_sponsor_name" placeholder="Full name"></div>
       `;
     }
-
     if (formData.visa_type === 'student') {
       body.innerHTML += `
         <div class="form-row">
-          <div class="form-group">
-            <label>Institution Name <span class="req">*</span></label>
-            <input type="text" id="d_institution" placeholder="University or college name">
-          </div>
-          <div class="form-group">
-            <label>Course / Program</label>
-            <input type="text" id="d_course" placeholder="e.g. MSc Computer Science">
-          </div>
+          <div class="form-group"><label>Institution <span class="req">*</span></label><input type="text" id="d_institution" placeholder="University name"></div>
+          <div class="form-group"><label>Course</label><input type="text" id="d_course" placeholder="e.g. MSc Computer Science"></div>
         </div>
-        <div class="form-group">
-          <label>Do you have an admission letter?</label>
-          <select id="d_admission_letter">
-            <option value="">Select</option>
-            <option value="yes">Yes, I have it</option>
-            <option value="pending">Still waiting</option>
-            <option value="no">Not yet</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Do you have an admission letter?</label><select id="d_admission_letter"><option value="">Select</option><option value="yes">Yes</option><option value="pending">Still waiting</option></select></div>
       `;
     }
-
     if (formData.visa_type === 'medical') {
       body.innerHTML += `
         <div class="form-row">
-          <div class="form-group">
-            <label>Hospital / Clinic <span class="req">*</span></label>
-            <input type="text" id="d_hospital" placeholder="Hospital name">
-          </div>
-          <div class="form-group">
-            <label>Treatment Purpose</label>
-            <input type="text" id="d_treatment" placeholder="e.g. Cardiac surgery">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Do you have a hospital invitation letter?</label>
-          <select id="d_hospital_letter">
-            <option value="">Select</option>
-            <option value="yes">Yes, I have it</option>
-            <option value="pending">Still waiting</option>
-          </select>
+          <div class="form-group"><label>Hospital <span class="req">*</span></label><input type="text" id="d_hospital" placeholder="Hospital name"></div>
+          <div class="form-group"><label>Treatment</label><input type="text" id="d_treatment" placeholder="e.g. Cardiac surgery"></div>
         </div>
       `;
     }
-
     if (formData.visa_type === 'tourist') {
       body.innerHTML += `
         <div class="form-row">
-          <div class="form-group">
-            <label>Purpose of Visit</label>
-            <select id="d_visit_purpose">
-              <option value="">Select</option>
-              <option>Holiday / Tourism</option>
-              <option>Visiting family or friends</option>
-              <option>Short course / Workshop</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Duration of Stay</label>
-            <select id="d_duration">
-              <option value="">Select</option>
-              <option>Up to 2 weeks</option>
-              <option>2–4 weeks</option>
-              <option>1–3 months</option>
-            </select>
-          </div>
+          <div class="form-group"><label>Purpose of Visit</label><select id="d_visit_purpose"><option value="">Select</option><option>Holiday / Tourism</option><option>Visiting family or friends</option><option>Other</option></select></div>
+          <div class="form-group"><label>Duration</label><select id="d_duration"><option value="">Select</option><option>Up to 2 weeks</option><option>2–4 weeks</option><option>1–3 months</option></select></div>
         </div>
       `;
     }
-
     if (formData.visa_type === 'transit') {
       body.innerHTML += `
         <div class="form-row">
-          <div class="form-group">
-            <label>Final Destination <span class="req">*</span></label>
-            <input type="text" id="d_final_destination" placeholder="Where are you ultimately going?">
-          </div>
-          <div class="form-group">
-            <label>Transit Duration</label>
-            <select id="d_transit_duration">
-              <option value="">Select</option>
-              <option>Up to 24 hours</option>
-              <option>1–3 days</option>
-              <option>4–7 days</option>
-            </select>
-          </div>
+          <div class="form-group"><label>Final Destination <span class="req">*</span></label><input type="text" id="d_final_destination" placeholder="Where going?"></div>
+          <div class="form-group"><label>Transit Duration</label><select id="d_transit_duration"><option value="">Select</option><option>Up to 24 hours</option><option>1–3 days</option></select></div>
         </div>
       `;
     }
-
     if (formData.visa_type === 'business') {
       body.innerHTML += `
         <div class="form-row">
-          <div class="form-group">
-            <label>Company / Organization <span class="req">*</span></label>
-            <input type="text" id="d_company" placeholder="Your company name">
-          </div>
-          <div class="form-group">
-            <label>Inviting Company</label>
-            <input type="text" id="d_inviting_company" placeholder="Who is inviting you?">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Purpose of Business Trip</label>
-          <input type="text" id="d_business_purpose" placeholder="e.g. Conference, meeting, training">
+          <div class="form-group"><label>Company <span class="req">*</span></label><input type="text" id="d_company" placeholder="Your company"></div>
+          <div class="form-group"><label>Inviting Company</label><input type="text" id="d_inviting_company" placeholder="Who's inviting?"></div>
         </div>
       `;
     }
-
-    body.innerHTML += `
-      <div class="form-group">
-        <label>Additional Notes</label>
-        <textarea id="d_notes" placeholder="Anything else we should know..."></textarea>
-      </div>
-    `;
+    body.innerHTML += `<div class="form-group"><label>Additional Notes</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>`;
   }
 
   else if (effectiveType === 'job') {
     title.textContent = 'Job preference';
-    subtitle.textContent = 'Tell us what kind of work you\'re looking for.';
-
+    subtitle.textContent = 'Browse our featured jobs below, or tell us your preferences.';
     body.innerHTML = `
       <div class="form-row">
         <div class="form-group">
           <label>Job Category <span class="req">*</span></label>
           <select id="d_job_category">
-            <option value="">Select category</option>
-            <option>Healthcare</option>
-            <option>Construction</option>
-            <option>Hospitality</option>
-            <option>IT &amp; Tech</option>
-            <option>Logistics</option>
-            <option>Agriculture</option>
-            <option>Domestic Work</option>
-            <option>Other</option>
+            <option value="">Select</option>
+            <option>Healthcare</option><option>Construction</option><option>Hospitality</option>
+            <option>IT &amp; Tech</option><option>Logistics</option><option>Agriculture</option>
+            <option>Education</option><option>Engineering</option><option>Finance</option>
+            <option>Domestic Work</option><option>Other</option>
           </select>
         </div>
         <div class="form-group">
           <label>Years of Experience <span class="req">*</span></label>
-          <select id="d_experience">
-            <option value="">Select</option>
-            <option>0–1 years</option>
-            <option>2–4 years</option>
-            <option>5–9 years</option>
-            <option>10+ years</option>
-          </select>
+          <select id="d_experience"><option value="">Select</option><option>0–1 years</option><option>2–4 years</option><option>5–9 years</option><option>10+ years</option></select>
         </div>
       </div>
       <div class="form-group">
-        <label>Preferred Countries <span class="hint">(select all that apply)</span></label>
+        <label>Preferred Countries</label>
         <div class="checkbox-group">
-          <label class="checkbox-item"><input type="checkbox" value="Canada" class="d_pref_country"> <span>Canada</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="UK" class="d_pref_country"> <span>United Kingdom</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Australia" class="d_pref_country"> <span>Australia</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="UAE" class="d_pref_country"> <span>UAE</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Qatar" class="d_pref_country"> <span>Qatar</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Saudi Arabia" class="d_pref_country"> <span>Saudi Arabia</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Germany" class="d_pref_country"> <span>Germany</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Any" class="d_pref_country"> <span>Anywhere</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Canada" class="d_pref_country"><span>Canada</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="UK" class="d_pref_country"><span>United Kingdom</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Australia" class="d_pref_country"><span>Australia</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="UAE" class="d_pref_country"><span>UAE</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Qatar" class="d_pref_country"><span>Qatar</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Germany" class="d_pref_country"><span>Germany</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Any" class="d_pref_country"><span>Anywhere</span></label>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Highest Education</label>
-          <select id="d_education">
-            <option value="">Select</option>
-            <option>Primary</option>
-            <option>Secondary</option>
-            <option>Certificate / Diploma</option>
-            <option>Bachelor's Degree</option>
-            <option>Master's or higher</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>When can you start?</label>
-          <select id="d_start">
-            <option value="">Select</option>
-            <option>Immediately</option>
-            <option>Within 1 month</option>
-            <option>1–3 months</option>
-            <option>3+ months</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Anything else?</label>
-        <textarea id="d_notes" placeholder="Optional — skills, certifications, or special requirements..."></textarea>
-      </div>
+      <div class="form-group"><label>Anything else?</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>
     `;
   }
 
   else if (effectiveType === 'documents') {
     title.textContent = 'Document assistance';
     subtitle.textContent = 'Tell us which documents you need help with.';
-
     body.innerHTML = `
       <div class="form-group">
-        <label>Which documents do you need help with? <span class="req">*</span></label>
+        <label>Which documents? <span class="req">*</span></label>
         <div class="checkbox-group">
-          <label class="checkbox-item"><input type="checkbox" value="CV Improvement" class="d_docs"> <span>CV improvement</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Cover Letter" class="d_docs"> <span>Cover letter</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Certificates" class="d_docs"> <span>Certificate review</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Reference Letters" class="d_docs"> <span>Reference letters</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Application Forms" class="d_docs"> <span>Application forms</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Other" class="d_docs"> <span>Other</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="CV Improvement" class="d_docs"><span>CV improvement</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Cover Letter" class="d_docs"><span>Cover letter</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Certificates" class="d_docs"><span>Certificate review</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Reference Letters" class="d_docs"><span>Reference letters</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Application Forms" class="d_docs"><span>Application forms</span></label>
         </div>
       </div>
-      <div class="form-group">
-        <label>Describe what you need</label>
-        <textarea id="d_notes" placeholder="Tell us more about the documents you need help with..."></textarea>
-      </div>
+      <div class="form-group"><label>Describe what you need</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>
     `;
   }
 }
@@ -1690,71 +1987,55 @@ function validateDetails() {
     if (!d.birth_certificate) return showError('Please tell us about your birth certificate.');
     if (!d.national_id) return showError('Please tell us about your national ID.');
   }
-
   else if (type === 'visa') {
     d.destination = getVal('d_destination');
     d.travel_date = getVal('d_travel_date');
     d.notes = getVal('d_notes');
     if (!d.destination) return showError('Please select a destination country.');
-
     if (formData.visa_type === 'work') {
       d.employer_name = getVal('d_employer_name');
       d.job_title = getVal('d_job_title');
       d.offer_letter = getVal('d_offer_letter');
-      if (!d.employer_name) return showError('Please enter your employer name.');
-      if (!d.job_title) return showError('Please enter your job title.');
+      if (!d.employer_name) return showError('Please enter employer name.');
+      if (!d.job_title) return showError('Please enter job title.');
     }
     if (formData.visa_type === 'family') {
       d.relationship = getVal('d_relationship');
       d.sponsor_status = getVal('d_sponsor_status');
       d.sponsor_name = getVal('d_sponsor_name');
-      if (!d.relationship) return showError('Please select your relationship to the sponsor.');
-      if (!d.sponsor_status) return showError('Please select the sponsor\'s status.');
+      if (!d.relationship) return showError('Please select relationship.');
+      if (!d.sponsor_status) return showError('Please select sponsor status.');
     }
     if (formData.visa_type === 'student') {
       d.institution = getVal('d_institution');
       d.course = getVal('d_course');
-      d.admission_letter = getVal('d_admission_letter');
-      if (!d.institution) return showError('Please enter the institution name.');
+      if (!d.institution) return showError('Please enter institution.');
     }
     if (formData.visa_type === 'medical') {
       d.hospital = getVal('d_hospital');
-      d.treatment = getVal('d_treatment');
-      d.hospital_letter = getVal('d_hospital_letter');
-      if (!d.hospital) return showError('Please enter the hospital name.');
-    }
-    if (formData.visa_type === 'tourist') {
-      d.visit_purpose = getVal('d_visit_purpose');
-      d.duration = getVal('d_duration');
+      if (!d.hospital) return showError('Please enter hospital.');
     }
     if (formData.visa_type === 'transit') {
       d.final_destination = getVal('d_final_destination');
-      d.transit_duration = getVal('d_transit_duration');
-      if (!d.final_destination) return showError('Please enter your final destination.');
+      if (!d.final_destination) return showError('Please enter final destination.');
     }
     if (formData.visa_type === 'business') {
       d.company = getVal('d_company');
-      d.inviting_company = getVal('d_inviting_company');
-      d.business_purpose = getVal('d_business_purpose');
-      if (!d.company) return showError('Please enter your company name.');
+      if (!d.company) return showError('Please enter company name.');
     }
   }
-
   else if (type === 'job') {
     d.job_category = getVal('d_job_category');
     d.experience = getVal('d_experience');
     d.preferred_countries = getChecked('d_pref_country');
-    d.education = getVal('d_education');
-    d.start_time = getVal('d_start');
     d.notes = getVal('d_notes');
     if (!d.job_category) return showError('Please select a job category.');
-    if (!d.experience) return showError('Please select your years of experience.');
+    if (!d.experience) return showError('Please select experience.');
   }
-
   else if (type === 'documents') {
     d.documents_needed = getChecked('d_docs');
     d.notes = getVal('d_notes');
-    if (!d.documents_needed || d.documents_needed.length === 0) return showError('Please select at least one document type.');
+    if (!d.documents_needed || d.documents_needed.length === 0) return showError('Please select at least one document.');
   }
 
   formData.details = { ...formData.details, ...d };
@@ -1774,13 +2055,11 @@ function getChecked(className) {
 // ============================================================
 function renderReview() {
   const body = document.getElementById('reviewBody');
-
   const visaTypeLabels = {
     work: 'Work Visa', family: 'Spouse / Family Visa', student: 'Student Visa',
     tourist: 'Tourist / Visit Visa', medical: 'Medical Visa',
     transit: 'Transit Visa', business: 'Business Visa'
   };
-
   const pathLabels = {
     passport: '🛂 Passport Application',
     visa: '✈️ Visa Application' + (formData.visa_type ? ` (${visaTypeLabels[formData.visa_type]})` : ''),
@@ -1789,70 +2068,43 @@ function renderReview() {
   };
 
   let html = `
-    <div class="info-box blue" style="text-align:left;">
-      <strong>Path:</strong> ${pathLabels[formData.service_type] || formData.service_type}
-    </div>
+    <div class="info-box blue" style="text-align:left;"><strong>Path:</strong> ${pathLabels[formData.service_type] || formData.service_type}</div>
     <div class="info-box" style="background:var(--bg);border-left-color:var(--primary);color:var(--text);text-align:left;">
       <strong>Name:</strong> ${escapeHtml(formData.full_name)}<br>
       <strong>Email:</strong> ${escapeHtml(formData.email)}<br>
       <strong>Phone:</strong> ${escapeHtml(formData.phone)}<br>
       <strong>Location:</strong> ${escapeHtml(formData.city)}, ${escapeHtml(formData.country)}<br>
-      <strong>Passport:</strong> ${formData.has_passport ? 'Yes' : 'No — applying for one'}
+      <strong>Passport:</strong> ${formData.has_passport ? 'Yes' : 'No'}
     </div>
   `;
 
   const d = formData.details;
   const rows = [];
-
   if (formData.service_type === 'passport') {
     rows.push(['Application type', d.passport_type]);
-    rows.push(['Birth certificate', d.birth_certificate === 'yes' ? 'Yes' : 'No — needs help']);
-    rows.push(['National ID', d.national_id === 'yes' ? 'Yes' : 'No — needs help']);
+    rows.push(['Birth certificate', d.birth_certificate === 'yes' ? 'Yes' : 'No']);
+    rows.push(['National ID', d.national_id === 'yes' ? 'Yes' : 'No']);
     if (d.appointment_location) rows.push(['Preferred location', d.appointment_location]);
-    if (d.notes) rows.push(['Notes', d.notes]);
-  }
-  else if (formData.service_type === 'visa') {
-    rows.push(['Visa type', visaTypeLabels[formData.visa_type] || formData.visa_type]);
+  } else if (formData.service_type === 'visa') {
+    rows.push(['Visa type', visaTypeLabels[formData.visa_type] || '—']);
     rows.push(['Destination', d.destination]);
     if (d.travel_date) rows.push(['Travel date', d.travel_date]);
     if (d.employer_name) rows.push(['Employer', d.employer_name]);
     if (d.job_title) rows.push(['Job title', d.job_title]);
-    if (d.offer_letter) rows.push(['Offer letter', d.offer_letter]);
-    if (d.relationship) rows.push(['Relationship', d.relationship]);
-    if (d.sponsor_status) rows.push(['Sponsor status', d.sponsor_status]);
-    if (d.sponsor_name) rows.push(['Sponsor name', d.sponsor_name]);
-    if (d.institution) rows.push(['Institution', d.institution]);
-    if (d.course) rows.push(['Course', d.course]);
-    if (d.hospital) rows.push(['Hospital', d.hospital]);
-    if (d.treatment) rows.push(['Treatment', d.treatment]);
-    if (d.visit_purpose) rows.push(['Visit purpose', d.visit_purpose]);
-    if (d.duration) rows.push(['Duration', d.duration]);
-    if (d.final_destination) rows.push(['Final destination', d.final_destination]);
-    if (d.transit_duration) rows.push(['Transit duration', d.transit_duration]);
-    if (d.company) rows.push(['Company', d.company]);
-    if (d.inviting_company) rows.push(['Inviting company', d.inviting_company]);
-    if (d.business_purpose) rows.push(['Business purpose', d.business_purpose]);
-    if (d.notes) rows.push(['Notes', d.notes]);
-  }
-  else if (formData.service_type === 'job') {
+  } else if (formData.service_type === 'job') {
     rows.push(['Category', d.job_category]);
     rows.push(['Experience', d.experience]);
-    if (d.preferred_countries && d.preferred_countries.length) rows.push(['Preferred countries', d.preferred_countries.join(', ')]);
-    if (d.education) rows.push(['Education', d.education]);
-    if (d.start_time) rows.push(['Available from', d.start_time]);
-    if (d.notes) rows.push(['Notes', d.notes]);
-  }
-  else if (formData.service_type === 'documents') {
-    if (d.documents_needed) rows.push(['Documents needed', d.documents_needed.join(', ')]);
-    if (d.notes) rows.push(['Notes', d.notes]);
+    if (d.preferred_countries && d.preferred_countries.length) rows.push(['Preferred', d.preferred_countries.join(', ')]);
+    if (d.job_title) rows.push(['Selected job', d.job_title]);
+  } else if (formData.service_type === 'documents') {
+    if (d.documents_needed) rows.push(['Documents', d.documents_needed.join(', ')]);
   }
 
   if (rows.length) {
     html += `<div class="info-box" style="background:#fff;border-left-color:var(--accent);color:var(--text);text-align:left;">`;
-    rows.forEach(([k, v]) => { html += `<strong>${escapeHtml(k)}:</strong> ${escapeHtml(String(v))}<br>`; });
+    rows.forEach(([k, v]) => { html += `<strong>${escapeHtml(k)}:</strong> ${escapeHtml(String(v || '—'))}<br>`; });
     html += `</div>`;
   }
-
   body.innerHTML = html;
 }
 
@@ -1867,10 +2119,6 @@ function escapeHtml(s) {
 // ============================================================
 async function submitApplication() {
   hideError();
-  if (!document.getElementById('consent1').checked) {
-    return showError('Please confirm the information is accurate before submitting.');
-  }
-
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Submitting...';
@@ -1893,10 +2141,11 @@ async function submitApplication() {
         visa_type: formData.visa_type || null,
         ...formData.details
       },
-      status: 'Submitted'
+      status: 'Submitted',
+      agent_requested: formData.agent_requested === true
     };
 
-    const { data, error } = await supabaseClient
+    const { error } = await supabaseClient
       .from('applications')
       .insert([payload])
       .select()
@@ -1906,18 +2155,25 @@ async function submitApplication() {
 
     document.getElementById('refNumber').textContent = reference;
     document.querySelector('.progress-bar').style.display = 'none';
+
+    if (formData.agent_requested === true) {
+      document.getElementById('agentConfirmBox').style.display = 'block';
+    }
+
+    const tgLink = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${reference}`;
+    document.getElementById('telegramLink').href = tgLink;
+    document.getElementById('telegramConnectBox').style.display = 'block';
+    document.getElementById('featuredJobsSection').style.display = 'none';
+
     showPanel('success');
   } catch (err) {
     console.error('Submit error:', err);
-    showError('Could not submit application. ' + (err.message || 'Please try again.'));
+    showError('Could not submit: ' + (err.message || 'Please try again.'));
     btn.disabled = false;
     btn.innerHTML = 'Submit Application';
   }
 }
 
-// ============================================================
-// COPY
-// ============================================================
 function copyReference() {
   const ref = document.getElementById('refNumber').textContent;
   navigator.clipboard.writeText(ref).then(() => {
@@ -1931,12 +2187,12 @@ function copyReference() {
   });
 }
 
-// ============================================================
-// ERRORS
-// ============================================================
 function showError(msg) {
   const el = document.getElementById('errorMsg');
   el.textContent = msg;
+  el.style.background = '';
+  el.style.color = '';
+  el.style.borderLeftColor = '';
   el.classList.add('show');
   el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   return false;
@@ -1951,9 +2207,7 @@ function hideError() {
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.main-nav');
-  if (toggle && nav) {
-    toggle.addEventListener('click', () => nav.classList.toggle('open'));
-  }
+  if (toggle && nav) toggle.addEventListener('click', () => nav.classList.toggle('open'));
 
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type');
