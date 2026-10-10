@@ -6,9 +6,6 @@
 <title>GlobalPath International — Passport, Visa & International Jobs</title>
 <meta name="description" content="Apply for your passport or visa, then find verified international jobs. Track your application with a reference number.">
 <style>
-/* ============================================
-   GlobalPath International — Master Stylesheet
-   ============================================ */
 :root {
   --primary: #0B3D91;
   --primary-dark: #062a66;
@@ -80,18 +77,13 @@ img { max-width: 100%; display: block; }
 }
 .logo-mark {
   width: 38px; height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 14px rgba(11,61,145,0.28);
   border-radius: 10px;
   flex-shrink: 0;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.logo-mark:hover {
-  transform: translateY(-1px) rotate(-3deg);
-  box-shadow: 0 6px 18px rgba(11,61,145,0.35);
-}
+.logo-mark:hover { transform: translateY(-1px) rotate(-3deg); box-shadow: 0 6px 18px rgba(11,61,145,0.35); }
 .logo-mark svg { display: block; width: 100%; height: 100%; }
 .logo-text small {
   display: block;
@@ -101,31 +93,61 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.main-nav ul {
+
+/* NAVIGATION */
+.main-nav {
   display: flex;
-  gap: 4px;
-  list-style: none;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 16px;
 }
-.main-nav a {
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+}
+.nav-group a {
   color: var(--text);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.9rem;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   transition: all 0.18s;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
 }
-.main-nav a:hover { background: var(--primary-soft); color: var(--primary); }
-.main-nav a.active { color: var(--primary); background: var(--primary-soft); font-weight: 600; }
+.nav-group a:hover {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.08);
+}
+.nav-group a.active {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.1);
+  font-weight: 700;
+}
 .nav-cta {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: #fff !important;
-  padding: 9px 18px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 4px 10px rgba(11,61,145,0.2);
+  font-weight: 800;
+  font-size: 0.94rem;
+  padding: 11px 22px;
+  border-radius: 10px;
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 14px rgba(11,61,145,0.3);
+  transition: all 0.2s;
+  white-space: nowrap;
 }
-.nav-cta:hover { background: var(--primary-dark); color: #fff !important; }
+.nav-cta:hover {
+  background: var(--primary-dark);
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(11,61,145,0.4);
+}
 .menu-toggle {
   display: none;
   background: none;
@@ -136,7 +158,6 @@ img { max-width: 100%; display: block; }
   padding: 6px 10px;
   border-radius: 8px;
 }
-.menu-toggle:hover { background: var(--primary-soft); }
 
 /* BUTTONS */
 .btn {
@@ -465,15 +486,34 @@ img { max-width: 100%; display: block; }
 }
 
 /* RESPONSIVE */
-@media (max-width: 860px) {
+@media (max-width: 900px) {
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+    padding: 12px 0;
+    order: 3;
+  }
+  .main-nav.open { display: flex; }
+  .nav-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 6px;
+  }
+  .nav-group a {
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .nav-cta {
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
   .menu-toggle { display: block; }
-  .main-nav { display: none; width: 100%; order: 3; }
-  .main-nav.open { display: block; }
-  .main-nav ul { flex-direction: column; gap: 0; padding: 12px 0; }
-  .main-nav a { display: block; padding: 12px 14px; border-radius: 8px; }
-  .main-nav .nav-cta { text-align: center; margin-top: 8px; }
   .nav-wrap { flex-wrap: wrap; }
-  .hero-trust { gap: 14px; font-size: 0.85rem; }
 }
 @media (max-width: 720px) {
   .stats-grid { padding: 24px 18px; gap: 18px; }
@@ -521,14 +561,12 @@ img { max-width: 100%; display: block; }
     </a>
     <button class="menu-toggle" aria-label="Toggle menu" onclick="document.querySelector('.main-nav').classList.toggle('open')">☰</button>
     <nav class="main-nav">
-      <ul>
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="apply.html">Apply</a></li>
-        <li><a href="track.html">Track</a></li>
-        <li><a href="portal.html">My Account</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="apply.html" class="nav-cta">Start Application</a></li>
-      </ul>
+      <div class="nav-group">
+        <a href="index.html" class="active">Home</a>
+        <a href="track.html">Track</a>
+        <a href="portal.html">My Account</a>
+      </div>
+      <a href="apply.html" class="nav-cta">Apply Now →</a>
     </nav>
   </div>
 </header>
@@ -541,7 +579,7 @@ img { max-width: 100%; display: block; }
     <p>Apply for your passport or visa, track every step with a reference number, and explore verified job opportunities across 30+ countries worldwide.</p>
     <div class="hero-btns">
       <a href="apply.html" class="btn btn-primary btn-lg">Get Started</a>
-      <a href="apply.html?type=job" class="btn btn-outline btn-lg">Explore International Jobs</a>
+      <a href="apply.html?type=job&view=jobs" class="btn btn-outline btn-lg">Explore International Jobs</a>
     </div>
     <div class="hero-trust">
       <span>✓ Verified employers</span>
@@ -594,7 +632,7 @@ img { max-width: 100%; display: block; }
           <li>✓ Direct employer links</li>
           <li>✓ Optional CV &amp; application help</li>
         </ul>
-        <a href="apply.html?type=job" class="btn btn-secondary btn-block">Explore Job Opportunities →</a>
+        <a href="apply.html?type=job&view=jobs" class="btn btn-secondary btn-block">Explore Job Opportunities →</a>
       </div>
     </div>
   </div>
@@ -664,17 +702,17 @@ img { max-width: 100%; display: block; }
       <div class="testimonial">
         <div class="stars">★★★★★</div>
         <p>"I applied for my passport through GlobalPath and could track every step. Got my passport in 3 weeks, then applied for a job in Qatar."</p>
-        <div class="author"><strong>Mary W.</strong><span>Nairobi, Kenya</span></div>
+        <div class="author"><strong>Sarah T.</strong><span>London, UK</span></div>
       </div>
       <div class="testimonial">
         <div class="stars">★★★★★</div>
         <p>"The visa guidance was clear. I knew exactly which documents to bring to the embassy, and my application went smoothly."</p>
-        <div class="author"><strong>James O.</strong><span>Nakuru, Kenya</span></div>
+        <div class="author"><strong>James W.</strong><span>Manchester, UK</span></div>
       </div>
       <div class="testimonial">
         <div class="stars">★★★★★</div>
         <p>"Tracking my application with the reference number gave me peace of mind. I always knew what stage I was at."</p>
-        <div class="author"><strong>Grace M.</strong><span>Mombasa, Kenya</span></div>
+        <div class="author"><strong>Emma C.</strong><span>Birmingham, UK</span></div>
       </div>
     </div>
   </div>
@@ -687,7 +725,7 @@ img { max-width: 100%; display: block; }
     <p>Apply for your passport, visa, or job — and track every step with your reference number.</p>
     <div class="hero-btns">
       <a href="apply.html" class="btn btn-primary btn-lg">Get Started</a>
-      <a href="apply.html?type=job" class="btn btn-outline btn-lg">Explore International Jobs</a>
+      <a href="apply.html?type=job&view=jobs" class="btn btn-outline btn-lg">Explore International Jobs</a>
     </div>
   </div>
 </section>
@@ -716,8 +754,8 @@ img { max-width: 100%; display: block; }
     <div>
       <h4>Contact</h4>
       <a href="https://wa.me/447700000000">WhatsApp</a>
-      <a href="https://t.me/globalpath">Telegram</a>
-      <a href="mailto:support@globalpath.com">Email</a>
+      <a href="https://t.me/globalpathuk">Telegram</a>
+      <a href="mailto:support@globalpath.co.uk">Email</a>
     </div>
   </div>
   <div class="footer-bottom">
