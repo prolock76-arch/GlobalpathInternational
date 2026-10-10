@@ -25,6 +25,10 @@
   --danger-bg: #fdeceb;
   --warn: #b45309;
   --warn-bg: #fff7e6;
+  --info: #1e6fd9;
+  --info-bg: #e8f1fe;
+  --telegram: #229ED9;
+  --telegram-dark: #1a7ab0;
   --radius: 10px;
   --radius-lg: 16px;
   --radius-xl: 20px;
@@ -90,23 +94,78 @@ a:hover { color: var(--primary-dark); }
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.main-nav ul {
+
+/* NAVIGATION */
+.main-nav {
   display: flex;
-  gap: 4px;
-  list-style: none;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 16px;
 }
-.main-nav a {
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+}
+.nav-group a {
   color: var(--text);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.9rem;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   transition: all 0.18s;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
 }
-.main-nav a:hover { background: var(--primary-soft); color: var(--primary); }
-.main-nav a.active { color: var(--primary); background: var(--primary-soft); font-weight: 600; }
+.nav-group a:hover {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.08);
+}
+.nav-group a.active {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.1);
+  font-weight: 700;
+}
+.main-nav .nav-cta {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff !important;
+  font-weight: 800;
+  font-size: 0.94rem;
+  padding: 11px 22px;
+  border-radius: 10px;
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 14px rgba(11,61,145,0.3);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.main-nav .nav-cta:hover {
+  background: var(--primary-dark);
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(11,61,145,0.4);
+}
+.nav-logout {
+  background: transparent;
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s;
+}
+.nav-logout:hover {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border-color: var(--danger);
+}
 .menu-toggle {
   display: none;
   background: none;
@@ -487,6 +546,91 @@ a:hover { color: var(--primary-dark); }
   overflow-y: auto;
 }
 
+/* AGENT CARD IN PORTAL */
+.agent-card-portal {
+  background: linear-gradient(135deg, #f0f7ff 0%, #fff 100%);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.agent-card-portal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+.agent-card-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.agent-card-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.agent-card-avatar {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(11,61,145,0.3);
+}
+.agent-card-info { flex: 1; }
+.agent-card-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 2px;
+}
+.agent-card-role {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.agent-card-badge {
+  display: inline-block;
+  background: var(--success-bg);
+  color: var(--success);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.agent-card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.agent-card-actions .btn {
+  padding: 11px 16px;
+  font-size: 0.88rem;
+}
+.telegram-btn {
+  background: var(--telegram);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(34,158,217,0.3);
+}
+.telegram-btn:hover {
+  background: var(--telegram-dark);
+  color: #fff;
+}
+
 /* TIMELINE (compact) */
 .tl {
   display: flex;
@@ -661,6 +805,37 @@ a:hover { color: var(--primary-dark); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* RESPONSIVE */
+@media (max-width: 900px) {
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+    padding: 12px 0;
+    order: 3;
+  }
+  .main-nav.open { display: flex; }
+  .nav-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 6px;
+  }
+  .nav-group a {
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .main-nav .nav-cta,
+  .nav-logout {
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+  .menu-toggle { display: block; }
+  .nav-wrap { flex-wrap: wrap; }
+}
+
 @media (max-width: 600px) {
   .auth-card { padding: 32px 24px; }
   .dash-welcome { flex-direction: column; }
@@ -670,6 +845,8 @@ a:hover { color: var(--primary-dark); }
   .app-status-col { text-align: left; }
   .modal-body { padding: 22px; }
   .msg { max-width: 95%; }
+  .agent-card-actions { grid-template-columns: 1fr; }
+  .agent-card-row { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
@@ -699,13 +876,13 @@ a:hover { color: var(--primary-dark); }
     </a>
     <button class="menu-toggle" aria-label="Toggle menu" onclick="document.querySelector('.main-nav').classList.toggle('open')">☰</button>
     <nav class="main-nav">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="apply.html">Apply</a></li>
-        <li><a href="track.html">Track</a></li>
-        <li><a href="portal.html" class="active">My Account</a></li>
-        <li><a href="#" id="logoutBtn" style="display:none;">Logout</a></li>
-      </ul>
+      <div class="nav-group">
+        <a href="index.html">Home</a>
+        <a href="track.html">Track</a>
+        <a href="portal.html" class="active">My Account</a>
+      </div>
+      <a href="apply.html" class="nav-cta">Apply Now →</a>
+      <button class="nav-logout" id="logoutBtn" style="display:none;" onclick="handleLogout()">Logout</button>
     </nav>
   </div>
 </header>
@@ -741,7 +918,7 @@ a:hover { color: var(--primary-dark); }
       <button class="tab" data-tab="signup" onclick="switchTab('signup')">Create Account</button>
     </div>
 
-    <!-- LOGIN FORM -->
+    <!-- LOGIN -->
     <form id="loginForm" onsubmit="handleLogin(event)">
       <div class="form-group">
         <label for="loginEmail">Email Address <span class="req">*</span></label>
@@ -757,11 +934,11 @@ a:hover { color: var(--primary-dark); }
       </div>
     </form>
 
-    <!-- SIGNUP FORM -->
+    <!-- SIGNUP -->
     <form id="signupForm" onsubmit="handleSignup(event)" style="display:none;">
       <div class="form-group">
         <label for="signupName">Full Name <span class="req">*</span></label>
-        <input type="text" id="signupName" placeholder="e.g. Sarah Thompson" required autocomplete="name">
+        <input type="text" id="signupName" placeholder="e.g. Sarah Elizabeth Thompson" required autocomplete="name">
       </div>
       <div class="form-group">
         <label for="signupEmail">Email Address <span class="req">*</span></label>
@@ -849,6 +1026,7 @@ a:hover { color: var(--primary-dark); }
 const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
 
 let currentUser = null;
 let userApplications = [];
@@ -858,8 +1036,7 @@ let userApplications = [];
 // ============================================================
 const WORKFLOWS = {
   passport: {
-    label: 'Passport Application',
-    icon: '🛂',
+    label: 'Passport Application', icon: '🛂',
     stages: [
       { key: 'Submitted',             label: 'Application received',         text: 'We have received your passport application.' },
       { key: 'Documents Reviewed',    label: 'Documents reviewed',           text: 'Your documents have been checked.' },
@@ -873,8 +1050,7 @@ const WORKFLOWS = {
     ]
   },
   visa: {
-    label: 'Visa Application',
-    icon: '✈️',
+    label: 'Visa Application', icon: '✈️',
     stages: [
       { key: 'Submitted',                  label: 'Application received',        text: 'We have received your visa application.' },
       { key: 'Documents Reviewed',         label: 'Documents reviewed',          text: 'Your documents have been checked.' },
@@ -891,8 +1067,7 @@ const WORKFLOWS = {
     ]
   },
   job: {
-    label: 'Job Application',
-    icon: '💼',
+    label: 'Job Application', icon: '💼',
     stages: [
       { key: 'Submitted',         label: 'Application received', text: 'Received your job application.' },
       { key: 'Under Review',      label: 'Under review',         text: 'Your application is being reviewed.' },
@@ -906,8 +1081,7 @@ const WORKFLOWS = {
     ]
   },
   documents: {
-    label: 'Document Assistance',
-    icon: '📄',
+    label: 'Document Assistance', icon: '📄',
     stages: [
       { key: 'Submitted',       label: 'Request received',   text: 'We have your request.' },
       { key: 'Under Review',    label: 'Under review',       text: 'Reviewing your request.' },
@@ -939,7 +1113,7 @@ function fmtShort(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 function statusClass(status) {
-  const done = ['Collected', 'Completed', 'Ready', 'Ready for Collection', 'Offer', 'Passport Returned'];
+  const done = ['Collected', 'Completed', 'Ready', 'Ready for Collection', 'Offer', 'Passport Returned', 'Decision Made'];
   const action = ['Action Required', 'Refused', 'Closed'];
   if (done.includes(status)) return 'done';
   if (action.includes(status)) return 'warn';
@@ -1007,11 +1181,8 @@ async function handleSignup(e) {
 
   try {
     const { data, error } = await supabaseClient.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name, phone }
-      }
+      email, password,
+      options: { data: { full_name, phone } }
     });
     if (error) throw error;
 
@@ -1042,8 +1213,7 @@ async function forgotPassword(e) {
   }
 }
 
-async function handleLogout(e) {
-  if (e) e.preventDefault();
+async function handleLogout() {
   await supabaseClient.auth.signOut();
 }
 
@@ -1078,7 +1248,7 @@ async function loadApplications() {
 
     const { data, error } = await supabaseClient
       .from('applications')
-      .select('id, reference, service_type, status, details, created_at, updated_at')
+      .select('id, reference, service_type, status, details, created_at, updated_at, agent_id, agent_requested')
       .or(`email.eq.${email}`)
       .order('created_at', { ascending: false });
 
@@ -1214,11 +1384,11 @@ function renderModalBody(app, wf, history, messages) {
   }
 
   document.getElementById('modalBody').innerHTML = `
+    <div id="agentCardHolder"></div>
     <div class="modal-section">
       <h4>📋 Progress Timeline</h4>
       ${timelineHtml}
     </div>
-
     <div class="modal-section">
       <h4>💬 Messages</h4>
       <div class="msg-list" id="msgList">${msgsHtml}</div>
@@ -1227,7 +1397,6 @@ function renderModalBody(app, wf, history, messages) {
         <button class="msg-send" onclick="sendMessage(${app.id})">Send</button>
       </div>
     </div>
-
     <div class="modal-section" style="background:var(--bg);padding:18px;border-radius:var(--radius);">
       <h4 style="margin-bottom:10px;">📌 Application Summary</h4>
       <div style="font-size:0.88rem;color:var(--muted);line-height:1.8;">
@@ -1238,6 +1407,52 @@ function renderModalBody(app, wf, history, messages) {
       </div>
     </div>
   `;
+
+  // Agent card
+  if (app.agent_id) {
+    supabaseClient
+      .from('profiles')
+      .select('full_name, role')
+      .eq('id', app.agent_id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data && data.full_name) {
+          const initials = data.full_name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+          const role = data.role === 'admin' ? 'Senior Application Officer' : 'Application Officer';
+          const tgLink = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${app.reference}`;
+          document.getElementById('agentCardHolder').innerHTML = `
+            <div class="agent-card-portal">
+              <div class="agent-card-label">🛡️ Your Verified Agent</div>
+              <div class="agent-card-row">
+                <div class="agent-card-avatar">${initials}</div>
+                <div class="agent-card-info">
+                  <div class="agent-card-name">${escapeHtml(data.full_name)}</div>
+                  <div class="agent-card-role">${role}</div>
+                  <span class="agent-card-badge">✓ GlobalPath Verified</span>
+                </div>
+              </div>
+              <div class="agent-card-actions">
+                <a href="${tgLink}" target="_blank" rel="noopener" class="btn telegram-btn">💬 Message on Telegram</a>
+                <button class="btn btn-ghost" onclick="document.getElementById('msgInput').focus()">✉️ Message in Portal</button>
+              </div>
+            </div>
+          `;
+        }
+      });
+  } else if (app.agent_requested) {
+    document.getElementById('agentCardHolder').innerHTML = `
+      <div class="agent-card-portal">
+        <div class="agent-card-label">🛡️ Verified Agent</div>
+        <div class="agent-card-row">
+          <div class="agent-card-avatar">⏳</div>
+          <div class="agent-card-info">
+            <div class="agent-card-name">Being assigned</div>
+            <div class="agent-card-role">We'll assign a trained agent within 48 hours</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
   const msgList = document.getElementById('msgList');
   if (msgList) msgList.scrollTop = msgList.scrollHeight;
@@ -1292,15 +1507,17 @@ function closeModal() {
 }
 
 // ============================================================
-// INIT — check session on load
+// INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.main-nav');
-  if (toggle && nav) toggle.addEventListener('click', () => nav.classList.toggle('open'));
-
-  const logout = document.getElementById('logoutBtn');
-  if (logout) logout.addEventListener('click', handleLogout);
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => nav.classList.remove('open'));
+    });
+  }
 
   if (window.location.hash.includes('type=recovery')) {
     const newPass = prompt('Enter your new password (at least 8 characters):');
