@@ -25,6 +25,10 @@
   --danger-bg: #fdeceb;
   --warn: #b45309;
   --warn-bg: #fff7e6;
+  --info: #1e6fd9;
+  --info-bg: #e8f1fe;
+  --telegram: #229ED9;
+  --telegram-dark: #1a7ab0;
   --radius: 10px;
   --radius-lg: 16px;
   --radius-xl: 20px;
@@ -51,6 +55,7 @@ a:hover { color: var(--primary-dark); }
 .site-header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -80,9 +85,7 @@ a:hover { color: var(--primary-dark); }
   box-shadow: 0 4px 14px rgba(11,61,145,0.28);
   border-radius: 10px;
   flex-shrink: 0;
-  transition: transform 0.25s;
 }
-.logo-mark:hover { transform: translateY(-1px) rotate(-3deg); }
 .logo-mark svg { display: block; width: 100%; height: 100%; }
 .logo-text small {
   display: block;
@@ -92,23 +95,61 @@ a:hover { color: var(--primary-dark); }
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.main-nav ul {
+
+/* NAVIGATION */
+.main-nav {
   display: flex;
-  gap: 4px;
-  list-style: none;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 16px;
 }
-.main-nav a {
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+}
+.nav-group a {
   color: var(--text);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.9rem;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 8px;
   transition: all 0.18s;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
 }
-.main-nav a:hover { background: var(--primary-soft); color: var(--primary); }
-.main-nav a.active { color: var(--primary); background: var(--primary-soft); font-weight: 600; }
+.nav-group a:hover {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.08);
+}
+.nav-group a.active {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.1);
+  font-weight: 700;
+}
+.main-nav .nav-cta {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff !important;
+  font-weight: 800;
+  font-size: 0.94rem;
+  padding: 11px 22px;
+  border-radius: 10px;
+  letter-spacing: -0.01em;
+  box-shadow: 0 4px 14px rgba(11,61,145,0.3);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.main-nav .nav-cta:hover {
+  background: var(--primary-dark);
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(11,61,145,0.4);
+}
 .menu-toggle {
   display: none;
   background: none;
@@ -120,7 +161,7 @@ a:hover { color: var(--primary-dark); }
   border-radius: 8px;
 }
 
-/* PAGE HERO */
+/* HERO */
 .page-hero {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: #fff;
@@ -221,13 +262,8 @@ a:hover { color: var(--primary-dark); }
 .search-row button:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(11,61,145,0.3);
 }
-.search-row button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
+.search-row button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .hint {
   font-size: 0.82rem;
   color: var(--muted);
@@ -274,16 +310,9 @@ a:hover { color: var(--primary-dark); }
 .recent-chip:hover {
   background: var(--primary);
   color: #fff;
-  border-color: var(--primary);
 }
-.recent-chip .x {
-  opacity: 0.6;
-  font-size: 0.75rem;
-  margin-left: 4px;
-}
-.recent-chip .x:hover { opacity: 1; }
 
-/* ERROR STATE */
+/* ERROR / LOADING */
 .state-error {
   background: var(--danger-bg);
   border: 1px solid #f5c2c0;
@@ -293,18 +322,9 @@ a:hover { color: var(--primary-dark); }
   color: var(--danger);
   text-align: center;
 }
-.state-error h3 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-  font-weight: 700;
-}
-.state-error p {
-  font-size: 0.92rem;
-  color: #a02824;
-  margin-bottom: 16px;
-}
+.state-error h3 { font-size: 1.1rem; margin-bottom: 8px; font-weight: 700; }
+.state-error p { font-size: 0.92rem; color: #a02824; margin-bottom: 16px; }
 
-/* LOADING */
 .state-loading {
   background: #fff;
   border-radius: var(--radius-lg);
@@ -322,18 +342,13 @@ a:hover { color: var(--primary-dark); }
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.state-loading p {
-  color: var(--muted);
-  font-size: 0.95rem;
-}
+.state-loading p { color: var(--muted); font-size: 0.95rem; }
 
 /* RESULT */
-.result {
-  display: none;
-}
+.result { display: none; }
 .result.show { display: block; }
 
-/* RESULT HEADER */
+/* RESULT HEAD */
 .result-head {
   background: #fff;
   border-radius: var(--radius-xl);
@@ -367,11 +382,8 @@ a:hover { color: var(--primary-dark); }
   margin-bottom: 6px;
   letter-spacing: -0.02em;
 }
-.result-subtitle {
-  color: var(--muted);
-  font-size: 0.95rem;
-  margin-bottom: 22px;
-}
+.result-subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 22px; }
+
 .result-status-row {
   display: flex;
   justify-content: space-between;
@@ -406,16 +418,10 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
   color: var(--primary);
   border: 2px solid var(--primary);
-  box-shadow: 0 4px 10px rgba(11,61,145,0.15);
 }
-.status-badge.done {
-  color: var(--success);
-  border-color: var(--success);
-}
-.status-badge.warn {
-  color: var(--warn);
-  border-color: var(--warn);
-}
+.status-badge.done { color: var(--success); border-color: var(--success); }
+.status-badge.warn { color: var(--warn); border-color: var(--warn); }
+.status-badge.info { color: var(--info); border-color: var(--info); }
 .result-meta {
   display: flex;
   gap: 24px;
@@ -426,109 +432,105 @@ a:hover { color: var(--primary-dark); }
 }
 .result-meta strong { color: var(--text); }
 
-/* TIMELINE */
-.timeline-card {
-  background: #fff;
+/* AGENT CARD */
+.agent-card {
+  background: linear-gradient(135deg, #f0f7ff 0%, #fff 100%);
+  border: 2px solid var(--primary);
   border-radius: var(--radius-xl);
-  padding: 32px 28px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
   box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  margin-bottom: 24px;
 }
-.timeline-title {
-  font-size: 1.1rem;
-  color: var(--primary);
-  font-weight: 700;
-  margin-bottom: 24px;
-}
-.timeline {
-  position: relative;
-  padding-left: 8px;
-}
-.tl-item {
-  display: flex;
-  gap: 18px;
-  padding-bottom: 26px;
-  position: relative;
-}
-.tl-item:last-child { padding-bottom: 0; }
-.tl-item::before {
+.agent-card::before {
   content: '';
   position: absolute;
-  left: 17px;
-  top: 38px;
-  bottom: -10px;
-  width: 2px;
-  background: var(--border);
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
 }
-.tl-item:last-child::before { display: none; }
-.tl-item.done::before { background: var(--success); }
-.tl-item.current::before { background: linear-gradient(180deg, var(--primary) 30%, var(--border) 100%); }
-
-.tl-icon {
-  width: 36px; height: 36px;
+.agent-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.agent-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.agent-avatar {
+  width: 60px; height: 60px;
   border-radius: 50%;
-  background: #fff;
-  border: 2px solid var(--border);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--muted);
   flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(11,61,145,0.3);
 }
-.tl-item.done .tl-icon {
-  background: var(--success);
-  border-color: var(--success);
-  color: #fff;
+.agent-info { flex: 1; }
+.agent-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 2px;
+  letter-spacing: -0.01em;
 }
-.tl-item.current .tl-icon {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
-  box-shadow: 0 0 0 5px rgba(11,61,145,0.15);
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 5px rgba(11,61,145,0.15); }
-  50% { box-shadow: 0 0 0 9px rgba(11,61,145,0.05); }
-}
-
-.tl-body { flex: 1; padding-top: 2px; }
-.tl-label {
-  font-size: 0.98rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.tl-item.upcoming .tl-label { color: var(--muted); font-weight: 600; }
-.tl-item.current .tl-label { color: var(--primary); }
-.tl-item.done .tl-label { color: var(--success); }
-.tl-text {
+.agent-role {
   font-size: 0.88rem;
   color: var(--muted);
-  line-height: 1.6;
+  margin-bottom: 8px;
 }
-.tl-item.upcoming .tl-text { opacity: 0.6; }
-.tl-note {
-  margin-top: 8px;
-  padding: 10px 14px;
-  background: var(--accent-soft);
-  border-left: 3px solid var(--accent);
-  border-radius: 6px;
-  font-size: 0.86rem;
-  color: #6b4e00;
-  line-height: 1.6;
+.agent-verified {
+  display: inline-block;
+  background: var(--success-bg);
+  color: var(--success);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
 }
-.tl-note.blue {
-  background: var(--primary-soft);
-  border-left-color: var(--primary);
-  color: var(--primary-dark);
+.agent-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
+.agent-actions .btn {
+  padding: 11px 22px;
+  font-size: 0.9rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s;
+  text-decoration: none;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+.agent-actions .btn:hover { transform: translateY(-2px); }
+.btn-telegram {
+  background: var(--telegram);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(34,158,217,0.3);
+}
+.btn-telegram:hover { background: var(--telegram-dark); }
+.btn-portal {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(11,61,145,0.2);
+}
+.btn-portal:hover { background: var(--primary-dark); }
 
 /* LATEST UPDATE */
 .latest-card {
@@ -563,9 +565,99 @@ a:hover { color: var(--primary-dark); }
   line-height: 1.7;
   margin-bottom: 12px;
 }
-.latest-date {
+.latest-date { font-size: 0.82rem; opacity: 0.85; }
+
+/* TIMELINE */
+.timeline-card {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.timeline-title {
+  font-size: 1.1rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.timeline { position: relative; }
+.tl-item {
+  display: flex;
+  gap: 18px;
+  padding-bottom: 26px;
+  position: relative;
+}
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 38px;
+  bottom: -10px;
+  width: 2px;
+  background: var(--border);
+}
+.tl-item:last-child::before { display: none; }
+.tl-item.done::before { background: var(--success); }
+.tl-item.current::before { background: linear-gradient(180deg, var(--primary) 30%, var(--border) 100%); }
+.tl-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.82rem;
-  opacity: 0.85;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.tl-item.done .tl-icon {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+.tl-item.current .tl-icon {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 5px rgba(11,61,145,0.15);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 5px rgba(11,61,145,0.15); }
+  50% { box-shadow: 0 0 0 9px rgba(11,61,145,0.05); }
+}
+.tl-body { flex: 1; padding-top: 2px; }
+.tl-label {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.tl-item.upcoming .tl-label { color: var(--muted); font-weight: 600; }
+.tl-item.current .tl-label { color: var(--primary); }
+.tl-item.done .tl-label { color: var(--success); }
+.tl-text {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.tl-item.upcoming .tl-text { opacity: 0.6; }
+.tl-note {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  font-size: 0.86rem;
+  color: #6b4e00;
+  line-height: 1.6;
 }
 
 /* ACTION CARDS */
@@ -589,10 +681,7 @@ a:hover { color: var(--primary-dark); }
   box-shadow: var(--shadow);
   border-color: var(--primary);
 }
-.action-card .icon {
-  font-size: 1.6rem;
-  margin-bottom: 10px;
-}
+.action-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
 .action-card h4 {
   color: var(--primary);
   font-size: 0.95rem;
@@ -656,12 +745,43 @@ a:hover { color: var(--primary-dark); }
 .btn-ghost:hover { background: var(--primary); color: #fff; }
 
 /* RESPONSIVE */
+@media (max-width: 900px) {
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+    padding: 12px 0;
+    order: 3;
+  }
+  .main-nav.open { display: flex; }
+  .nav-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 6px;
+  }
+  .nav-group a {
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .main-nav .nav-cta {
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+  .menu-toggle { display: block; }
+  .nav-wrap { flex-wrap: wrap; }
+}
+
 @media (max-width: 600px) {
   .search-card { padding: 24px; }
   .result-head { padding: 26px 22px; }
   .timeline-card { padding: 26px 22px; }
   .result-status-row { flex-direction: column; align-items: flex-start; }
   .search-row button { width: 100%; }
+  .agent-row { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
@@ -691,12 +811,12 @@ a:hover { color: var(--primary-dark); }
     </a>
     <button class="menu-toggle" aria-label="Toggle menu" onclick="document.querySelector('.main-nav').classList.toggle('open')">☰</button>
     <nav class="main-nav">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="apply.html">Apply</a></li>
-        <li><a href="track.html" class="active">Track</a></li>
-        <li><a href="portal.html">My Account</a></li>
-      </ul>
+      <div class="nav-group">
+        <a href="index.html">Home</a>
+        <a href="track.html" class="active">Track</a>
+        <a href="portal.html">My Account</a>
+      </div>
+      <a href="apply.html" class="nav-cta">Apply Now →</a>
     </nav>
   </div>
 </header>
@@ -705,7 +825,7 @@ a:hover { color: var(--primary-dark); }
 <section class="page-hero">
   <div class="breadcrumb"><a href="index.html">Home</a> / Track Application</div>
   <h1>Track Your Application</h1>
-  <p>Enter your reference number to see the current status of your passport, visa, or job application.</p>
+  <p>Enter your reference number to see the current status of your application.</p>
 </section>
 
 <!-- MAIN -->
@@ -730,7 +850,7 @@ a:hover { color: var(--primary-dark); }
   <!-- ERROR -->
   <div class="state-error" id="stateError" style="display:none;">
     <h3>❌ Reference not found</h3>
-    <p id="errorMsg">We couldn't find an application with that reference number. Please check the number and try again.</p>
+    <p id="errorMsg">We couldn't find an application with that reference number.</p>
     <a href="apply.html" class="btn btn-secondary">Start New Application</a>
   </div>
 
@@ -744,8 +864,8 @@ a:hover { color: var(--primary-dark); }
   <div class="result" id="result">
     <div class="result-head">
       <div class="result-ref" id="resRef">GP-2026-00000</div>
-      <div class="result-title" id="resTitle">Passport Application</div>
-      <div class="result-subtitle" id="resSubtitle">Submitted on 1 Jan 2026</div>
+      <div class="result-title" id="resTitle">Application</div>
+      <div class="result-subtitle" id="resSubtitle">Submitted recently</div>
 
       <div class="result-status-row">
         <div>
@@ -758,6 +878,27 @@ a:hover { color: var(--primary-dark); }
       <div class="result-meta">
         <div><strong>Submitted:</strong> <span id="resCreated">—</span></div>
         <div><strong>Last update:</strong> <span id="resUpdated">—</span></div>
+      </div>
+    </div>
+
+    <!-- AGENT CARD -->
+    <div class="agent-card" id="agentCard" style="display:none;">
+      <div class="agent-label">🛡️ Your Verified Agent</div>
+      <div class="agent-row">
+        <div class="agent-avatar" id="agentInitials">ST</div>
+        <div class="agent-info">
+          <div class="agent-name" id="agentName">—</div>
+          <div class="agent-role" id="agentRole">Senior Application Officer</div>
+          <span class="agent-verified">✓ GlobalPath Verified</span>
+        </div>
+      </div>
+      <div class="agent-actions">
+        <a id="agentTgBtn" href="#" target="_blank" rel="noopener" class="btn btn-telegram">
+          💬 Message on Telegram
+        </a>
+        <a href="portal.html" class="btn btn-portal">
+          📧 Message in Portal
+        </a>
       </div>
     </div>
 
@@ -777,15 +918,15 @@ a:hover { color: var(--primary-dark); }
     <!-- ACTION CARDS -->
     <div class="action-grid">
       <div class="action-card">
-        <div class="icon">📞</div>
+        <div class="icon">💬</div>
         <h4>Need help?</h4>
-        <p>Contact our team if you have questions about your application.</p>
-        <a href="https://wa.me/254700000000">WhatsApp us</a>
+        <p>Get instant answers or chat with our team.</p>
+        <a href="https://t.me/globalpath_support_bot" target="_blank" rel="noopener">Message on Telegram</a>
       </div>
       <div class="action-card">
         <div class="icon">👤</div>
         <h4>Create account</h4>
-        <p>Get access to messages, documents, and faster tracking.</p>
+        <p>Access messages, documents, and faster tracking.</p>
         <a href="portal.html">Sign up</a>
       </div>
       <div class="action-card">
@@ -815,21 +956,20 @@ a:hover { color: var(--primary-dark); }
 const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
 const STORAGE_KEY = 'gp_recent_refs';
 
 // ============================================================
-// WORKFLOWS (must match backend/workflows.js)
+// WORKFLOWS
 // ============================================================
 const WORKFLOWS = {
   passport: {
-    label: 'Passport Application',
-    icon: '🛂',
+    label: 'Passport Application', icon: '🛂',
     stages: [
       { key: 'Submitted',             label: 'Application received',         customer_text: 'We have received your passport application.' },
       { key: 'Documents Reviewed',    label: 'Documents reviewed',           customer_text: 'Your documents have been checked.' },
       { key: 'Appointment Scheduled', label: 'Appointment scheduled',        customer_text: 'Your appointment at the passport office has been scheduled.' },
-      { key: 'Application Submitted', label: 'Submitted to passport office', customer_text: 'Your application has been submitted to the passport office.' },
+      { key: 'Application Submitted', label: 'Submitted to passport office', customer_text: 'Your application has been submitted to HM Passport Office.' },
       { key: 'Processing',            label: 'Processing',                   customer_text: 'Your passport is being processed.' },
       { key: 'Ready for Collection',  label: 'Ready for collection',         customer_text: 'Your passport is ready for collection.' },
       { key: 'Collected',             label: 'Collected',                    customer_text: 'Your passport has been collected.' },
@@ -838,49 +978,46 @@ const WORKFLOWS = {
     ]
   },
   visa: {
-    label: 'Visa Application',
-    icon: '✈️',
+    label: 'Visa Application', icon: '✈️',
     stages: [
       { key: 'Submitted',                  label: 'Application received',        customer_text: 'We have received your visa application.' },
       { key: 'Documents Reviewed',         label: 'Documents reviewed',          customer_text: 'Your documents have been checked.' },
-      { key: 'Embassy Appointment Booked', label: 'Embassy appointment booked',  customer_text: 'Your embassy appointment has been booked.' },
-      { key: 'Interview Scheduled',        label: 'Interview scheduled',         customer_text: 'Your visa interview has been scheduled.' },
-      { key: 'Application Submitted',      label: 'Submitted to embassy',        customer_text: 'Your visa application has been submitted.' },
-      { key: 'Under Embassy Review',       label: 'Under embassy review',        customer_text: 'Your application is being reviewed by the embassy.' },
-      { key: 'Decision Made',              label: 'Decision made',               customer_text: 'The embassy has made a decision.' },
+      { key: 'Embassy Appointment Booked', label: 'Embassy appointment booked',  customer_text: 'Your embassy appointment is booked.' },
+      { key: 'Interview Scheduled',        label: 'Interview scheduled',         customer_text: 'Your interview is scheduled.' },
+      { key: 'Application Submitted',      label: 'Submitted to embassy',        customer_text: 'Submitted to the embassy.' },
+      { key: 'Under Embassy Review',       label: 'Under embassy review',        customer_text: 'Being reviewed by the embassy.' },
+      { key: 'Decision Made',              label: 'Decision made',               customer_text: 'The embassy has decided.' },
       { key: 'Passport Returned',          label: 'Passport returned',           customer_text: 'Your passport has been returned.' },
       { key: 'Completed',                  label: 'Completed',                   customer_text: 'Your visa process is complete.' },
-      { key: 'Action Required',            label: 'Action required',             customer_text: 'We need more information from you.' },
-      { key: 'Refused',                    label: 'Refused',                     customer_text: 'The embassy has refused the visa.' },
-      { key: 'Closed',                     label: 'Closed',                      customer_text: 'This application has been closed.' }
+      { key: 'Action Required',            label: 'Action required',             customer_text: 'We need more information.' },
+      { key: 'Refused',                    label: 'Refused',                     customer_text: 'The visa was refused.' },
+      { key: 'Closed',                     label: 'Closed',                      customer_text: 'Closed.' }
     ]
   },
   job: {
-    label: 'Job Application',
-    icon: '💼',
+    label: 'Job Application', icon: '💼',
     stages: [
-      { key: 'Submitted',         label: 'Application received', customer_text: 'We have received your job application.' },
+      { key: 'Submitted',         label: 'Application received', customer_text: 'Received your job application.' },
       { key: 'Under Review',      label: 'Under review',         customer_text: 'Your application is being reviewed.' },
-      { key: 'Action Required',   label: 'Action required',      customer_text: 'We need more information from you.' },
+      { key: 'Action Required',   label: 'Action required',      customer_text: 'We need more info.' },
       { key: 'Shortlisted',       label: 'Shortlisted',          customer_text: 'You have been shortlisted!' },
-      { key: 'Interview Stage',   label: 'Interview stage',      customer_text: 'An interview has been arranged.' },
-      { key: 'Employer Decision', label: 'Employer decision',    customer_text: 'The employer is making a final decision.' },
-      { key: 'Offer',             label: 'Offer',                customer_text: 'You have received an offer!' },
-      { key: 'Completed',         label: 'Completed',            customer_text: 'Your job placement is complete.' },
-      { key: 'Closed',            label: 'Closed',               customer_text: 'This application has been closed.' }
+      { key: 'Interview Stage',   label: 'Interview stage',      customer_text: 'Interview arranged.' },
+      { key: 'Employer Decision', label: 'Employer decision',    customer_text: 'Employer deciding.' },
+      { key: 'Offer',             label: 'Offer',                customer_text: 'You have an offer!' },
+      { key: 'Completed',         label: 'Completed',            customer_text: 'Placement complete.' },
+      { key: 'Closed',            label: 'Closed',               customer_text: 'Closed.' }
     ]
   },
   documents: {
-    label: 'Document Assistance',
-    icon: '📄',
+    label: 'Document Assistance', icon: '📄',
     stages: [
-      { key: 'Submitted',       label: 'Request received',   customer_text: 'We have received your document request.' },
-      { key: 'Under Review',    label: 'Under review',       customer_text: 'Your request is being reviewed.' },
-      { key: 'Action Required', label: 'Action required',    customer_text: 'We need more information from you.' },
-      { key: 'In Progress',     label: 'In progress',        customer_text: 'Your documents are being prepared.' },
+      { key: 'Submitted',       label: 'Request received',   customer_text: 'We have your request.' },
+      { key: 'Under Review',    label: 'Under review',       customer_text: 'Reviewing your request.' },
+      { key: 'Action Required', label: 'Action required',    customer_text: 'We need more info.' },
+      { key: 'In Progress',     label: 'In progress',        customer_text: 'Preparing your documents.' },
       { key: 'Ready',           label: 'Ready',              customer_text: 'Your documents are ready.' },
-      { key: 'Completed',       label: 'Completed',          customer_text: 'Your document assistance is complete.' },
-      { key: 'Closed',          label: 'Closed',             customer_text: 'This request has been closed.' }
+      { key: 'Completed',       label: 'Completed',          customer_text: 'Completed.' },
+      { key: 'Closed',          label: 'Closed',             customer_text: 'Closed.' }
     ]
   }
 };
@@ -888,19 +1025,21 @@ const WORKFLOWS = {
 // ============================================================
 // HELPERS
 // ============================================================
-function formatDate(iso) {
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+function fmtDate(iso) {
   if (!iso) return '—';
   const d = new Date(iso);
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) +
     ' · ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 }
-
-function formatDateShort(iso) {
+function fmtShort(iso) {
   if (!iso) return '—';
-  const d = new Date(iso);
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
-
 function show(id) { document.getElementById(id).style.display = 'block'; }
 function hide(id) { document.getElementById(id).style.display = 'none'; }
 function hideAll() {
@@ -932,7 +1071,7 @@ async function searchReference() {
   try {
     const { data, error } = await supabaseClient
       .from('applications')
-      .select('id, reference, service_type, status, details, created_at, updated_at')
+      .select('id, reference, service_type, status, details, created_at, updated_at, agent_id, agent_requested')
       .eq('reference', ref)
       .maybeSingle();
 
@@ -944,7 +1083,6 @@ async function searchReference() {
       return;
     }
 
-    // Also fetch status history
     const { data: history } = await supabaseClient
       .from('status_history')
       .select('old_status, new_status, note, created_at')
@@ -975,15 +1113,12 @@ function showErrorState(msg) {
 function renderResult(app, history) {
   const workflow = WORKFLOWS[app.service_type] || WORKFLOWS.passport;
 
-  // Header
   document.getElementById('resRef').textContent = app.reference;
   document.getElementById('resTitle').textContent = workflow.icon + ' ' + workflow.label;
   document.getElementById('resSubtitle').textContent =
-    'Submitted on ' + formatDateShort(app.created_at);
-
+    'Submitted on ' + fmtShort(app.created_at);
   document.getElementById('resStatus').textContent = app.status;
 
-  // Badge
   const badge = document.getElementById('resBadge');
   const isDone = ['Collected', 'Completed', 'Ready', 'Ready for Collection', 'Offer', 'Passport Returned', 'Decision Made'].includes(app.status);
   const isAction = ['Action Required', 'Refused', 'Closed'].includes(app.status);
@@ -998,20 +1133,46 @@ function renderResult(app, history) {
     badge.className = 'status-badge';
   }
 
-  document.getElementById('resCreated').textContent = formatDate(app.created_at);
-  document.getElementById('resUpdated').textContent = formatDate(app.updated_at || app.created_at);
+  document.getElementById('resCreated').textContent = fmtDate(app.created_at);
+  document.getElementById('resUpdated').textContent = fmtDate(app.updated_at || app.created_at);
 
   // Latest update
   const latest = history[history.length - 1];
   if (latest) {
     show('latestCard');
     document.getElementById('latestText').textContent = latest.note || getStageText(workflow, latest.new_status) || 'Status updated.';
-    document.getElementById('latestDate').textContent = formatDate(latest.created_at);
+    document.getElementById('latestDate').textContent = fmtDate(latest.created_at);
   } else {
     hide('latestCard');
   }
 
-  // Build timeline
+  // Agent card
+  if (app.agent_id) {
+    supabaseClient
+      .from('profiles')
+      .select('full_name, role')
+      .eq('id', app.agent_id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data && data.full_name) {
+          const initials = data.full_name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+          document.getElementById('agentInitials').textContent = initials;
+          document.getElementById('agentName').textContent = data.full_name;
+          document.getElementById('agentRole').textContent = data.role === 'admin' ? 'Senior Application Officer' : 'Application Officer';
+          const tgUrl = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${app.reference}`;
+          document.getElementById('agentTgBtn').href = tgUrl;
+          show('agentCard');
+        }
+      });
+  } else if (app.agent_requested) {
+    show('agentCard');
+    document.getElementById('agentInitials').textContent = '⏳';
+    document.getElementById('agentName').textContent = 'Being assigned';
+    document.getElementById('agentRole').textContent = 'We\'ll assign a Verified Agent within 48 hours';
+    document.getElementById('agentTgBtn').href = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${app.reference}`;
+  }
+
+  // Timeline
   const reached = new Set(history.map(h => h.new_status));
   const current = app.status;
 
@@ -1022,18 +1183,15 @@ function renderResult(app, history) {
     let state = 'upcoming';
     if (reached.has(stage.key) || stage.key === current) state = 'done';
     if (stage.key === current) state = 'current';
-
-    // If a later stage is reached, mark this as done (not current)
     if (reached.has(stage.key) && stage.key !== current) state = 'done';
 
-    // Find note for this stage (if any)
     const histForStage = history.find(h => h.new_status === stage.key);
     const noteHtml = histForStage && histForStage.note && stage.key === current
       ? `<div class="tl-note">${escapeHtml(histForStage.note)}</div>`
       : '';
 
     const dateHtml = histForStage
-      ? `<div style="font-size:0.78rem;color:var(--muted);margin-top:6px;">${formatDate(histForStage.created_at)}</div>`
+      ? `<div style="font-size:0.78rem;color:var(--muted);margin-top:6px;">${fmtDate(histForStage.created_at)}</div>`
       : '';
 
     const iconContent = state === 'done' ? '✓' : (state === 'current' ? '●' : (i + 1));
@@ -1058,12 +1216,6 @@ function renderResult(app, history) {
 function getStageText(workflow, statusKey) {
   const s = workflow.stages.find(st => st.key === statusKey);
   return s ? s.customer_text : null;
-}
-
-function escapeHtml(s) {
-  return String(s || '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[c]));
 }
 
 // ============================================================
@@ -1094,24 +1246,13 @@ function renderRecentRefs() {
   list.forEach(ref => {
     const chip = document.createElement('button');
     chip.className = 'recent-chip';
-    chip.innerHTML = `${ref} <span class="x" data-remove="${ref}" title="Remove">✕</span>`;
-    chip.onclick = (e) => {
-      if (e.target.classList.contains('x')) {
-        removeRecentRef(e.target.dataset.remove);
-        return;
-      }
+    chip.textContent = ref;
+    chip.onclick = () => {
       document.getElementById('refInput').value = ref;
       searchReference();
     };
     ul.appendChild(chip);
   });
-}
-
-function removeRecentRef(ref) {
-  let list = loadRecentRefs();
-  list = list.filter(r => r !== ref);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-  renderRecentRefs();
 }
 
 // ============================================================
@@ -1135,25 +1276,23 @@ function resetSearch() {
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile menu
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.main-nav');
   if (toggle && nav) {
     toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => nav.classList.remove('open'));
+    });
   }
 
-  // Auto-uppercase input
   const input = document.getElementById('refInput');
   input.addEventListener('input', (e) => {
     e.target.value = e.target.value.toUpperCase();
   });
-
-  // Enter key submits
   input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') searchReference();
   });
 
-  // Prefill from URL: ?ref=GP-2026-00042
   const params = new URLSearchParams(window.location.search);
   const ref = params.get('ref');
   if (ref) {
@@ -1161,7 +1300,6 @@ document.addEventListener('DOMContentLoaded', () => {
     searchReference();
   }
 
-  // Show recent refs
   renderRecentRefs();
 });
 </script>
