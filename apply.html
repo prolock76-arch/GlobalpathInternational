@@ -856,7 +856,7 @@ a:hover { color: var(--primary-dark); }
       </div>
       <div class="form-group">
         <label for="phone">Phone (WhatsApp) <span class="req">*</span></label>
-        <input type="tel" id="phone" placeholder="+254 7XX XXX XXX" autocomplete="tel">
+        <input type="tel" id="phone" placeholder="+44 7XXX XXXXXX" autocomplete="tel">
       </div>
     </div>
 
@@ -1093,8 +1093,8 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 // ============================================================
 // STATE
 // ============================================================
-let flow = [];              // Dynamic list of panel names
-let currentIndex = 0;       // Position in flow
+let flow = [];
+let currentIndex = 0;
 let formData = {
   service_type: '',
   visa_type: '',
@@ -1118,11 +1118,9 @@ function buildFlow() {
   }
 
   if (type === 'visa') {
-    // If user has no passport AND wants visa → redirect to passport
     if (formData.has_passport === false) {
       return ['path', 'basic', 'passport-check', 'details', 'review'];
     }
-    // Normal visa flow
     const base = ['path', 'basic', 'passport-check', 'visa-type'];
     if (formData.visa_type === 'work') {
       return [...base, 'visa-reality', 'details', 'review'];
@@ -1131,7 +1129,6 @@ function buildFlow() {
   }
 
   if (type === 'job') {
-    // If no passport → route through passport first
     if (formData.has_passport === false) {
       return ['path', 'basic', 'passport-check', 'details', 'review'];
     }
@@ -1152,7 +1149,6 @@ function renderProgress() {
   const inner = document.getElementById('progressInner');
   inner.innerHTML = '';
 
-  // Friendly labels per panel
   const labels = {
     'path': 'Path',
     'basic': 'Your Info',
@@ -1196,7 +1192,6 @@ function goNext() {
 
   const current = flow[currentIndex];
 
-  // ---- VALIDATION PER PANEL ----
   if (current === 'path') {
     if (!formData.service_type) return showError('Please select what you need help with.');
   }
@@ -1227,11 +1222,8 @@ function goNext() {
     if (!validateDetails()) return;
   }
 
-  // ---- MOVE FORWARD ----
-  // Rebuild flow in case earlier answers changed it (e.g. has_passport)
   flow = buildFlow();
 
-  // If current index is not the last, advance
   if (currentIndex < flow.length - 1) {
     currentIndex++;
     const nextPanel = flow[currentIndex];
@@ -1246,9 +1238,7 @@ function goPrev() {
   hideError();
   if (currentIndex > 0) {
     currentIndex--;
-    // Rebuild flow (in case user changed earlier answers)
     flow = buildFlow();
-    // Ensure currentIndex is still valid
     if (currentIndex >= flow.length) currentIndex = flow.length - 1;
     renderProgress();
     showPanel(flow[currentIndex]);
@@ -1311,7 +1301,6 @@ function renderDetails() {
   const title = document.getElementById('detailsTitle');
   const subtitle = document.getElementById('detailsSubtitle');
 
-  // Smart redirect: user picked visa/job but has no passport
   let effectiveType = formData.service_type;
   if ((formData.service_type === 'visa' || formData.service_type === 'job') && formData.has_passport === false) {
     effectiveType = 'passport';
@@ -1321,7 +1310,6 @@ function renderDetails() {
 
   body.innerHTML = '';
 
-  // ---------------- PASSPORT ----------------
   if (effectiveType === 'passport') {
     title.textContent = 'Passport details';
     subtitle.textContent = 'Tell us about your passport application.';
@@ -1373,7 +1361,6 @@ function renderDetails() {
     `;
   }
 
-  // ---------------- VISA ----------------
   else if (effectiveType === 'visa') {
     title.textContent = 'Visa details';
     subtitle.textContent = 'Tell us where you\'re going and why.';
@@ -1415,7 +1402,6 @@ function renderDetails() {
       </div>
     `;
 
-    // Conditional fields per visa type
     if (formData.visa_type === 'work') {
       body.innerHTML += `
         <div class="form-row">
@@ -1584,7 +1570,6 @@ function renderDetails() {
       `;
     }
 
-    // Common for all visa types
     body.innerHTML += `
       <div class="form-group">
         <label>Additional Notes</label>
@@ -1593,7 +1578,6 @@ function renderDetails() {
     `;
   }
 
-  // ---------------- JOB ----------------
   else if (effectiveType === 'job') {
     title.textContent = 'Job preference';
     subtitle.textContent = 'Tell us what kind of work you\'re looking for.';
@@ -1668,7 +1652,6 @@ function renderDetails() {
     `;
   }
 
-  // ---------------- DOCUMENTS ----------------
   else if (effectiveType === 'documents') {
     title.textContent = 'Document assistance';
     subtitle.textContent = 'Tell us which documents you need help with.';
@@ -1966,14 +1949,12 @@ function hideError() {
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile menu
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.main-nav');
   if (toggle && nav) {
     toggle.addEventListener('click', () => nav.classList.toggle('open'));
   }
 
-  // Prefill from ?type=
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type');
   if (type && ['passport', 'visa', 'job', 'documents'].includes(type)) {
@@ -1984,7 +1965,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Initial flow + progress
   flow = buildFlow();
   renderProgress();
 });
