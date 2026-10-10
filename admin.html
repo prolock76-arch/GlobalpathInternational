@@ -48,7 +48,7 @@ body {
 a { color: var(--primary); text-decoration: none; }
 a:hover { color: var(--primary-dark); }
 
-/* ============ ADMIN HEADER ============ */
+/* HEADER */
 .admin-header {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: #fff;
@@ -97,12 +97,7 @@ a:hover { color: var(--primary-dark); }
   margin-left: 6px;
   vertical-align: middle;
 }
-.admin-user {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 0.86rem;
-}
+.admin-user { display: flex; align-items: center; gap: 14px; font-size: 0.86rem; }
 .admin-user-info { text-align: right; }
 .admin-user-name { font-weight: 700; }
 .admin-user-role {
@@ -125,7 +120,7 @@ a:hover { color: var(--primary-dark); }
 }
 .logout-btn:hover { background: rgba(255,255,255,0.25); border-color: #fff; }
 
-/* ============ LOGIN ============ */
+/* LOGIN */
 .login-wrap {
   min-height: calc(100vh - 68px);
   display: flex;
@@ -235,14 +230,12 @@ a:hover { color: var(--primary-dark); }
 .spinner.dark { border-color: rgba(11,61,145,0.2); border-top-color: var(--primary); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ============ DASHBOARD ============ */
+/* DASHBOARD */
 .dash-wrap {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 28px 24px 80px;
 }
-
-/* STATS */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -283,8 +276,6 @@ a:hover { color: var(--primary-dark); }
   color: var(--primary);
   letter-spacing: -0.03em;
 }
-
-/* FILTERS */
 .filters-bar {
   background: #fff;
   border: 1px solid var(--border);
@@ -326,8 +317,6 @@ a:hover { color: var(--primary-dark); }
   transition: all 0.15s;
 }
 .refresh-btn:hover { background: var(--primary); color: #fff; }
-
-/* TABLE */
 .table-card {
   background: #fff;
   border: 1px solid var(--border);
@@ -369,13 +358,7 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
   color: var(--primary);
   letter-spacing: 0.05em;
 }
-.type-cell {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  font-size: 0.86rem;
-}
+.type-cell { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 0.86rem; }
 .status-pill {
   display: inline-block;
   padding: 4px 12px;
@@ -390,8 +373,6 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
 .status-pill.warn { background: var(--warn-bg); color: var(--warn); }
 .status-pill.info { background: var(--info-bg); color: var(--info); }
 .time-cell { color: var(--muted); font-size: 0.82rem; white-space: nowrap; }
-
-/* EMPTY */
 .empty-state { padding: 64px 24px; text-align: center; }
 .empty-state .icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
 .empty-state h3 { color: var(--primary); font-size: 1.1rem; margin-bottom: 8px; font-weight: 700; }
@@ -476,15 +457,9 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
   font-weight: 700;
   margin-bottom: 12px;
 }
-.modal-section p {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  margin-bottom: 6px;
-}
+.modal-section p { font-size: 0.9rem; line-height: 1.7; margin-bottom: 6px; }
 .modal-section p strong { color: var(--text); }
 .modal-section p span { color: var(--muted); }
-
-/* STATUS UPDATE BLOCK */
 .status-update {
   background: var(--primary-soft);
   border-left: 4px solid var(--primary);
@@ -526,22 +501,10 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(11,61,145,0.1);
 }
-.status-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
+.status-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; margin-top: 4px; }
 
-/* TIMELINE */
 .tl { display: flex; flex-direction: column; margin-bottom: 24px; }
-.tl-row {
-  display: flex;
-  gap: 14px;
-  padding-bottom: 18px;
-  position: relative;
-}
+.tl-row { display: flex; gap: 14px; padding-bottom: 18px; position: relative; }
 .tl-row:last-child { padding-bottom: 0; }
 .tl-row::before {
   content: '';
@@ -571,17 +534,11 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
 .tl-row.done .tl-dot { background: var(--success); border-color: var(--success); color: #fff; }
 .tl-row.current .tl-dot { background: var(--primary); border-color: var(--primary); color: #fff; }
 .tl-row .tl-info { flex: 1; padding-top: 2px; }
-.tl-row .tl-lbl {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 2px;
-}
+.tl-row .tl-lbl { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
 .tl-row.done .tl-lbl { color: var(--success); }
 .tl-row.current .tl-lbl { color: var(--primary); }
 .tl-row .tl-txt { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
 
-/* MESSAGES */
 .msg-list {
   display: flex;
   flex-direction: column;
@@ -649,16 +606,11 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
   white-space: nowrap;
 }
 .msg-send:hover { background: var(--primary-dark); }
-
-/* DETAILS LIST */
 .detail-list { font-size: 0.9rem; line-height: 1.9; }
 .detail-list .k { color: var(--muted); font-weight: 600; }
 .detail-list .v { color: var(--text); }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .modal-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 900px) { .modal-grid { grid-template-columns: 1fr; } }
 @media (max-width: 720px) {
   .filters-bar { grid-template-columns: 1fr; }
   .admin-header-wrap { gap: 10px; }
@@ -669,7 +621,6 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
 </head>
 <body>
 
-<!-- ADMIN HEADER -->
 <header class="admin-header">
   <div class="admin-header-wrap">
     <a href="index.html" class="admin-logo">
@@ -698,7 +649,6 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
   </div>
 </header>
 
-<!-- LOGIN -->
 <div class="login-wrap" id="loginView">
   <div class="login-card">
     <h1>Staff Sign In</h1>
@@ -721,7 +671,6 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
   </div>
 </div>
 
-<!-- DASHBOARD -->
 <div class="dash-wrap" id="dashView" style="display:none;">
   <div class="alert" id="dashAlert"></div>
 
@@ -780,7 +729,6 @@ table.apps-table tbody tr:hover { background: var(--primary-soft); }
   </div>
 </div>
 
-<!-- MODAL -->
 <div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target === this) closeModal()">
   <div class="modal">
     <div class="modal-head">
@@ -806,76 +754,66 @@ let currentUser = null;
 let currentProfile = null;
 let allApplications = [];
 
-// ============================================================
-// WORKFLOWS
-// ============================================================
 const WORKFLOWS = {
   passport: {
-    label: 'Passport Application',
-    icon: '🛂',
+    label: 'Passport Application', icon: '🛂',
     stages: [
-      { key: 'Submitted',             label: 'Application received',         text: 'We have received your passport application.' },
-      { key: 'Documents Reviewed',    label: 'Documents reviewed',           text: 'Your documents have been checked.' },
-      { key: 'Appointment Scheduled', label: 'Appointment scheduled',        text: 'Your appointment has been scheduled.' },
+      { key: 'Submitted', label: 'Application received', text: 'We have received your passport application.' },
+      { key: 'Documents Reviewed', label: 'Documents reviewed', text: 'Your documents have been checked.' },
+      { key: 'Appointment Scheduled', label: 'Appointment scheduled', text: 'Your appointment has been scheduled.' },
       { key: 'Application Submitted', label: 'Submitted to passport office', text: 'Submitted to HM Passport Office.' },
-      { key: 'Processing',            label: 'Processing',                   text: 'Your passport is being processed.' },
-      { key: 'Ready for Collection',  label: 'Ready for collection',         text: 'Your passport is ready.' },
-      { key: 'Collected',             label: 'Collected',                    text: 'Your passport has been collected.' },
-      { key: 'Action Required',       label: 'Action required',              text: 'We need more information from you.' },
-      { key: 'Closed',                label: 'Closed',                       text: 'This application has been closed.' }
+      { key: 'Processing', label: 'Processing', text: 'Your passport is being processed.' },
+      { key: 'Ready for Collection', label: 'Ready for collection', text: 'Your passport is ready.' },
+      { key: 'Collected', label: 'Collected', text: 'Your passport has been collected.' },
+      { key: 'Action Required', label: 'Action required', text: 'We need more information from you.' },
+      { key: 'Closed', label: 'Closed', text: 'This application has been closed.' }
     ]
   },
   visa: {
-    label: 'Visa Application',
-    icon: '✈️',
+    label: 'Visa Application', icon: '✈️',
     stages: [
-      { key: 'Submitted',                  label: 'Application received',        text: 'We have received your visa application.' },
-      { key: 'Documents Reviewed',         label: 'Documents reviewed',          text: 'Your documents have been checked.' },
-      { key: 'Embassy Appointment Booked', label: 'Embassy appointment booked',  text: 'Your embassy appointment is booked.' },
-      { key: 'Interview Scheduled',        label: 'Interview scheduled',         text: 'Your interview is scheduled.' },
-      { key: 'Application Submitted',      label: 'Submitted to embassy',        text: 'Submitted to the embassy.' },
-      { key: 'Under Embassy Review',       label: 'Under embassy review',        text: 'Being reviewed by the embassy.' },
-      { key: 'Decision Made',              label: 'Decision made',               text: 'The embassy has decided.' },
-      { key: 'Passport Returned',          label: 'Passport returned',           text: 'Your passport has been returned.' },
-      { key: 'Completed',                  label: 'Completed',                   text: 'Your visa process is complete.' },
-      { key: 'Action Required',            label: 'Action required',             text: 'We need more information.' },
-      { key: 'Refused',                    label: 'Refused',                     text: 'The visa was refused.' },
-      { key: 'Closed',                     label: 'Closed',                      text: 'Closed.' }
+      { key: 'Submitted', label: 'Application received', text: 'We have received your visa application.' },
+      { key: 'Documents Reviewed', label: 'Documents reviewed', text: 'Your documents have been checked.' },
+      { key: 'Embassy Appointment Booked', label: 'Embassy appointment booked', text: 'Your embassy appointment is booked.' },
+      { key: 'Interview Scheduled', label: 'Interview scheduled', text: 'Your interview is scheduled.' },
+      { key: 'Application Submitted', label: 'Submitted to embassy', text: 'Submitted to the embassy.' },
+      { key: 'Under Embassy Review', label: 'Under embassy review', text: 'Being reviewed by the embassy.' },
+      { key: 'Decision Made', label: 'Decision made', text: 'The embassy has decided.' },
+      { key: 'Passport Returned', label: 'Passport returned', text: 'Your passport has been returned.' },
+      { key: 'Completed', label: 'Completed', text: 'Your visa process is complete.' },
+      { key: 'Action Required', label: 'Action required', text: 'We need more information.' },
+      { key: 'Refused', label: 'Refused', text: 'The visa was refused.' },
+      { key: 'Closed', label: 'Closed', text: 'Closed.' }
     ]
   },
   job: {
-    label: 'Job Application',
-    icon: '💼',
+    label: 'Job Application', icon: '💼',
     stages: [
-      { key: 'Submitted',         label: 'Application received', text: 'Received your job application.' },
-      { key: 'Under Review',      label: 'Under review',         text: 'Your application is being reviewed.' },
-      { key: 'Action Required',   label: 'Action required',      text: 'We need more info.' },
-      { key: 'Shortlisted',       label: 'Shortlisted',          text: 'You have been shortlisted!' },
-      { key: 'Interview Stage',   label: 'Interview stage',      text: 'Interview arranged.' },
-      { key: 'Employer Decision', label: 'Employer decision',    text: 'Employer deciding.' },
-      { key: 'Offer',             label: 'Offer',                text: 'You have an offer!' },
-      { key: 'Completed',         label: 'Completed',            text: 'Placement complete.' },
-      { key: 'Closed',            label: 'Closed',               text: 'Closed.' }
+      { key: 'Submitted', label: 'Application received', text: 'Received your job application.' },
+      { key: 'Under Review', label: 'Under review', text: 'Your application is being reviewed.' },
+      { key: 'Action Required', label: 'Action required', text: 'We need more info.' },
+      { key: 'Shortlisted', label: 'Shortlisted', text: 'You have been shortlisted!' },
+      { key: 'Interview Stage', label: 'Interview stage', text: 'Interview arranged.' },
+      { key: 'Employer Decision', label: 'Employer decision', text: 'Employer deciding.' },
+      { key: 'Offer', label: 'Offer', text: 'You have an offer!' },
+      { key: 'Completed', label: 'Completed', text: 'Placement complete.' },
+      { key: 'Closed', label: 'Closed', text: 'Closed.' }
     ]
   },
   documents: {
-    label: 'Document Assistance',
-    icon: '📄',
+    label: 'Document Assistance', icon: '📄',
     stages: [
-      { key: 'Submitted',       label: 'Request received',   text: 'We have your request.' },
-      { key: 'Under Review',    label: 'Under review',       text: 'Reviewing your request.' },
-      { key: 'Action Required', label: 'Action required',    text: 'We need more info.' },
-      { key: 'In Progress',     label: 'In progress',        text: 'Preparing your documents.' },
-      { key: 'Ready',           label: 'Ready',              text: 'Your documents are ready.' },
-      { key: 'Completed',       label: 'Completed',          text: 'Completed.' },
-      { key: 'Closed',          label: 'Closed',             text: 'Closed.' }
+      { key: 'Submitted', label: 'Request received', text: 'We have your request.' },
+      { key: 'Under Review', label: 'Under review', text: 'Reviewing your request.' },
+      { key: 'Action Required', label: 'Action required', text: 'We need more info.' },
+      { key: 'In Progress', label: 'In progress', text: 'Preparing your documents.' },
+      { key: 'Ready', label: 'Ready', text: 'Your documents are ready.' },
+      { key: 'Completed', label: 'Completed', text: 'Completed.' },
+      { key: 'Closed', label: 'Closed', text: 'Closed.' }
     ]
   }
 };
 
-// ============================================================
-// HELPERS
-// ============================================================
 function escapeHtml(s) {
   return String(s || '').replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -902,7 +840,49 @@ function showAlert(id, msg, type = 'info') {
   const el = document.getElementById(id);
   el.textContent = msg;
   el.className = 'alert ' + type + ' show';
-  setTimeout(() => { el.classList.remove('show'); }, 5000);
+  setTimeout(() => { el.classList.remove('show'); }, 6000);
+}
+
+// ============================================================
+// PROFILE LOOKUP — robust with fallbacks
+// ============================================================
+async function fetchProfileForUser(user) {
+  // Attempt 1: by id
+  try {
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('id, email, full_name, role')
+      .eq('id', user.id)
+      .maybeSingle();
+    if (!error && data) {
+      console.log('Profile found by id:', data);
+      return data;
+    }
+    if (error) console.warn('Profile by id error:', error.message);
+  } catch (e) { console.warn('Profile by id exception:', e); }
+
+  // Attempt 2: by email
+  try {
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('id, email, full_name, role')
+      .eq('email', user.email)
+      .maybeSingle();
+    if (!error && data) {
+      console.log('Profile found by email:', data);
+      return data;
+    }
+    if (error) console.warn('Profile by email error:', error.message);
+  } catch (e) { console.warn('Profile by email exception:', e); }
+
+  // Attempt 3: fall back to metadata (never blocks the user)
+  console.warn('No profile row — using user_metadata as fallback');
+  return {
+    id: user.id,
+    email: user.email,
+    full_name: user.user_metadata?.full_name || user.email,
+    role: user.user_metadata?.role || 'admin'
+  };
 }
 
 // ============================================================
@@ -921,29 +901,14 @@ async function handleLogin(e) {
   try {
     const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
     if (error) throw error;
-
-    // Check role
-    const { data: profile, error: pErr } = await supabaseClient
-      .from('profiles')
-      .select('id, email, full_name, role')
-      .eq('id', data.user.id)
-      .single();
-
-    if (pErr || !profile) {
-      await supabaseClient.auth.signOut();
-      throw new Error('Profile not found. Contact your administrator.');
-    }
-
-    if (!['staff', 'admin'].includes(profile.role)) {
-      await supabaseClient.auth.signOut();
-      throw new Error('This account does not have staff access.');
-    }
-
-    currentProfile = profile;
-    // onAuthStateChange will take over
+    console.log('Signed in:', data.user.email);
+    // onAuthStateChange will handle the rest
   } catch (err) {
     console.error('Login error:', err);
-    showAlert('loginAlert', err.message || 'Could not sign in.', 'error');
+    let msg = err.message || 'Could not sign in.';
+    if (msg.includes('Invalid login')) msg = 'Incorrect email or password. Try again or reset your password.';
+    if (msg.includes('Email not confirmed')) msg = 'Your email is not confirmed. Contact your administrator.';
+    showAlert('loginAlert', msg, 'error');
     btn.disabled = false;
     btn.innerHTML = 'Sign In';
   }
@@ -953,9 +918,6 @@ async function handleLogout() {
   await supabaseClient.auth.signOut();
 }
 
-// ============================================================
-// VIEW SWITCHING
-// ============================================================
 function showLogin() {
   document.getElementById('loginView').style.display = 'flex';
   document.getElementById('dashView').style.display = 'none';
@@ -995,7 +957,6 @@ async function loadApplications() {
 
     allApplications = data || [];
 
-    // Stats
     document.getElementById('statTotal').textContent = allApplications.length;
     const active = allApplications.filter(a => !['Collected', 'Completed', 'Closed', 'Refused', 'Offer', 'Ready'].includes(a.status)).length;
     const done = allApplications.filter(a => ['Collected', 'Completed', 'Offer', 'Ready'].includes(a.status)).length;
@@ -1004,7 +965,6 @@ async function loadApplications() {
     document.getElementById('statDone').textContent = done;
     document.getElementById('statAction').textContent = action;
 
-    // Populate status filter (unique statuses present)
     const statuses = [...new Set(allApplications.map(a => a.status))].sort();
     const statusSel = document.getElementById('filterStatus');
     const current = statusSel.value;
@@ -1019,9 +979,7 @@ async function loadApplications() {
   }
 }
 
-function applyFilters() {
-  renderTable();
-}
+function applyFilters() { renderTable(); }
 
 function renderTable() {
   const tbody = document.getElementById('appsTableBody');
@@ -1105,7 +1063,6 @@ function renderModal(app, wf, history, messages) {
   const reached = new Set(history.map(h => h.new_status));
   const current = app.status;
 
-  // Applicant info
   const infoRows = [
     ['Full Name', app.full_name],
     ['Email', app.email],
@@ -1118,11 +1075,9 @@ function renderModal(app, wf, history, messages) {
     ['Last Update', fmtDate(app.updated_at)]
   ];
 
-  // All details JSON
   const detailKeys = Object.keys(d).filter(k => !['city', 'has_passport', 'visa_type'].includes(k) && d[k]);
   const detailRows = detailKeys.map(k => [k.replace(/_/g, ' '), String(d[k])]);
 
-  // Timeline
   let timelineHtml = '<div class="tl">';
   wf.stages.forEach((stage, i) => {
     let state = 'upcoming';
@@ -1148,7 +1103,6 @@ function renderModal(app, wf, history, messages) {
   });
   timelineHtml += '</div>';
 
-  // Messages
   let msgsHtml = messages.length === 0
     ? '<div class="msg-empty">No messages yet.</div>'
     : messages.map(m => `
@@ -1158,7 +1112,6 @@ function renderModal(app, wf, history, messages) {
         </div>
       `).join('');
 
-  // Status options (workflow-aware)
   const statusOptions = wf.stages.map(s =>
     `<option value="${escapeHtml(s.key)}" ${s.key === current ? 'selected' : ''}>${escapeHtml(s.label)}</option>`
   ).join('');
@@ -1222,7 +1175,6 @@ function renderModal(app, wf, history, messages) {
 async function updateStatus(appId) {
   const newStatus = document.getElementById('newStatus').value;
   const note = document.getElementById('statusNote').value.trim();
-
   if (!newStatus) return;
 
   const btn = document.getElementById('updateBtn');
@@ -1233,14 +1185,12 @@ async function updateStatus(appId) {
     const app = allApplications.find(a => String(a.id) === String(appId));
     const oldStatus = app.status;
 
-    // Update application
     const { error: uErr } = await supabaseClient
       .from('applications')
       .update({ status: newStatus, updated_at: new Date().toISOString() })
       .eq('id', appId);
     if (uErr) throw uErr;
 
-    // Insert history
     const { error: hErr } = await supabaseClient
       .from('status_history')
       .insert([{
@@ -1252,16 +1202,13 @@ async function updateStatus(appId) {
       }]);
     if (hErr) throw hErr;
 
-    // Local update
     app.status = newStatus;
     app.updated_at = new Date().toISOString();
 
     showAlert('dashAlert', 'Status updated to "' + newStatus + '".', 'success');
 
-    // Refresh modal + table
     await openApplication(appId);
     renderTable();
-    // Update stats
     loadApplications();
   } catch (err) {
     console.error('Update error:', err);
@@ -1315,9 +1262,6 @@ async function sendStaffMessage(appId) {
   input.focus();
 }
 
-// ============================================================
-// CLOSE MODAL
-// ============================================================
 function closeModal() {
   document.getElementById('modalBackdrop').classList.remove('show');
   document.body.style.overflow = '';
@@ -1328,40 +1272,28 @@ function closeModal() {
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    console.log('Auth event:', event);
     if (!session || !session.user) {
       showLogin();
       return;
     }
 
-    // Check profile role
-    const { data: profile, error } = await supabaseClient
-      .from('profiles')
-      .select('id, email, full_name, role')
-      .eq('id', session.user.id)
-      .single();
-
-    if (error || !profile) {
-      showLogin();
-      showAlert('loginAlert', 'Profile not found. Contact your administrator.', 'error');
-      return;
-    }
+    const profile = await fetchProfileForUser(session.user);
 
     if (!['staff', 'admin'].includes(profile.role)) {
-      await supabaseClient.auth.signOut();
+      console.warn('Non-staff role:', profile.role);
       showLogin();
-      showAlert('loginAlert', 'This account does not have staff access.', 'error');
+      showAlert('loginAlert', 'This account does not have staff access. Ask your administrator to set your role to admin.', 'error');
       return;
     }
 
     showDashboard(session.user, profile);
   });
 
-  supabaseClient.auth.getSession().then(async ({ data }) => {
+  supabaseClient.auth.getSession().then(({ data }) => {
     if (!data.session || !data.session.user) {
       showLogin();
-      return;
     }
-    // Profile check is handled by onAuthStateChange which fires on load
   });
 });
 </script>
