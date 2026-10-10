@@ -47,13 +47,10 @@ body {
   line-height: 1.6;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
 a:hover { color: var(--primary-dark); }
-.container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
 
-/* SCROLL PROGRESS */
 .scroll-progress {
   position: fixed;
   top: 0; left: 0;
@@ -63,8 +60,6 @@ a:hover { color: var(--primary-dark); }
   z-index: 9999;
   transition: width 0.1s ease-out;
 }
-
-/* BACK TO TOP */
 .back-to-top {
   position: fixed;
   bottom: 100px;
@@ -86,7 +81,6 @@ a:hover { color: var(--primary-dark); }
 .back-to-top.show { display: flex; }
 .back-to-top:hover { transform: translateY(-4px) scale(1.05); }
 
-/* HEADER */
 .site-header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: saturate(180%) blur(12px);
@@ -120,9 +114,7 @@ a:hover { color: var(--primary-dark); }
   box-shadow: 0 4px 14px rgba(11,61,145,0.28);
   border-radius: 10px;
   flex-shrink: 0;
-  transition: transform 0.25s;
 }
-.logo-mark:hover { transform: translateY(-1px) rotate(-3deg); }
 .logo-mark svg { display: block; width: 100%; height: 100%; }
 .logo-text small {
   display: block;
@@ -133,7 +125,6 @@ a:hover { color: var(--primary-dark); }
   text-transform: uppercase;
 }
 
-/* NAVIGATION */
 .main-nav {
   display: flex;
   align-items: center;
@@ -155,38 +146,9 @@ a:hover { color: var(--primary-dark); }
   padding: 9px 16px;
   border-radius: 8px;
   transition: all 0.18s;
-  letter-spacing: -0.005em;
   white-space: nowrap;
 }
-.nav-group a:hover {
-  background: #fff;
-  color: var(--primary);
-  box-shadow: 0 2px 6px rgba(11,61,145,0.08);
-}
-.main-nav .nav-cta {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  color: #fff !important;
-  font-weight: 800;
-  font-size: 0.94rem;
-  padding: 11px 22px;
-  border-radius: 10px;
-  letter-spacing: -0.01em;
-  box-shadow: 0 4px 14px rgba(11,61,145,0.3);
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.main-nav .nav-cta:hover {
-  background: var(--primary-dark);
-  color: #fff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(11,61,145,0.4);
-}
-.main-nav .nav-cta.active {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-  color: #1a1a1a !important;
-  box-shadow: 0 6px 20px rgba(245,166,35,0.4);
-}
-/* New: Telegram help button variant */
+.nav-group a:hover { background: #fff; color: var(--primary); box-shadow: 0 2px 6px rgba(11,61,145,0.08); }
 .main-nav .nav-help {
   background: linear-gradient(135deg, #229ED9 0%, #1a7ab0 100%);
   color: #fff !important;
@@ -194,7 +156,6 @@ a:hover { color: var(--primary-dark); }
   font-size: 0.94rem;
   padding: 11px 22px;
   border-radius: 10px;
-  letter-spacing: -0.01em;
   box-shadow: 0 4px 14px rgba(34,158,217,0.3);
   transition: all 0.2s;
   white-space: nowrap;
@@ -205,7 +166,6 @@ a:hover { color: var(--primary-dark); }
 .main-nav .nav-help:hover {
   background: #1a7ab0;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(34,158,217,0.4);
 }
 .menu-toggle {
   display: none;
@@ -218,7 +178,6 @@ a:hover { color: var(--primary-dark); }
   border-radius: 8px;
 }
 
-/* HERO */
 .hero-apply {
   position: relative;
   background: linear-gradient(135deg, rgba(11,61,145,0.94), rgba(26,91,196,0.88));
@@ -243,7 +202,6 @@ a:hover { color: var(--primary-dark); }
   font-weight: 800;
   letter-spacing: -0.03em;
   margin-bottom: 16px;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
   line-height: 1.15;
 }
 .hero-apply p {
@@ -251,7 +209,6 @@ a:hover { color: var(--primary-dark); }
   max-width: 640px;
   margin: 0 auto;
   opacity: 0.96;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.25);
 }
 .hero-apply .breadcrumb { font-size: 0.82rem; opacity: 0.9; margin-bottom: 14px; }
 .hero-apply .breadcrumb a { color: #fff; text-decoration: underline; }
@@ -274,7 +231,6 @@ a:hover { color: var(--primary-dark); }
   gap: 6px;
 }
 
-/* PROGRESS BAR */
 .progress-bar {
   background: #fff;
   border-bottom: 1px solid var(--border);
@@ -302,7 +258,6 @@ a:hover { color: var(--primary-dark); }
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 0;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -391,7 +346,6 @@ a:hover { color: var(--primary-dark); }
   margin-bottom: 22px;
 }
 
-/* FORM WRAP */
 .form-wrap {
   max-width: 900px;
   margin: 40px auto 100px;
@@ -419,7 +373,6 @@ a:hover { color: var(--primary-dark); }
   margin-bottom: 10px;
   font-weight: 800;
   letter-spacing: -0.025em;
-  line-height: 1.25;
 }
 .panel-head p {
   color: var(--muted);
@@ -440,7 +393,6 @@ a:hover { color: var(--primary-dark); }
   margin-bottom: 14px;
 }
 
-/* STEP ALERTS */
 .step-alert {
   background: linear-gradient(135deg, #fff8ec 0%, #fff 100%);
   border: 2px solid #f5d99b;
@@ -466,7 +418,6 @@ a:hover { color: var(--primary-dark); }
   line-height: 1.6;
 }
 
-/* PATH SELECTION */
 .path-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -479,11 +430,10 @@ a:hover { color: var(--primary-dark); }
   border-radius: var(--radius-lg);
   padding: 32px 24px 28px;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s;
   text-align: center;
   position: relative;
   overflow: hidden;
-  outline: none;
 }
 .path-option::before {
   content: '';
@@ -495,10 +445,8 @@ a:hover { color: var(--primary-dark); }
   transform-origin: left;
   transition: transform 0.3s;
 }
-.path-option:hover::before,
-.path-option:focus::before { transform: scaleX(1); }
-.path-option:hover,
-.path-option:focus {
+.path-option:hover::before { transform: scaleX(1); }
+.path-option:hover {
   border-color: var(--primary);
   transform: translateY(-6px);
   box-shadow: 0 12px 32px rgba(11,61,145,0.18);
@@ -523,32 +471,10 @@ a:hover { color: var(--primary-dark); }
   justify-content: center;
   font-size: 0.82rem;
   font-weight: 700;
-  animation: checkPop 0.3s ease;
 }
-@keyframes checkPop {
-  0% { transform: scale(0); }
-  60% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-.path-option .icon {
-  font-size: 2.6rem;
-  margin-bottom: 16px;
-  display: block;
-  transition: transform 0.3s;
-}
-.path-option:hover .icon { transform: scale(1.15) rotate(-5deg); }
-.path-option h3 {
-  font-size: 1.1rem;
-  color: var(--primary);
-  margin-bottom: 8px;
-  font-weight: 800;
-}
-.path-option p {
-  font-size: 0.88rem;
-  color: var(--muted);
-  line-height: 1.55;
-  margin-bottom: 12px;
-}
+.path-option .icon { font-size: 2.6rem; margin-bottom: 16px; display: block; }
+.path-option h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 8px; font-weight: 800; }
+.path-option p { font-size: 0.88rem; color: var(--muted); line-height: 1.55; margin-bottom: 12px; }
 .path-option .path-time {
   display: inline-block;
   font-size: 0.75rem;
@@ -569,7 +495,6 @@ a:hover { color: var(--primary-dark); }
   font-weight: 500;
 }
 
-/* VISA GRID */
 .visa-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -594,7 +519,6 @@ a:hover { color: var(--primary-dark); }
 .visa-option.selected {
   border-color: var(--primary);
   background: var(--primary-soft);
-  box-shadow: 0 8px 24px rgba(11,61,145,0.15);
 }
 .visa-option.selected::after {
   content: '✓';
@@ -612,18 +536,8 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
 }
 .visa-option .v-icon { font-size: 1.7rem; margin-bottom: 10px; display: block; }
-.visa-option h4 {
-  color: var(--primary);
-  font-size: 1rem;
-  font-weight: 800;
-  margin-bottom: 6px;
-}
-.visa-option p {
-  color: var(--muted);
-  font-size: 0.85rem;
-  line-height: 1.55;
-  margin-bottom: 10px;
-}
+.visa-option h4 { color: var(--primary); font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+.visa-option p { color: var(--muted); font-size: 0.85rem; line-height: 1.55; margin-bottom: 10px; }
 .visa-option .v-tag {
   display: inline-block;
   font-size: 0.7rem;
@@ -636,7 +550,6 @@ a:hover { color: var(--primary-dark); }
 .visa-option .v-tag.warn { background: var(--warn-bg); color: var(--warn); }
 .visa-option .v-tag.easy { background: var(--success-bg); color: var(--success); }
 
-/* FORM FIELDS */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -650,15 +563,8 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
   margin-bottom: 8px;
   font-size: 0.88rem;
-  color: var(--text);
 }
 .form-group label .req { color: var(--danger); margin-left: 3px; }
-.form-group .hint {
-  font-size: 0.78rem;
-  color: var(--muted);
-  font-weight: 400;
-  margin-left: 6px;
-}
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -681,7 +587,6 @@ a:hover { color: var(--primary-dark); }
 }
 .form-group textarea { min-height: 110px; resize: vertical; }
 
-/* CHOICE CARDS */
 .choice-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -698,21 +603,15 @@ a:hover { color: var(--primary-dark); }
   background: #fff;
   position: relative;
 }
-.choice-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
-}
+.choice-card:hover { border-color: var(--primary); transform: translateY(-3px); }
 .choice-card.selected {
   border-color: var(--primary);
   background: var(--primary-soft);
-  box-shadow: 0 6px 20px rgba(11,61,145,0.15);
 }
 .choice-card.selected::after {
   content: '✓';
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 10px; right: 10px;
   width: 22px; height: 22px;
   background: var(--primary);
   color: #fff;
@@ -724,21 +623,9 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
 }
 .choice-card .choice-icon { font-size: 2rem; margin-bottom: 12px; }
-.choice-card strong {
-  display: block;
-  color: var(--primary);
-  font-size: 1rem;
-  margin-bottom: 6px;
-  font-weight: 800;
-}
-.choice-card small {
-  color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.5;
-  display: block;
-}
+.choice-card strong { display: block; color: var(--primary); font-size: 1rem; margin-bottom: 6px; font-weight: 800; }
+.choice-card small { color: var(--muted); font-size: 0.82rem; line-height: 1.5; display: block; }
 
-/* INFO BOXES */
 .info-box {
   background: var(--accent-soft);
   border-left: 4px solid var(--accent);
@@ -755,16 +642,12 @@ a:hover { color: var(--primary-dark); }
   border-left-color: var(--primary);
   color: var(--primary-dark);
 }
-.info-box.blue strong { color: var(--primary-dark); }
 .info-box.success {
   background: var(--success-bg);
   border-left-color: var(--success);
   color: #065f34;
 }
-.info-box.success strong { color: #065f34; }
-.info-box.warn { background: var(--warn-bg); border-left-color: var(--warn); color: #6b3f00; }
 
-/* REALITY CARD */
 .reality-card {
   background: linear-gradient(135deg, #fff8ec 0%, #fff 100%);
   border: 2px solid #f5d99b;
@@ -777,16 +660,8 @@ a:hover { color: var(--primary-dark); }
   font-size: 1.15rem;
   margin-bottom: 16px;
   font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
-.reality-card p {
-  font-size: 0.94rem;
-  color: #4a3500;
-  line-height: 1.7;
-  margin-bottom: 14px;
-}
+.reality-card p { font-size: 0.94rem; color: #4a3500; line-height: 1.7; margin-bottom: 14px; }
 .reality-card ul { list-style: none; padding-left: 0; margin-bottom: 18px; }
 .reality-card ul li {
   font-size: 0.92rem;
@@ -808,7 +683,6 @@ a:hover { color: var(--primary-dark); }
   margin-top: 18px;
 }
 
-/* AGENT BENEFITS */
 .agent-benefits {
   background: linear-gradient(135deg, #f0f7ff 0%, #fff 100%);
   border: 2px solid #b8d4f5;
@@ -821,11 +695,8 @@ a:hover { color: var(--primary-dark); }
   font-size: 1.15rem;
   margin-bottom: 16px;
   font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
-.agent-benefits ul { list-style: none; padding-left: 0; margin-bottom: 0; }
+.agent-benefits ul { list-style: none; padding-left: 0; }
 .agent-benefits ul li {
   font-size: 0.94rem;
   color: var(--primary-dark);
@@ -840,10 +711,8 @@ a:hover { color: var(--primary-dark); }
   top: 8px;
   color: var(--success);
   font-weight: 800;
-  font-size: 1.05rem;
 }
 
-/* CHECKBOX GROUP */
 .checkbox-group {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -870,7 +739,6 @@ a:hover { color: var(--primary-dark); }
 }
 .checkbox-item span { font-size: 0.9rem; font-weight: 600; }
 
-/* FEATURED JOBS */
 .featured-section {
   background: #fff;
   border-radius: var(--radius-xl);
@@ -888,12 +756,7 @@ a:hover { color: var(--primary-dark); }
   flex-wrap: wrap;
   margin-bottom: 26px;
 }
-.featured-header h2 {
-  font-size: 1.4rem;
-  color: var(--primary);
-  font-weight: 800;
-  margin-bottom: 4px;
-}
+.featured-header h2 { font-size: 1.4rem; color: var(--primary); font-weight: 800; margin-bottom: 4px; }
 .featured-header p { font-size: 0.92rem; color: var(--muted); }
 .featured-badge {
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
@@ -904,7 +767,6 @@ a:hover { color: var(--primary-dark); }
   border-radius: 20px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(245,166,35,0.3);
 }
 .search-wrap { position: relative; margin-bottom: 24px; }
 .search-input {
@@ -914,9 +776,6 @@ a:hover { color: var(--primary-dark); }
   border-radius: var(--radius-lg);
   font-size: 1rem;
   font-family: inherit;
-  background: #fff;
-  color: var(--text);
-  transition: all 0.2s;
 }
 .search-input:focus {
   outline: none;
@@ -950,17 +809,9 @@ a:hover { color: var(--primary-dark); }
   transition: all 0.18s;
   white-space: nowrap;
 }
-.cat-chip:hover {
-  background: var(--primary-soft);
-  color: var(--primary);
-  border-color: var(--primary);
-}
-.cat-chip.active {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(11,61,145,0.25);
-}
+.cat-chip:hover { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+.cat-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
 .jobs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1006,13 +857,7 @@ a:hover { color: var(--primary-dark); }
   border-radius: 20px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(220,38,38,0.35);
-  animation: pulseBadge 2s infinite;
   z-index: 2;
-}
-@keyframes pulseBadge {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
 }
 .jc-live {
   display: inline-flex;
@@ -1029,11 +874,6 @@ a:hover { color: var(--primary-dark); }
   height: 7px;
   border-radius: 50%;
   background: var(--success);
-  animation: livePulse 1.6s infinite;
-}
-@keyframes livePulse {
-  0% { box-shadow: 0 0 0 0 rgba(15,138,77,0.6); }
-  100% { box-shadow: 0 0 0 8px rgba(15,138,77,0); }
 }
 .job-card-mini .jc-head {
   display: flex;
@@ -1051,17 +891,8 @@ a:hover { color: var(--primary-dark); }
   padding: 3px 10px;
   border-radius: 20px;
 }
-.job-card-mini h4 {
-  font-size: 1.02rem;
-  color: var(--primary);
-  font-weight: 800;
-  margin-bottom: 4px;
-}
-.job-card-mini .jc-employer {
-  font-size: 0.84rem;
-  color: var(--muted);
-  margin-bottom: 12px;
-}
+.job-card-mini h4 { font-size: 1.02rem; color: var(--primary); font-weight: 800; margin-bottom: 4px; }
+.job-card-mini .jc-employer { font-size: 0.84rem; color: var(--muted); margin-bottom: 12px; }
 .job-card-mini .jc-meta {
   display: flex;
   gap: 10px;
@@ -1087,8 +918,7 @@ a:hover { color: var(--primary-dark); }
   padding-top: 12px;
   border-top: 1px solid var(--border);
 }
-.job-card-mini .jc-cta::after { content: '→'; transition: transform 0.2s; }
-.job-card-mini:hover .jc-cta::after { transform: translateX(5px); }
+.job-card-mini .jc-cta::after { content: '→'; }
 .no-results {
   text-align: center;
   padding: 40px 20px;
@@ -1097,7 +927,18 @@ a:hover { color: var(--primary-dark); }
   grid-column: 1 / -1;
 }
 
-/* BUTTONS */
+.jobs-footer-cta {
+  text-align: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.jobs-footer-cta p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-bottom: 14px;
+}
+
 .btn-row {
   display: flex;
   gap: 12px;
@@ -1113,7 +954,7 @@ a:hover { color: var(--primary-dark); }
   font-size: 0.98rem;
   cursor: pointer;
   border: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s;
   text-align: center;
   font-family: inherit;
   line-height: 1.4;
@@ -1131,7 +972,6 @@ a:hover { color: var(--primary-dark); }
 .btn-lg { padding: 16px 36px; font-size: 1rem; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-/* SUCCESS */
 .success-panel { text-align: center; padding: 20px 0; }
 .success-icon {
   width: 88px; height: 88px;
@@ -1143,25 +983,9 @@ a:hover { color: var(--primary-dark); }
   justify-content: center;
   font-size: 2.6rem;
   margin: 0 auto 26px;
-  animation: pop 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px rgba(15,138,77,0.2);
 }
-@keyframes pop {
-  0% { transform: scale(0.5); opacity: 0; }
-  60% { transform: scale(1.15); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.success-panel h2 {
-  color: var(--primary);
-  font-size: 1.8rem;
-  margin-bottom: 12px;
-  font-weight: 800;
-}
-.success-panel > p {
-  color: var(--muted);
-  font-size: 1.02rem;
-  margin-bottom: 26px;
-}
+.success-panel h2 { color: var(--primary); font-size: 1.8rem; margin-bottom: 12px; font-weight: 800; }
+.success-panel > p { color: var(--muted); font-size: 1.02rem; margin-bottom: 26px; }
 .reference-box {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: #fff;
@@ -1169,19 +993,7 @@ a:hover { color: var(--primary-dark); }
   padding: 30px 26px;
   margin: 26px auto;
   max-width: 500px;
-  box-shadow: 0 16px 40px rgba(11,61,145,0.3);
-  position: relative;
-  overflow: hidden;
 }
-.reference-box::before {
-  content: '';
-  position: absolute;
-  top: -50%; right: -20%;
-  width: 260px; height: 260px;
-  background: radial-gradient(circle, rgba(245,166,35,0.25) 0%, transparent 70%);
-  border-radius: 50%;
-}
-.reference-box > * { position: relative; z-index: 1; }
 .reference-label {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
@@ -1207,7 +1019,6 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.2s;
   font-family: inherit;
 }
 .copy-btn:hover { background: rgba(255,255,255,0.3); border-color: #fff; }
@@ -1220,7 +1031,6 @@ a:hover { color: var(--primary-dark); }
   margin-top: 30px;
 }
 
-/* SPINNER + ERROR */
 .spinner {
   display: inline-block;
   width: 16px; height: 16px;
@@ -1245,7 +1055,6 @@ a:hover { color: var(--primary-dark); }
 }
 .error-msg.show { display: block; }
 
-/* MOBILE STICKY ACTION BAR */
 .mobile-action-bar { display: none; }
 
 @media (max-width: 900px) {
@@ -1259,23 +1068,9 @@ a:hover { color: var(--primary-dark); }
     order: 3;
   }
   .main-nav.open { display: flex; }
-  .nav-group {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 4px;
-    padding: 6px;
-  }
-  .nav-group a {
-    padding: 12px 16px;
-    text-align: center;
-  }
-  .main-nav .nav-cta,
-  .main-nav .nav-help {
-    text-align: center;
-    padding: 14px 20px;
-    font-size: 1rem;
-    justify-content: center;
-  }
+  .nav-group { flex-direction: column; align-items: stretch; gap: 4px; padding: 6px; }
+  .nav-group a { padding: 12px 16px; text-align: center; }
+  .main-nav .nav-help { text-align: center; padding: 14px 20px; font-size: 1rem; justify-content: center; }
   .menu-toggle { display: block; }
   .nav-wrap { flex-wrap: wrap; }
 }
@@ -1312,7 +1107,6 @@ a:hover { color: var(--primary-dark); }
     justify-content: center;
     font-family: inherit;
   }
-  .mobile-action-bar .mab-back:hover { background: var(--primary-soft); color: var(--primary); }
   .mobile-action-bar .mab-next {
     flex: 1;
     height: 48px;
@@ -1327,16 +1121,9 @@ a:hover { color: var(--primary-dark); }
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 4px 14px rgba(11,61,145,0.25);
     font-family: inherit;
   }
-  .mobile-action-bar .mab-next:hover { background: var(--primary-dark); }
-  .mobile-action-bar .mab-next.primary {
-    background: var(--accent);
-    color: #1a1a1a;
-    box-shadow: 0 4px 14px rgba(245,166,35,0.35);
-  }
-  .mobile-action-bar .mab-next.primary:hover { background: var(--accent-dark); color: #fff; }
+  .mobile-action-bar .mab-next.primary { background: var(--accent); color: #1a1a1a; }
   .mobile-action-bar .mab-step {
     position: absolute;
     top: -12px;
@@ -1348,24 +1135,16 @@ a:hover { color: var(--primary-dark); }
     font-weight: 800;
     padding: 4px 14px;
     border-radius: 20px;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(11,61,145,0.25);
   }
 
   .back-to-top { bottom: 90px; right: 16px; }
   .form-group input,
   .form-group select,
-  .form-group textarea {
-    padding: 15px 16px;
-    font-size: 1rem;
-  }
-  .form-group label { font-size: 0.95rem; margin-bottom: 10px; }
+  .form-group textarea { padding: 15px 16px; font-size: 1rem; }
   .form-group { margin-bottom: 22px; }
   .choice-grid { grid-template-columns: 1fr; }
   .choice-card { padding: 28px 22px; }
   .path-option { padding: 28px 22px 24px; }
-  .path-option .icon { font-size: 2.4rem; }
   .panel { padding: 32px 24px 110px; }
   .featured-section { padding: 24px 20px; }
   .form-row { grid-template-columns: 1fr; }
@@ -1386,7 +1165,6 @@ a:hover { color: var(--primary-dark); }
 <div class="scroll-progress" id="scrollProgress"></div>
 <button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Back to top">↑</button>
 
-<!-- HEADER -->
 <header class="site-header">
   <div class="nav-wrap">
     <a href="index.html" class="logo">
@@ -1420,7 +1198,6 @@ a:hover { color: var(--primary-dark); }
   </div>
 </header>
 
-<!-- HERO -->
 <section class="hero-apply">
   <div class="breadcrumb"><a href="index.html">Home</a> / Apply</div>
   <h1>Start Your International Journey</h1>
@@ -1432,7 +1209,6 @@ a:hover { color: var(--primary-dark); }
   </div>
 </section>
 
-<!-- PROGRESS -->
 <div class="progress-bar" id="progressBar">
   <div class="progress-top-line">
     <div class="progress-top-line-fill" id="topLineFill" style="width:0%"></div>
@@ -1440,11 +1216,9 @@ a:hover { color: var(--primary-dark); }
   <div class="progress-steps" id="progressInner"></div>
 </div>
 
-<!-- FORM -->
 <div class="form-wrap">
   <div class="error-msg" id="errorMsg"></div>
 
-  <!-- STEP 1: PATH -->
   <div class="panel active" data-panel="path">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 1</span>
@@ -1458,26 +1232,26 @@ a:hover { color: var(--primary-dark); }
         <div class="sa-text">If you plan to work or travel abroad but don't have a passport yet, choose <strong>Passport</strong> first. We'll guide you through the rest.</div>
       </div>
     </div>
-    <div class="path-grid" id="pathGrid" role="radiogroup" aria-label="Choose a service">
-      <div class="path-option" data-path="passport" tabindex="0" role="radio" aria-checked="false">
+    <div class="path-grid" id="pathGrid" role="radiogroup">
+      <div class="path-option" data-path="passport" tabindex="0">
         <span class="icon">🛂</span>
         <h3>Passport</h3>
         <p>First-time or renewal application</p>
         <span class="path-time">~6–8 weeks</span>
       </div>
-      <div class="path-option" data-path="visa" tabindex="0" role="radio" aria-checked="false">
+      <div class="path-option" data-path="visa" tabindex="0">
         <span class="icon">✈️</span>
         <h3>Visa</h3>
         <p>Travel, work, or study visa</p>
         <span class="path-time">2 weeks – 6 months</span>
       </div>
-      <div class="path-option" data-path="job" tabindex="0" role="radio" aria-checked="false">
+      <div class="path-option" data-path="job" tabindex="0">
         <span class="icon">💼</span>
         <h3>Jobs</h3>
         <p>Find work abroad</p>
         <span class="path-time">Varies by role</span>
       </div>
-      <div class="path-option" data-path="documents" tabindex="0" role="radio" aria-checked="false">
+      <div class="path-option" data-path="documents" tabindex="0">
         <span class="icon">📄</span>
         <h3>Documents</h3>
         <p>CV, certificates, cover letters</p>
@@ -1493,7 +1267,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP 2: BASIC INFO -->
   <div class="panel" data-panel="basic">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 2</span>
@@ -1526,9 +1299,7 @@ a:hover { color: var(--primary-dark); }
     <div class="form-row">
       <div class="form-group">
         <label for="country">Country <span class="req">*</span></label>
-        <select id="country">
-          <option value="">Select country</option>
-        </select>
+        <select id="country"><option value="">Select country</option></select>
       </div>
       <div class="form-group">
         <label for="city">City / Town <span class="req">*</span></label>
@@ -1541,7 +1312,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP 3: PASSPORT CHECK -->
   <div class="panel" data-panel="passport-check">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 3</span>
@@ -1569,7 +1339,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP 4: VISA TYPE -->
   <div class="panel" data-panel="visa-type">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 4 · Visa</span>
@@ -1626,7 +1395,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP 5: VISA REALITY -->
   <div class="panel" data-panel="visa-reality">
     <div class="panel-head">
       <span class="panel-eyebrow">Important</span>
@@ -1655,7 +1423,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP: JOB DESTINATION -->
   <div class="panel" data-panel="job-destination">
     <div class="panel-head">
       <span class="panel-eyebrow">Where to work?</span>
@@ -1692,7 +1459,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP: DETAILS -->
   <div class="panel" data-panel="details">
     <div class="panel-head">
       <span class="panel-eyebrow" id="detailsEyebrow">Step 6</span>
@@ -1706,7 +1472,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP: REVIEW -->
   <div class="panel" data-panel="review">
     <div class="panel-head">
       <span class="panel-eyebrow">Review</span>
@@ -1720,7 +1485,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP: AGENT -->
   <div class="panel" data-panel="agent">
     <div class="panel-head">
       <span class="panel-eyebrow">Final Step</span>
@@ -1768,7 +1532,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- SUCCESS -->
   <div class="panel" data-panel="success">
     <div class="success-panel">
       <div class="success-icon">✓</div>
@@ -1787,14 +1550,14 @@ a:hover { color: var(--primary-dark); }
 
       <div class="info-box" id="agentConfirmBox" style="display:none;background:linear-gradient(135deg,#f0f7ff 0%,#fff 100%);border-left-color:var(--primary);color:var(--primary-dark);">
         <strong>🛡️ Verified Agent requested</strong><br>
-        We'll assign a trained agent to your application within 48 hours. You'll see their name and contact options in your tracker and portal.
+        We'll assign a trained agent to your application within 48 hours.
       </div>
 
       <div id="telegramConnectBox" style="display:none;background:#e7f6fb;border:2px solid var(--telegram);border-radius:var(--radius-lg);padding:24px 26px;margin:24px auto;max-width:540px;text-align:left;">
         <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--telegram-dark);font-weight:800;margin-bottom:10px;">💬 Instant Support</div>
         <div style="font-size:1.1rem;font-weight:800;color:#0a3d52;margin-bottom:8px;">Connect on Telegram</div>
         <div style="font-size:0.92rem;color:#0a3d52;line-height:1.65;margin-bottom:18px;">
-          Get instant answers from our assistant. A human agent will join shortly. All messages are tracked securely.
+          Get instant answers from our assistant. A human agent will join shortly.
         </div>
         <a id="telegramLink" href="#" target="_blank" rel="noopener" class="btn btn-telegram" style="display:inline-block;padding:13px 24px;font-weight:700;">
           💬 Message on Telegram
@@ -1808,7 +1571,6 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- FEATURED JOBS -->
   <div id="featuredJobsSection" style="display:none;">
     <div class="featured-section">
       <div class="featured-header">
@@ -1839,11 +1601,15 @@ a:hover { color: var(--primary-dark); }
       </div>
 
       <div class="jobs-grid" id="jobsGrid"></div>
+
+      <div class="jobs-footer-cta">
+        <p>Ready to apply for a job? Complete the form and we'll match you with verified employers.</p>
+        <button class="btn btn-primary btn-lg" onclick="continueApplication()">Continue Application →</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- MOBILE STICKY BAR -->
 <div class="mobile-action-bar" id="mobileBar">
   <button class="mab-back" onclick="goPrev()" aria-label="Back">←</button>
   <span class="mab-step" id="mabStep">Step 1 of 5</span>
@@ -1851,17 +1617,11 @@ a:hover { color: var(--primary-dark); }
 </div>
 
 <script>
-// ============================================================
-// CONFIG
-// ============================================================
 const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
 
-// ============================================================
-// ALL COUNTRIES
-// ============================================================
 const ALL_COUNTRIES = [
   'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria',
   'Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan',
@@ -1885,9 +1645,6 @@ const ALL_COUNTRIES = [
   'Vatican City','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'
 ];
 
-// ============================================================
-// STATE
-// ============================================================
 let flow = [];
 let currentIndex = 0;
 let selectedCategory = 'all';
@@ -1897,9 +1654,6 @@ let formData = {
   country: '', city: '', has_passport: null, agent_requested: false, details: {}
 };
 
-// ============================================================
-// FALLBACK JOBS
-// ============================================================
 const SAMPLE_JOBS = [
   { title: 'Registered Nurse', employer: 'NHS Trust', country: 'United Kingdom', flag: '🇬🇧', category: 'Healthcare', salary: '£32,000–£42,000/yr', verified: true },
   { title: 'Care Assistant', employer: 'Care UK', country: 'United Kingdom', flag: '🇬🇧', category: 'Healthcare', salary: '£22,000–£26,000/yr', verified: true },
@@ -1911,9 +1665,6 @@ const SAMPLE_JOBS = [
   { title: 'Civil Engineer', employer: 'AECOM', country: 'Saudi Arabia', flag: '🇸🇦', category: 'Engineering', salary: 'SAR 12,000–18,000/mo', verified: true }
 ];
 
-// ============================================================
-// LOAD FEATURED JOBS
-// ============================================================
 async function loadFeaturedJobs() {
   try {
     const { data, error } = await supabaseClient
@@ -1930,14 +1681,10 @@ async function loadFeaturedJobs() {
   } catch (e) {
     FEATURED_JOBS = SAMPLE_JOBS;
   }
-  if (document.getElementById('featuredJobsSection').style.display !== 'none') {
-    renderJobs();
-  }
+  const section = document.getElementById('featuredJobsSection');
+  if (section) renderJobs();
 }
 
-// ============================================================
-// FLOW
-// ============================================================
 function buildFlow() {
   const type = formData.service_type;
   if (type === 'passport') return ['path', 'basic', 'details', 'review', 'agent'];
@@ -1955,9 +1702,6 @@ function buildFlow() {
   return ['path'];
 }
 
-// ============================================================
-// PROGRESS
-// ============================================================
 function renderProgress() {
   const inner = document.getElementById('progressInner');
   inner.innerHTML = '';
@@ -2009,9 +1753,6 @@ function renderProgress() {
   updateMobileBar();
 }
 
-// ============================================================
-// NAVIGATION
-// ============================================================
 function showPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   const panel = document.querySelector(`.panel[data-panel="${name}"]`);
@@ -2086,9 +1827,6 @@ function goPrev() {
   }
 }
 
-// ============================================================
-// FEATURED JOBS
-// ============================================================
 function renderJobs() {
   const grid = document.getElementById('jobsGrid');
   if (!grid) return;
@@ -2166,6 +1904,17 @@ function scrollToJobs(e) {
   }
 }
 
+function continueApplication() {
+  // If we're on the path step with job selected, continue to the next step
+  if (currentIndex === 0 && formData.service_type === 'job') {
+    goNext();
+  } else if (flow[currentIndex] === 'path') {
+    goNext();
+  } else {
+    document.querySelector('.form-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 function showAlert(msg, type = 'info') {
   const el = document.getElementById('errorMsg');
   el.textContent = msg;
@@ -2176,32 +1925,16 @@ function showAlert(msg, type = 'info') {
   setTimeout(() => el.classList.remove('show'), 4000);
 }
 
-// ============================================================
-// SELECTIONS
-// ============================================================
 const pathGrid = document.getElementById('pathGrid');
 if (pathGrid) {
   pathGrid.addEventListener('click', (e) => {
     const option = e.target.closest('.path-option');
-    if (!option) return;
-    selectPath(option);
-  });
-  pathGrid.addEventListener('keydown', (e) => {
-    const option = e.target.closest('.path-option');
-    if (!option) return;
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      selectPath(option);
-    }
+    if (option) selectPath(option);
   });
 }
 function selectPath(option) {
-  document.querySelectorAll('.path-option').forEach(el => {
-    el.classList.remove('selected');
-    el.setAttribute('aria-checked', 'false');
-  });
+  document.querySelectorAll('.path-option').forEach(el => el.classList.remove('selected'));
   option.classList.add('selected');
-  option.setAttribute('aria-checked', 'true');
   formData.service_type = option.dataset.path;
 }
 
@@ -2212,11 +1945,7 @@ document.getElementById('passportChoice').addEventListener('click', (e) => {
   card.classList.add('selected');
   formData.has_passport = card.dataset.has === 'yes';
   const notice = document.getElementById('passportRedirectNotice');
-  if (card.dataset.has === 'no' && (formData.service_type === 'visa' || formData.service_type === 'job')) {
-    notice.style.display = 'block';
-  } else {
-    notice.style.display = 'none';
-  }
+  notice.style.display = (card.dataset.has === 'no' && (formData.service_type === 'visa' || formData.service_type === 'job')) ? 'block' : 'none';
 });
 
 document.getElementById('visaGrid').addEventListener('click', (e) => {
@@ -2240,9 +1969,6 @@ function visaContinueWithOffer() {
   goNext();
 }
 
-// ============================================================
-// DETAILS
-// ============================================================
 function renderDetails() {
   const body = document.getElementById('detailsBody');
   const title = document.getElementById('detailsTitle');
@@ -2251,16 +1977,13 @@ function renderDetails() {
   let effectiveType = formData.service_type;
   if ((formData.service_type === 'visa' || formData.service_type === 'job') && formData.has_passport === false) {
     effectiveType = 'passport';
-    formData.details.redirected_from = formData.service_type;
-    formData.service_type = 'passport';
   }
-
   body.innerHTML = '';
 
   if (effectiveType === 'passport') {
     title.textContent = 'Passport details';
     subtitle.textContent = 'Tell us about your passport application.';
-    body.innerHTML += `
+    body.innerHTML = `
       <div class="form-group">
         <label>Application Type <span class="req">*</span></label>
         <select id="d_passport_type">
@@ -2271,39 +1994,22 @@ function renderDetails() {
         </select>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Do you have a birth certificate? <span class="req">*</span></label>
-          <select id="d_birth_cert"><option value="">Select</option><option value="yes">Yes</option><option value="no">No — I need help getting one</option></select>
-        </div>
-        <div class="form-group">
-          <label>Do you have a national ID? <span class="req">*</span></label>
-          <select id="d_national_id"><option value="">Select</option><option value="yes">Yes</option><option value="no">No — I need help</option></select>
-        </div>
+        <div class="form-group"><label>Birth certificate? <span class="req">*</span></label><select id="d_birth_cert"><option value="">Select</option><option value="yes">Yes</option><option value="no">No — I need help</option></select></div>
+        <div class="form-group"><label>National ID? <span class="req">*</span></label><select id="d_national_id"><option value="">Select</option><option value="yes">Yes</option><option value="no">No — I need help</option></select></div>
       </div>
       <div class="form-group"><label>Preferred appointment location</label><input type="text" id="d_appointment_location" placeholder="e.g. HM Passport Office, London"></div>
       <div class="form-group"><label>Anything else?</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>
     `;
-  }
-
-  else if (effectiveType === 'visa') {
+  } else if (effectiveType === 'visa') {
     title.textContent = 'Visa details';
     subtitle.textContent = 'Tell us where you\'re going and why.';
-    const visaTypeLabels = {
-      work: 'Work Visa', family: 'Spouse / Family Visa', student: 'Student Visa',
-      tourist: 'Tourist / Visit Visa', medical: 'Medical Visa',
-      transit: 'Transit Visa', business: 'Business Visa'
-    };
+    const visaTypeLabels = { work: 'Work Visa', family: 'Spouse / Family Visa', student: 'Student Visa', tourist: 'Tourist / Visit Visa', medical: 'Medical Visa', transit: 'Transit Visa', business: 'Business Visa' };
     body.innerHTML = `
       <div class="info-box blue"><strong>Visa type:</strong> ${visaTypeLabels[formData.visa_type] || '—'}</div>
       <div class="form-row">
         <div class="form-group">
           <label>Destination Country <span class="req">*</span></label>
-          <select id="d_destination">
-            <option value="">Select country</option>
-            <option>Canada</option><option>United Kingdom</option><option>United States</option>
-            <option>Australia</option><option>Germany</option><option>UAE</option>
-            <option>Saudi Arabia</option><option>Qatar</option><option>Other</option>
-          </select>
+          <select id="d_destination"><option value="">Select country</option><option>Canada</option><option>United Kingdom</option><option>United States</option><option>Australia</option><option>Germany</option><option>UAE</option><option>Saudi Arabia</option><option>Qatar</option><option>Other</option></select>
         </div>
         <div class="form-group"><label>Intended Travel Date</label><input type="date" id="d_travel_date"></div>
       </div>
@@ -2314,7 +2020,6 @@ function renderDetails() {
           <div class="form-group"><label>Employer Name <span class="req">*</span></label><input type="text" id="d_employer_name" placeholder="Company name"></div>
           <div class="form-group"><label>Job Title <span class="req">*</span></label><input type="text" id="d_job_title" placeholder="e.g. Registered Nurse"></div>
         </div>
-        <div class="form-group"><label>Do you have a signed offer letter?</label><select id="d_offer_letter"><option value="">Select</option><option value="yes">Yes</option><option value="pending">Still waiting</option></select></div>
       `;
     }
     if (formData.visa_type === 'family') {
@@ -2326,61 +2031,26 @@ function renderDetails() {
       `;
     }
     if (formData.visa_type === 'student') {
-      body.innerHTML += `
-        <div class="form-row">
-          <div class="form-group"><label>Institution <span class="req">*</span></label><input type="text" id="d_institution" placeholder="University name"></div>
-          <div class="form-group"><label>Course</label><input type="text" id="d_course" placeholder="e.g. MSc Computer Science"></div>
-        </div>
-      `;
+      body.innerHTML += `<div class="form-group"><label>Institution <span class="req">*</span></label><input type="text" id="d_institution" placeholder="University name"></div>`;
     }
     if (formData.visa_type === 'medical') {
-      body.innerHTML += `
-        <div class="form-row">
-          <div class="form-group"><label>Hospital <span class="req">*</span></label><input type="text" id="d_hospital" placeholder="Hospital name"></div>
-          <div class="form-group"><label>Treatment</label><input type="text" id="d_treatment" placeholder="e.g. Cardiac surgery"></div>
-        </div>
-      `;
-    }
-    if (formData.visa_type === 'tourist') {
-      body.innerHTML += `
-        <div class="form-row">
-          <div class="form-group"><label>Purpose of Visit</label><select id="d_visit_purpose"><option value="">Select</option><option>Holiday / Tourism</option><option>Visiting family or friends</option><option>Other</option></select></div>
-          <div class="form-group"><label>Duration</label><select id="d_duration"><option value="">Select</option><option>Up to 2 weeks</option><option>2–4 weeks</option><option>1–3 months</option></select></div>
-        </div>
-      `;
+      body.innerHTML += `<div class="form-group"><label>Hospital <span class="req">*</span></label><input type="text" id="d_hospital" placeholder="Hospital name"></div>`;
     }
     if (formData.visa_type === 'transit') {
-      body.innerHTML += `
-        <div class="form-row">
-          <div class="form-group"><label>Final Destination <span class="req">*</span></label><input type="text" id="d_final_destination" placeholder="Where going?"></div>
-        </div>
-      `;
+      body.innerHTML += `<div class="form-group"><label>Final Destination <span class="req">*</span></label><input type="text" id="d_final_destination" placeholder="Where going?"></div>`;
     }
     if (formData.visa_type === 'business') {
-      body.innerHTML += `
-        <div class="form-row">
-          <div class="form-group"><label>Company <span class="req">*</span></label><input type="text" id="d_company" placeholder="Your company"></div>
-          <div class="form-group"><label>Inviting Company</label><input type="text" id="d_inviting_company" placeholder="Who's inviting?"></div>
-        </div>
-      `;
+      body.innerHTML += `<div class="form-group"><label>Company <span class="req">*</span></label><input type="text" id="d_company" placeholder="Your company"></div>`;
     }
     body.innerHTML += `<div class="form-group"><label>Additional Notes</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>`;
-  }
-
-  else if (effectiveType === 'job') {
+  } else if (effectiveType === 'job') {
     title.textContent = 'Job preference';
-    subtitle.textContent = 'Browse our featured jobs below, or tell us your preferences.';
+    subtitle.textContent = 'Browse featured jobs below or tell us your preferences.';
     body.innerHTML = `
       <div class="form-row">
         <div class="form-group">
           <label>Job Category <span class="req">*</span></label>
-          <select id="d_job_category">
-            <option value="">Select</option>
-            <option>Healthcare</option><option>Construction</option><option>Hospitality</option>
-            <option>IT &amp; Tech</option><option>Logistics</option><option>Agriculture</option>
-            <option>Education</option><option>Engineering</option><option>Finance</option>
-            <option>Domestic Work</option><option>Other</option>
-          </select>
+          <select id="d_job_category"><option value="">Select</option><option>Healthcare</option><option>Construction</option><option>Hospitality</option><option>IT &amp; Tech</option><option>Logistics</option><option>Agriculture</option><option>Education</option><option>Engineering</option><option>Finance</option><option>Domestic Work</option><option>Other</option></select>
         </div>
         <div class="form-group">
           <label>Years of Experience <span class="req">*</span></label>
@@ -2389,9 +2059,7 @@ function renderDetails() {
       </div>
       <div class="form-group"><label>Anything else?</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>
     `;
-  }
-
-  else if (effectiveType === 'documents') {
+  } else if (effectiveType === 'documents') {
     title.textContent = 'Document assistance';
     subtitle.textContent = 'Tell us which documents you need help with.';
     body.innerHTML = `
@@ -2423,8 +2091,7 @@ function validateDetails() {
     if (!d.passport_type) return showError('Please select passport application type.');
     if (!d.birth_certificate) return showError('Please tell us about your birth certificate.');
     if (!d.national_id) return showError('Please tell us about your national ID.');
-  }
-  else if (type === 'visa') {
+  } else if (type === 'visa') {
     d.destination = getVal('d_destination');
     d.travel_date = getVal('d_travel_date');
     d.notes = getVal('d_notes');
@@ -2432,7 +2099,6 @@ function validateDetails() {
     if (formData.visa_type === 'work') {
       d.employer_name = getVal('d_employer_name');
       d.job_title = getVal('d_job_title');
-      d.offer_letter = getVal('d_offer_letter');
       if (!d.employer_name) return showError('Please enter employer name.');
       if (!d.job_title) return showError('Please enter job title.');
     }
@@ -2440,33 +2106,18 @@ function validateDetails() {
       d.relationship = getVal('d_relationship');
       d.sponsor_status = getVal('d_sponsor_status');
       if (!d.relationship) return showError('Please select relationship.');
-      if (!d.sponsor_status) return showError('Please select sponsor status.');
     }
-    if (formData.visa_type === 'student') {
-      d.institution = getVal('d_institution');
-      if (!d.institution) return showError('Please enter institution.');
-    }
-    if (formData.visa_type === 'medical') {
-      d.hospital = getVal('d_hospital');
-      if (!d.hospital) return showError('Please enter hospital.');
-    }
-    if (formData.visa_type === 'transit') {
-      d.final_destination = getVal('d_final_destination');
-      if (!d.final_destination) return showError('Please enter final destination.');
-    }
-    if (formData.visa_type === 'business') {
-      d.company = getVal('d_company');
-      if (!d.company) return showError('Please enter company name.');
-    }
-  }
-  else if (type === 'job') {
+    if (formData.visa_type === 'student' && !getVal('d_institution')) return showError('Please enter institution.');
+    if (formData.visa_type === 'medical' && !getVal('d_hospital')) return showError('Please enter hospital.');
+    if (formData.visa_type === 'transit' && !getVal('d_final_destination')) return showError('Please enter final destination.');
+    if (formData.visa_type === 'business' && !getVal('d_company')) return showError('Please enter company name.');
+  } else if (type === 'job') {
     d.job_category = getVal('d_job_category');
     d.experience = getVal('d_experience');
     d.notes = getVal('d_notes');
     if (!d.job_category) return showError('Please select a job category.');
     if (!d.experience) return showError('Please select experience.');
-  }
-  else if (type === 'documents') {
+  } else if (type === 'documents') {
     d.documents_needed = getChecked('d_docs');
     d.notes = getVal('d_notes');
     if (!d.documents_needed || d.documents_needed.length === 0) return showError('Please select at least one document.');
@@ -2479,16 +2130,9 @@ function validateDetails() {
 function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
 function getChecked(className) { return Array.from(document.querySelectorAll('.' + className + ':checked')).map(el => el.value); }
 
-// ============================================================
-// REVIEW
-// ============================================================
 function renderReview() {
   const body = document.getElementById('reviewBody');
-  const visaTypeLabels = {
-    work: 'Work Visa', family: 'Spouse / Family Visa', student: 'Student Visa',
-    tourist: 'Tourist / Visit Visa', medical: 'Medical Visa',
-    transit: 'Transit Visa', business: 'Business Visa'
-  };
+  const visaTypeLabels = { work: 'Work Visa', family: 'Spouse / Family Visa', student: 'Student Visa', tourist: 'Tourist / Visit Visa', medical: 'Medical Visa', transit: 'Transit Visa', business: 'Business Visa' };
   const pathLabels = {
     passport: '🛂 Passport Application',
     visa: '✈️ Visa Application' + (formData.visa_type ? ` (${visaTypeLabels[formData.visa_type]})` : ''),
@@ -2517,12 +2161,10 @@ function renderReview() {
     rows.push(['Visa type', visaTypeLabels[formData.visa_type] || '—']);
     rows.push(['Destination', d.destination]);
     if (d.travel_date) rows.push(['Travel date', d.travel_date]);
-    if (d.employer_name) rows.push(['Employer', d.employer_name]);
   } else if (formData.service_type === 'job') {
     rows.push(['Category', d.job_category]);
     rows.push(['Experience', d.experience]);
-    if (d.job_destinations && d.job_destinations.length) rows.push(['Preferred countries', d.job_destinations.join(', ')]);
-    if (d.job_title) rows.push(['Selected job', d.job_title]);
+    if (d.job_destinations && d.job_destinations.length) rows.push(['Preferred', d.job_destinations.join(', ')]);
   } else if (formData.service_type === 'documents') {
     if (d.documents_needed) rows.push(['Documents', d.documents_needed.join(', ')]);
   }
@@ -2536,14 +2178,9 @@ function renderReview() {
 }
 
 function escapeHtml(s) {
-  return String(s || '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[c]));
+  return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
-// ============================================================
-// SUBMIT
-// ============================================================
 async function submitApplication() {
   hideError();
   const btn = document.getElementById('submitBtn');
@@ -2562,12 +2199,7 @@ async function submitApplication() {
       email: formData.email,
       phone: formData.phone,
       country: formData.country,
-      details: {
-        city: formData.city,
-        has_passport: formData.has_passport,
-        visa_type: formData.visa_type || null,
-        ...formData.details
-      },
+      details: { city: formData.city, has_passport: formData.has_passport, visa_type: formData.visa_type || null, ...formData.details },
       status: 'Submitted',
       agent_requested: formData.agent_requested === true
     };
@@ -2578,9 +2210,7 @@ async function submitApplication() {
     document.getElementById('refNumber').textContent = reference;
     document.querySelector('.progress-bar').style.display = 'none';
 
-    if (formData.agent_requested === true) {
-      document.getElementById('agentConfirmBox').style.display = 'block';
-    }
+    if (formData.agent_requested === true) document.getElementById('agentConfirmBox').style.display = 'block';
 
     const tgLink = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${reference}`;
     document.getElementById('telegramLink').href = tgLink;
@@ -2602,10 +2232,7 @@ function copyReference() {
     const btn = document.getElementById('copyBtn');
     btn.textContent = '✓ Copied!';
     btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '📋 Copy Reference';
-      btn.classList.remove('copied');
-    }, 2000);
+    setTimeout(() => { btn.textContent = '📋 Copy Reference'; btn.classList.remove('copied'); }, 2000);
   });
 }
 
@@ -2621,9 +2248,6 @@ function showError(msg) {
 }
 function hideError() { document.getElementById('errorMsg').classList.remove('show'); }
 
-// ============================================================
-// MOBILE STICKY BAR
-// ============================================================
 function updateMobileBar() {
   const bar = document.getElementById('mobileBar');
   if (!bar) return;
@@ -2638,25 +2262,13 @@ function updateMobileBar() {
 
   if (stepLabel) stepLabel.textContent = `Step ${currentIndex + 1} of ${flow.length}`;
   if (backBtn) {
-    if (currentIndex === 0) {
-      backBtn.style.opacity = '0.4';
-      backBtn.style.pointerEvents = 'none';
-    } else {
-      backBtn.style.opacity = '1';
-      backBtn.style.pointerEvents = 'auto';
-    }
+    if (currentIndex === 0) { backBtn.style.opacity = '0.4'; backBtn.style.pointerEvents = 'none'; }
+    else { backBtn.style.opacity = '1'; backBtn.style.pointerEvents = 'auto'; }
   }
   if (nextBtn) {
-    if (currentPanel === 'agent') {
-      nextBtn.textContent = 'Submit Application';
-      nextBtn.classList.add('primary');
-    } else if (currentPanel === 'review') {
-      nextBtn.textContent = 'Choose Agent →';
-      nextBtn.classList.remove('primary');
-    } else {
-      nextBtn.textContent = 'Continue →';
-      nextBtn.classList.remove('primary');
-    }
+    if (currentPanel === 'agent') { nextBtn.textContent = 'Submit Application'; nextBtn.classList.add('primary'); }
+    else if (currentPanel === 'review') { nextBtn.textContent = 'Choose Agent →'; nextBtn.classList.remove('primary'); }
+    else { nextBtn.textContent = 'Continue →'; nextBtn.classList.remove('primary'); }
   }
 }
 
@@ -2668,9 +2280,6 @@ function mobileNext() {
 window.addEventListener('resize', updateMobileBar);
 window.addEventListener('orientationchange', () => setTimeout(updateMobileBar, 100));
 
-// ============================================================
-// SCROLL
-// ============================================================
 window.addEventListener('scroll', () => {
   const winScroll = document.documentElement.scrollTop;
   const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -2679,17 +2288,11 @@ window.addEventListener('scroll', () => {
   if (bar) bar.style.width = scrolled + '%';
 
   const backBtn = document.getElementById('backToTop');
-  if (backBtn) {
-    if (winScroll > 400) backBtn.classList.add('show');
-    else backBtn.classList.remove('show');
-  }
+  if (backBtn) { if (winScroll > 400) backBtn.classList.add('show'); else backBtn.classList.remove('show'); }
 });
 
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-// ============================================================
-// INIT
-// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.main-nav');
@@ -2710,6 +2313,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type');
+  const view = params.get('view');
+
+  // Pre-select the path if type is provided
   if (type && ['passport', 'visa', 'job', 'documents'].includes(type)) {
     const option = document.querySelector(`.path-option[data-path="${type}"]`);
     if (option) selectPath(option);
@@ -2718,6 +2324,27 @@ document.addEventListener('DOMContentLoaded', () => {
   flow = buildFlow();
   renderProgress();
   setTimeout(updateMobileBar, 200);
+
+  // If ?view=jobs OR type=job, jump straight to featured jobs
+  if (view === 'jobs' || type === 'job') {
+    setTimeout(() => {
+      if (!formData.service_type) {
+        const jobOption = document.querySelector('.path-option[data-path="job"]');
+        if (jobOption) selectPath(jobOption);
+      }
+
+      const featured = document.getElementById('featuredJobsSection');
+      if (featured) {
+        featured.style.display = 'block';
+        loadFeaturedJobs().then(() => {
+          renderJobs();
+          setTimeout(() => {
+            featured.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 300);
+        });
+      }
+    }, 100);
+  }
 });
 </script>
 </body>
