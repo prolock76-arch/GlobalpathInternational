@@ -47,6 +47,7 @@ body {
   line-height: 1.6;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
 a:hover { color: var(--primary-dark); }
@@ -85,10 +86,13 @@ a:hover { color: var(--primary-dark); }
 .back-to-top.show { display: flex; }
 .back-to-top:hover { transform: translateY(-4px) scale(1.05); }
 
-/* HEADER */
+/* ============================================
+   HEADER
+   ============================================ */
 .site-header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -131,35 +135,62 @@ a:hover { color: var(--primary-dark); }
   text-transform: uppercase;
 }
 
-/* NAVIGATION — Apply as bold CTA */
-.main-nav ul {
+/* ============================================
+   NAVIGATION — Grouped links + CTA
+   ============================================ */
+.main-nav {
   display: flex;
-  gap: 6px;
-  list-style: none;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 16px;
 }
-.main-nav a {
+
+/* Grouped pill for Home / Track / My Account */
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.nav-group a {
   color: var(--text);
   font-weight: 600;
-  font-size: 0.92rem;
-  padding: 10px 16px;
-  border-radius: 10px;
+  font-size: 0.9rem;
+  padding: 9px 16px;
+  border-radius: 8px;
   transition: all 0.18s;
   letter-spacing: -0.005em;
+  white-space: nowrap;
 }
-.main-nav a:hover { background: var(--primary-soft); color: var(--primary); }
-.main-nav a.active:not(.nav-cta) { color: var(--primary); background: var(--primary-soft); }
 
+.nav-group a:hover {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.08);
+}
+
+.nav-group a.active {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.1);
+  font-weight: 700;
+}
+
+/* Apply Now CTA — separate */
 .main-nav .nav-cta {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: #fff !important;
   font-weight: 800;
   font-size: 0.94rem;
-  padding: 11px 24px;
+  padding: 11px 22px;
   border-radius: 10px;
   letter-spacing: -0.01em;
   box-shadow: 0 4px 14px rgba(11,61,145,0.3);
+  transition: all 0.2s;
+  white-space: nowrap;
 }
 .main-nav .nav-cta:hover {
   background: var(--primary-dark);
@@ -261,7 +292,6 @@ a:hover { color: var(--primary-dark); }
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 0 4px 4px 0;
 }
-
 .progress-steps {
   max-width: 900px;
   margin: 0 auto;
@@ -274,7 +304,6 @@ a:hover { color: var(--primary-dark); }
   scrollbar-width: none;
 }
 .progress-steps::-webkit-scrollbar { display: none; }
-
 .p-step {
   display: flex;
   flex-direction: column;
@@ -323,7 +352,6 @@ a:hover { color: var(--primary-dark); }
 }
 .p-step.active .p-label { color: var(--primary); font-weight: 800; }
 .p-step.done .p-label { color: var(--success); }
-
 .p-connector {
   flex: 1;
   height: 2px;
@@ -347,7 +375,6 @@ a:hover { color: var(--primary-dark); }
   transition: width 0.5s ease-out;
 }
 .p-connector.filled .p-connector-fill { width: 100%; }
-
 .progress-count {
   font-size: 0.78rem;
   font-weight: 800;
@@ -528,7 +555,6 @@ a:hover { color: var(--primary-dark); }
   padding: 4px 12px;
   border-radius: 20px;
 }
-
 .path-helper {
   background: var(--primary-soft);
   border-radius: var(--radius);
@@ -540,7 +566,7 @@ a:hover { color: var(--primary-dark); }
   font-weight: 500;
 }
 
-/* VISA TYPE GRID */
+/* VISA GRID */
 .visa-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -865,10 +891,7 @@ a:hover { color: var(--primary-dark); }
   font-weight: 800;
   margin-bottom: 4px;
 }
-.featured-header p {
-  font-size: 0.92rem;
-  color: var(--muted);
-}
+.featured-header p { font-size: 0.92rem; color: var(--muted); }
 .featured-badge {
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff;
@@ -880,7 +903,6 @@ a:hover { color: var(--primary-dark); }
   text-transform: uppercase;
   box-shadow: 0 4px 12px rgba(245,166,35,0.3);
 }
-
 .search-wrap { position: relative; margin-bottom: 24px; }
 .search-input {
   width: 100%;
@@ -907,7 +929,6 @@ a:hover { color: var(--primary-dark); }
   opacity: 0.5;
   pointer-events: none;
 }
-
 .cat-filters {
   display: flex;
   gap: 8px;
@@ -937,7 +958,6 @@ a:hover { color: var(--primary-dark); }
   border-color: var(--primary);
   box-shadow: 0 4px 12px rgba(11,61,145,0.25);
 }
-
 .jobs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -971,7 +991,6 @@ a:hover { color: var(--primary-dark); }
   border-color: transparent;
 }
 .job-card-mini:hover::before { transform: scaleX(1); }
-
 .jc-urgent {
   position: absolute;
   top: 12px;
@@ -1067,7 +1086,6 @@ a:hover { color: var(--primary-dark); }
 }
 .job-card-mini .jc-cta::after { content: '→'; transition: transform 0.2s; }
 .job-card-mini:hover .jc-cta::after { transform: translateX(5px); }
-
 .no-results {
   text-align: center;
   padding: 40px 20px;
@@ -1227,6 +1245,36 @@ a:hover { color: var(--primary-dark); }
 /* MOBILE STICKY ACTION BAR */
 .mobile-action-bar { display: none; }
 
+@media (max-width: 900px) {
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+    padding: 12px 0;
+    order: 3;
+  }
+  .main-nav.open { display: flex; }
+  .nav-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 6px;
+  }
+  .nav-group a {
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .main-nav .nav-cta {
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+  .menu-toggle { display: block; }
+  .nav-wrap { flex-wrap: wrap; }
+}
+
 @media (max-width: 720px) {
   .panel .btn-row { display: none; }
   .panel { padding-bottom: 110px; }
@@ -1357,12 +1405,12 @@ a:hover { color: var(--primary-dark); }
     </a>
     <button class="menu-toggle" aria-label="Toggle menu" onclick="document.querySelector('.main-nav').classList.toggle('open')">☰</button>
     <nav class="main-nav">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="track.html">Track</a></li>
-        <li><a href="portal.html">My Account</a></li>
-        <li><a href="apply.html" class="nav-cta active">Apply Now →</a></li>
-      </ul>
+      <div class="nav-group">
+        <a href="index.html">Home</a>
+        <a href="track.html">Track</a>
+        <a href="portal.html">My Account</a>
+      </div>
+      <a href="apply.html" class="nav-cta active">Apply Now →</a>
     </nav>
   </div>
 </header>
@@ -1573,7 +1621,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- STEP: VISA REALITY -->
+  <!-- STEP 5: VISA REALITY -->
   <div class="panel" data-panel="visa-reality">
     <div class="panel-head">
       <span class="panel-eyebrow">Important</span>
@@ -1845,7 +1893,7 @@ let formData = {
 };
 
 // ============================================================
-// FALLBACK JOBS (used if Supabase table is empty)
+// FALLBACK JOBS
 // ============================================================
 const SAMPLE_JOBS = [
   { title: 'Registered Nurse', employer: 'NHS Trust', country: 'United Kingdom', flag: '🇬🇧', category: 'Healthcare', salary: '£32,000–£42,000/yr', verified: true },
@@ -1859,7 +1907,7 @@ const SAMPLE_JOBS = [
 ];
 
 // ============================================================
-// LOAD FEATURED JOBS FROM SUPABASE
+// LOAD FEATURED JOBS
 // ============================================================
 async function loadFeaturedJobs() {
   try {
@@ -2124,7 +2172,7 @@ function showAlert(msg, type = 'info') {
 }
 
 // ============================================================
-// PATH + VISA + AGENT SELECTION
+// SELECTIONS
 // ============================================================
 const pathGrid = document.getElementById('pathGrid');
 if (pathGrid) {
@@ -2642,7 +2690,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = document.querySelector('.main-nav');
   if (toggle && nav) toggle.addEventListener('click', () => nav.classList.toggle('open'));
 
-  // Populate country dropdown
   const countrySelect = document.getElementById('country');
   if (countrySelect) {
     ALL_COUNTRIES.forEach(c => {
@@ -2654,7 +2701,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Load featured jobs
   loadFeaturedJobs();
 
   const params = new URLSearchParams(window.location.search);
