@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account — GlobalPath International</title>
+<meta name="description" content="Sign in to your GlobalPath account to track applications, read messages, and manage your profile.">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --primary: #0B3D91;
+  --primary-dark: #062a66;
+  --primary-light: #1a5bc4;
+  --primary-soft: #eef4ff;
+  --accent: #F5A623;
+  --accent-dark: #d98c0f;
+  --accent-soft: #fff5e1;
+  --bg: #F7F9FC;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e5e9f0;
+  --success: #0f8a4d;
+  --success-bg: #e7f6ee;
+  --danger: #c0392b;
+  --danger-bg: #fdeceb;
+  --warn: #b45309;
+  --warn-bg: #fff7e6;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --shadow-xs: 0 1px 2px rgba(15,23,42,0.04);
+  --shadow: 0 4px 16px rgba(11,61,145,0.08);
+  --shadow-lg: 0 12px 32px rgba(11,61,145,0.12);
+  --max-width: 1200px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--primary-dark); }
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+/* HEADER */
+.site-header {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.nav-wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  gap: 16px;
+}
+.logo {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: -0.02em;
+}
+.logo-mark {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(11,61,145,0.28);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.logo-mark svg { display: block; width: 100%; height: 100%; }
+.logo-text small {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.main-nav ul {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.main-nav a {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.18s;
+}
+.main-nav a:hover { background: var(--primary-soft); color: var(--primary); }
+.main-nav a.active { color: var(--primary); background: var(--primary-soft); font-weight: 600; }
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--primary);
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+/* AUTH LAYOUT */
+.auth-wrap {
+  min-height: calc(100vh - 67px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: linear-gradient(135deg, #eef4ff 0%, #f7f9fc 100%);
+}
+.auth-card {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  padding: 44px 40px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  width: 100%;
+  max-width: 460px;
+}
+.auth-card .brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.auth-card .brand-icon {
+  width: 56px; height: 56px;
+  margin: 0 auto 14px;
+}
+.auth-card h1 {
+  font-size: 1.5rem;
+  color: var(--primary);
+  font-weight: 800;
+  margin-bottom: 6px;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+.auth-card p.sub {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.94rem;
+  margin-bottom: 28px;
+}
+.tabs {
+  display: flex;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 4px;
+  margin-bottom: 24px;
+}
+.tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.2s;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+.tab.active {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 2px 6px rgba(11,61,145,0.1);
+}
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.86rem;
+  color: var(--text);
+}
+.form-group label .req { color: var(--danger); }
+.form-group input {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(11,61,145,0.08);
+}
+.btn {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.96rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s ease;
+  text-align: center;
+  font-family: inherit;
+  line-height: 1.4;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-secondary { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(11,61,145,0.2); }
+.btn-secondary:hover { background: var(--primary-dark); color: #fff; }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--bg); color: var(--text); }
+.btn-block { display: block; width: 100%; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.auth-link {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.auth-link a { font-weight: 600; }
+
+/* DASHBOARD */
+.dash-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+.dash-welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+.dash-welcome h1 {
+  font-size: 1.7rem;
+  color: var(--primary);
+  font-weight: 800;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+.dash-welcome p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.dash-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-xs);
+}
+.stat-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+
+/* SECTION TITLE */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.section-head h2 {
+  font-size: 1.2rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* APPLICATION LIST */
+.app-list {
+  display: grid;
+  gap: 14px;
+}
+.app-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.app-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--primary);
+}
+.app-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--primary);
+}
+.app-card.status-done::before { background: var(--success); }
+.app-card.status-action::before { background: var(--warn); }
+
+.app-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.app-info { flex: 1; min-width: 200px; }
+.app-ref {
+  font-family: 'SF Mono', 'Monaco', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+.app-title {
+  font-size: 1.05rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.app-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.app-status-col {
+  text-align: right;
+  flex-shrink: 0;
+}
+.status-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.status-pill.done { background: var(--success-bg); color: var(--success); }
+.status-pill.warn { background: var(--warn-bg); color: var(--warn); }
+.app-updated {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  background: #fff;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-xl);
+  padding: 56px 32px;
+  text-align: center;
+}
+.empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
+.empty-state h3 {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.empty-state p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  max-width: 420px;
+  margin: 0 auto 22px;
+  line-height: 1.65;
+}
+
+/* DETAIL MODAL */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.5);
+  z-index: 2000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px;
+  overflow-y: auto;
+  backdrop-filter: blur(4px);
+}
+.modal-backdrop.show { display: flex; }
+.modal {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  max-width: 780px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(15,23,42,0.3);
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal-head {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.modal-head h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+.modal-head .mref {
+  font-family: 'SF Mono', 'Monaco', monospace;
+  font-size: 0.78rem;
+  opacity: 0.9;
+  letter-spacing: 0.08em;
+}
+.modal-close {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+.modal-close:hover { background: rgba(255,255,255,0.3); }
+.modal-body {
+  padding: 28px;
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+}
+
+/* TIMELINE (compact) */
+.tl {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 28px;
+}
+.tl-row {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 20px;
+  position: relative;
+}
+.tl-row:last-child { padding-bottom: 0; }
+.tl-row::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 32px;
+  bottom: -6px;
+  width: 2px;
+  background: var(--border);
+}
+.tl-row:last-child::before { display: none; }
+.tl-row.done::before { background: var(--success); }
+.tl-dot {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  z-index: 1;
+}
+.tl-row.done .tl-dot { background: var(--success); border-color: var(--success); color: #fff; }
+.tl-row.current .tl-dot { background: var(--primary); border-color: var(--primary); color: #fff; }
+.tl-row .tl-info { flex: 1; padding-top: 3px; }
+.tl-row .tl-lbl {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.tl-row.done .tl-lbl { color: var(--success); }
+.tl-row.current .tl-lbl { color: var(--primary); }
+.tl-row .tl-txt {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* MODAL SECTIONS */
+.modal-section {
+  margin-bottom: 26px;
+}
+.modal-section h4 {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+/* MESSAGES */
+.msg-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 4px;
+  margin-bottom: 12px;
+}
+.msg {
+  padding: 12px 16px;
+  border-radius: 12px;
+  max-width: 85%;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  position: relative;
+}
+.msg.staff {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.msg.customer {
+  background: var(--accent-soft);
+  color: #6b4e00;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.msg-time {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: 4px;
+  display: block;
+}
+.msg-empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.88rem;
+  padding: 20px;
+  background: var(--bg);
+  border-radius: var(--radius);
+}
+.msg-compose {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.msg-compose textarea {
+  flex: 1;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 44px;
+  max-height: 120px;
+}
+.msg-compose textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(11,61,145,0.08);
+}
+.msg-send {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s;
+}
+.msg-send:hover { background: var(--primary-dark); }
+
+/* ALERTS */
+.alert {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  display: none;
+  border-left: 4px solid;
+}
+.alert.show { display: block; }
+.alert.error { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
+.alert.success { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+.alert.info { background: var(--primary-soft); color: var(--primary-dark); border-color: var(--primary); }
+
+.spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .auth-card { padding: 32px 24px; }
+  .dash-welcome { flex-direction: column; }
+  .dash-actions { width: 100%; }
+  .dash-actions .btn { flex: 1; }
+  .app-card-row { flex-direction: column; }
+  .app-status-col { text-align: left; }
+  .modal-body { padding: 22px; }
+  .msg { max-width: 95%; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 40 40" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gpGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#1a5bc4"/>
+              <stop offset="100%" stop-color="#0B3D91"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" fill="url(#gpGrad)"/>
+          <circle cx="20" cy="20" r="10" stroke="#F5A623" stroke-width="1.8" fill="none" opacity="0.85"/>
+          <ellipse cx="20" cy="20" rx="4.5" ry="10" stroke="#F5A623" stroke-width="1.5" fill="none" opacity="0.9"/>
+          <line x1="10" y1="20" x2="30" y2="20" stroke="#F5A623" stroke-width="1.5" opacity="0.9"/>
+          <path d="M20 5 L22.2 17.8 L35 20 L22.2 22.2 L20 35 L17.8 22.2 L5 20 L17.8 17.8 Z" fill="#ffffff" opacity="0.95"/>
+          <circle cx="20" cy="20" r="2.2" fill="#F5A623"/>
+        </svg>
+      </span>
+      <span class="logo-text">GlobalPath<small>International</small></span>
+    </a>
+    <button class="menu-toggle" aria-label="Toggle menu" onclick="document.querySelector('.main-nav').classList.toggle('open')">☰</button>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="apply.html">Apply</a></li>
+        <li><a href="track.html">Track</a></li>
+        <li><a href="portal.html" class="active">My Account</a></li>
+        <li><a href="#" id="logoutBtn" style="display:none;">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= AUTH VIEW ================= -->
+<div class="auth-wrap" id="authView">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 40 40" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gpGrad2" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#1a5bc4"/>
+              <stop offset="100%" stop-color="#0B3D91"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" fill="url(#gpGrad2)"/>
+          <circle cx="20" cy="20" r="10" stroke="#F5A623" stroke-width="1.8" fill="none" opacity="0.85"/>
+          <ellipse cx="20" cy="20" rx="4.5" ry="10" stroke="#F5A623" stroke-width="1.5" fill="none" opacity="0.9"/>
+          <line x1="10" y1="20" x2="30" y2="20" stroke="#F5A623" stroke-width="1.5" opacity="0.9"/>
+          <path d="M20 5 L22.2 17.8 L35 20 L22.2 22.2 L20 35 L17.8 22.2 L5 20 L17.8 17.8 Z" fill="#ffffff" opacity="0.95"/>
+          <circle cx="20" cy="20" r="2.2" fill="#F5A623"/>
+        </svg>
+      </div>
+      <h1 id="authTitle">Welcome back</h1>
+      <p class="sub" id="authSubtitle">Sign in to track your applications</p>
+    </div>
+
+    <div class="alert" id="authAlert"></div>
+
+    <div class="tabs" id="authTabs">
+      <button class="tab active" data-tab="login" onclick="switchTab('login')">Sign In</button>
+      <button class="tab" data-tab="signup" onclick="switchTab('signup')">Create Account</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="loginEmail">Email Address <span class="req">*</span></label>
+        <input type="email" id="loginEmail" placeholder="you@example.co.uk" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password <span class="req">*</span></label>
+        <input type="password" id="loginPassword" placeholder="Your password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-secondary btn-block" id="loginBtn">Sign In</button>
+      <div class="auth-link">
+        <a href="#" onclick="forgotPassword(event)">Forgot password?</a>
+      </div>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form id="signupForm" onsubmit="handleSignup(event)" style="display:none;">
+      <div class="form-group">
+        <label for="signupName">Full Name <span class="req">*</span></label>
+        <input type="text" id="signupName" placeholder="e.g. Sarah Thompson" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email Address <span class="req">*</span></label>
+        <input type="email" id="signupEmail" placeholder="you@example.co.uk" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="signupPhone">Phone (WhatsApp)</label>
+        <input type="tel" id="signupPhone" placeholder="+44 7XXX XXXXXX" autocomplete="tel">
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password <span class="req">*</span></label>
+        <input type="password" id="signupPassword" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password">
+      </div>
+      <button type="submit" class="btn btn-secondary btn-block" id="signupBtn">Create Account</button>
+    </form>
+
+    <div class="auth-link" style="margin-top:22px;">
+      Just want to track an application? <a href="track.html">Use the public tracker</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= DASHBOARD VIEW ================= -->
+<div class="dash-wrap" id="dashView" style="display:none;">
+  <div class="alert" id="dashAlert"></div>
+
+  <div class="dash-welcome">
+    <div>
+      <h1 id="welcomeName">Welcome back</h1>
+      <p id="welcomeEmail">—</p>
+    </div>
+    <div class="dash-actions">
+      <a href="apply.html" class="btn btn-secondary">+ New Application</a>
+    </div>
+  </div>
+
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card">
+      <div class="stat-label">Total Applications</div>
+      <div class="stat-value" id="statTotal">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">In Progress</div>
+      <div class="stat-value" id="statActive">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Completed</div>
+      <div class="stat-value" id="statDone">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Needs Action</div>
+      <div class="stat-value" id="statAction">0</div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2>Your Applications</h2>
+  </div>
+
+  <div class="app-list" id="appList">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ================= DETAIL MODAL ================= -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target === this) closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3 id="modalTitle">Application Details</h3>
+        <div class="mref" id="modalRef">GP-2026-00000</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let userApplications = [];
+
+// ============================================================
+// WORKFLOWS
+// ============================================================
+const WORKFLOWS = {
+  passport: {
+    label: 'Passport Application',
+    icon: '🛂',
+    stages: [
+      { key: 'Submitted',             label: 'Application received',         text: 'We have received your passport application.' },
+      { key: 'Documents Reviewed',    label: 'Documents reviewed',           text: 'Your documents have been checked.' },
+      { key: 'Appointment Scheduled', label: 'Appointment scheduled',        text: 'Your appointment has been scheduled.' },
+      { key: 'Application Submitted', label: 'Submitted to passport office', text: 'Submitted to the passport office.' },
+      { key: 'Processing',            label: 'Processing',                   text: 'Your passport is being processed.' },
+      { key: 'Ready for Collection',  label: 'Ready for collection',         text: 'Your passport is ready.' },
+      { key: 'Collected',             label: 'Collected',                    text: 'Your passport has been collected.' },
+      { key: 'Action Required',       label: 'Action required',              text: 'We need more information from you.' },
+      { key: 'Closed',                label: 'Closed',                       text: 'This application has been closed.' }
+    ]
+  },
+  visa: {
+    label: 'Visa Application',
+    icon: '✈️',
+    stages: [
+      { key: 'Submitted',                  label: 'Application received',        text: 'We have received your visa application.' },
+      { key: 'Documents Reviewed',         label: 'Documents reviewed',          text: 'Your documents have been checked.' },
+      { key: 'Embassy Appointment Booked', label: 'Embassy appointment booked',  text: 'Your embassy appointment is booked.' },
+      { key: 'Interview Scheduled',        label: 'Interview scheduled',         text: 'Your interview is scheduled.' },
+      { key: 'Application Submitted',      label: 'Submitted to embassy',        text: 'Submitted to the embassy.' },
+      { key: 'Under Embassy Review',       label: 'Under embassy review',        text: 'Being reviewed by the embassy.' },
+      { key: 'Decision Made',              label: 'Decision made',               text: 'The embassy has decided.' },
+      { key: 'Passport Returned',          label: 'Passport returned',           text: 'Your passport has been returned.' },
+      { key: 'Completed',                  label: 'Completed',                   text: 'Your visa process is complete.' },
+      { key: 'Action Required',            label: 'Action required',             text: 'We need more information.' },
+      { key: 'Refused',                    label: 'Refused',                     text: 'The visa was refused.' },
+      { key: 'Closed',                     label: 'Closed',                      text: 'Closed.' }
+    ]
+  },
+  job: {
+    label: 'Job Application',
+    icon: '💼',
+    stages: [
+      { key: 'Submitted',         label: 'Application received', text: 'Received your job application.' },
+      { key: 'Under Review',      label: 'Under review',         text: 'Your application is being reviewed.' },
+      { key: 'Action Required',   label: 'Action required',      text: 'We need more info.' },
+      { key: 'Shortlisted',       label: 'Shortlisted',          text: 'You have been shortlisted!' },
+      { key: 'Interview Stage',   label: 'Interview stage',      text: 'Interview arranged.' },
+      { key: 'Employer Decision', label: 'Employer decision',    text: 'Employer deciding.' },
+      { key: 'Offer',             label: 'Offer',                text: 'You have an offer!' },
+      { key: 'Completed',         label: 'Completed',            text: 'Placement complete.' },
+      { key: 'Closed',            label: 'Closed',               text: 'Closed.' }
+    ]
+  },
+  documents: {
+    label: 'Document Assistance',
+    icon: '📄',
+    stages: [
+      { key: 'Submitted',       label: 'Request received',   text: 'We have your request.' },
+      { key: 'Under Review',    label: 'Under review',       text: 'Reviewing your request.' },
+      { key: 'Action Required', label: 'Action required',    text: 'We need more info.' },
+      { key: 'In Progress',     label: 'In progress',        text: 'Preparing your documents.' },
+      { key: 'Ready',           label: 'Ready',              text: 'Your documents are ready.' },
+      { key: 'Completed',       label: 'Completed',          text: 'Completed.' },
+      { key: 'Closed',          label: 'Closed',             text: 'Closed.' }
+    ]
+  }
+};
+
+// ============================================================
+// HELPERS
+// ============================================================
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) +
+    ' · ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+function fmtShort(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function statusClass(status) {
+  const done = ['Collected', 'Completed', 'Ready', 'Ready for Collection', 'Offer', 'Passport Returned'];
+  const action = ['Action Required', 'Refused', 'Closed'];
+  if (done.includes(status)) return 'done';
+  if (action.includes(status)) return 'warn';
+  return '';
+}
+function showAlert(id, msg, type = 'info') {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'alert ' + type + ' show';
+  setTimeout(() => { el.classList.remove('show'); }, 5000);
+}
+function hideAlert(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(tab) {
+  document.querySelectorAll('#authTabs .tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tab);
+  });
+  document.getElementById('loginForm').style.display  = tab === 'login'  ? 'block' : 'none';
+  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('authTitle').textContent    = tab === 'login'  ? 'Welcome back' : 'Create your account';
+  document.getElementById('authSubtitle').textContent = tab === 'login'  ? 'Sign in to track your applications' : 'Track every step of your journey';
+  hideAlert('authAlert');
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+async function handleLogin(e) {
+  e.preventDefault();
+  hideAlert('authAlert');
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Signing in...';
+
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+  } catch (err) {
+    console.error('Login error:', err);
+    showAlert('authAlert', err.message || 'Could not sign in.', 'error');
+    btn.disabled = false;
+    btn.innerHTML = 'Sign In';
+  }
+}
+
+async function handleSignup(e) {
+  e.preventDefault();
+  hideAlert('authAlert');
+  const btn = document.getElementById('signupBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Creating account...';
+
+  const full_name = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const phone = document.getElementById('signupPhone').value.trim();
+  const password = document.getElementById('signupPassword').value;
+
+  try {
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name, phone }
+      }
+    });
+    if (error) throw error;
+
+    if (data.user && !data.session) {
+      showAlert('authAlert', 'Account created! Check your email to confirm, then sign in.', 'success');
+      setTimeout(() => switchTab('login'), 2000);
+    }
+  } catch (err) {
+    console.error('Signup error:', err);
+    showAlert('authAlert', err.message || 'Could not create account.', 'error');
+    btn.disabled = false;
+    btn.innerHTML = 'Create Account';
+  }
+}
+
+async function forgotPassword(e) {
+  e.preventDefault();
+  const email = prompt('Enter your email address and we\'ll send a reset link:');
+  if (!email) return;
+  try {
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/portal.html'
+    });
+    if (error) throw error;
+    showAlert('authAlert', 'Reset link sent. Check your email.', 'success');
+  } catch (err) {
+    showAlert('authAlert', err.message || 'Could not send reset link.', 'error');
+  }
+}
+
+async function handleLogout(e) {
+  if (e) e.preventDefault();
+  await supabaseClient.auth.signOut();
+}
+
+// ============================================================
+// VIEW SWITCHING
+// ============================================================
+function showAuth() {
+  document.getElementById('authView').style.display = 'flex';
+  document.getElementById('dashView').style.display = 'none';
+  document.getElementById('logoutBtn').style.display = 'none';
+}
+
+function showDashboard(user) {
+  currentUser = user;
+  document.getElementById('authView').style.display = 'none';
+  document.getElementById('dashView').style.display = 'block';
+  document.getElementById('logoutBtn').style.display = 'inline-block';
+  document.getElementById('welcomeName').textContent = 'Welcome back, ' + (user.user_metadata?.full_name || 'there');
+  document.getElementById('welcomeEmail').textContent = user.email;
+  loadApplications();
+}
+
+// ============================================================
+// LOAD APPLICATIONS
+// ============================================================
+async function loadApplications() {
+  const list = document.getElementById('appList');
+  list.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><h3>Loading...</h3></div>';
+
+  try {
+    const email = currentUser.email;
+
+    const { data, error } = await supabaseClient
+      .from('applications')
+      .select('id, reference, service_type, status, details, created_at, updated_at')
+      .or(`email.eq.${email}`)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    userApplications = data || [];
+    renderApplications();
+  } catch (err) {
+    console.error('Load error:', err);
+    list.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><h3>Could not load applications</h3><p>' + escapeHtml(err.message) + '</p></div>';
+  }
+}
+
+function renderApplications() {
+  const list = document.getElementById('appList');
+  const apps = userApplications;
+
+  document.getElementById('statTotal').textContent = apps.length;
+  const active = apps.filter(a => !['Collected', 'Completed', 'Closed', 'Refused', 'Offer'].includes(a.status)).length;
+  const done = apps.filter(a => ['Collected', 'Completed', 'Offer'].includes(a.status)).length;
+  const action = apps.filter(a => ['Action Required', 'Refused'].includes(a.status)).length;
+  document.getElementById('statActive').textContent = active;
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statAction').textContent = action;
+
+  if (!apps.length) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">📭</div>
+        <h3>No applications yet</h3>
+        <p>When you submit an application with this email address, it will appear here automatically.</p>
+        <a href="apply.html" class="btn btn-secondary">Start Your First Application</a>
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = '';
+  apps.forEach(app => {
+    const wf = WORKFLOWS[app.service_type] || WORKFLOWS.passport;
+    const cls = statusClass(app.status);
+    const card = document.createElement('div');
+    card.className = 'app-card status-' + (cls || 'progress');
+    card.onclick = () => openApplication(app);
+    card.innerHTML = `
+      <div class="app-card-row">
+        <div class="app-info">
+          <div class="app-ref">${escapeHtml(app.reference)}</div>
+          <div class="app-title">${wf.icon} ${escapeHtml(wf.label)}</div>
+          <div class="app-meta">
+            <span>📅 Submitted ${fmtShort(app.created_at)}</span>
+          </div>
+        </div>
+        <div class="app-status-col">
+          <span class="status-pill ${cls}">${escapeHtml(app.status)}</span>
+          <div class="app-updated">Updated ${fmtShort(app.updated_at || app.created_at)}</div>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+// ============================================================
+// MODAL / DETAIL VIEW
+// ============================================================
+async function openApplication(app) {
+  const wf = WORKFLOWS[app.service_type] || WORKFLOWS.passport;
+  document.getElementById('modalTitle').textContent = wf.icon + ' ' + wf.label;
+  document.getElementById('modalRef').textContent = app.reference;
+
+  const body = document.getElementById('modalBody');
+  body.innerHTML = '<div style="text-align:center;padding:40px;"><div class="spinner" style="border-color:var(--primary-soft);border-top-color:var(--primary);width:30px;height:30px;"></div></div>';
+  document.getElementById('modalBackdrop').classList.add('show');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const [histRes, msgRes] = await Promise.all([
+      supabaseClient.from('status_history').select('*').eq('application_id', app.id).order('created_at', { ascending: true }),
+      supabaseClient.from('messages').select('*').eq('application_id', app.id).order('created_at', { ascending: true })
+    ]);
+
+    const history = histRes.data || [];
+    const messages = msgRes.data || [];
+
+    renderModalBody(app, wf, history, messages);
+  } catch (err) {
+    body.innerHTML = '<div class="alert error show">Could not load details: ' + escapeHtml(err.message) + '</div>';
+  }
+}
+
+function renderModalBody(app, wf, history, messages) {
+  const reached = new Set(history.map(h => h.new_status));
+  const current = app.status;
+
+  let timelineHtml = '<div class="tl">';
+  wf.stages.forEach((stage, i) => {
+    let state = 'upcoming';
+    if (reached.has(stage.key) || stage.key === current) state = 'done';
+    if (stage.key === current) state = 'current';
+    const icon = state === 'done' ? '✓' : (state === 'current' ? '●' : (i + 1));
+    const histForStage = history.find(h => h.new_status === stage.key);
+    const dateStr = histForStage ? `<div style="font-size:0.75rem;color:var(--muted);margin-top:4px;">${fmtDate(histForStage.created_at)}</div>` : '';
+    const noteStr = (histForStage && histForStage.note && stage.key === current)
+      ? `<div style="margin-top:6px;padding:8px 12px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:6px;font-size:0.82rem;color:#6b4e00;">${escapeHtml(histForStage.note)}</div>` : '';
+
+    timelineHtml += `
+      <div class="tl-row ${state}">
+        <div class="tl-dot">${icon}</div>
+        <div class="tl-info">
+          <div class="tl-lbl">${escapeHtml(stage.label)}</div>
+          <div class="tl-txt">${escapeHtml(stage.text)}</div>
+          ${noteStr}
+          ${dateStr}
+        </div>
+      </div>
+    `;
+  });
+  timelineHtml += '</div>';
+
+  let msgsHtml = '';
+  if (messages.length === 0) {
+    msgsHtml = '<div class="msg-empty">No messages yet. If our team needs anything from you, it will appear here.</div>';
+  } else {
+    messages.forEach(m => {
+      msgsHtml += `
+        <div class="msg ${m.sender_role}">
+          ${escapeHtml(m.body)}
+          <span class="msg-time">${fmtDate(m.created_at)}</span>
+        </div>
+      `;
+    });
+  }
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-section">
+      <h4>📋 Progress Timeline</h4>
+      ${timelineHtml}
+    </div>
+
+    <div class="modal-section">
+      <h4>💬 Messages</h4>
+      <div class="msg-list" id="msgList">${msgsHtml}</div>
+      <div class="msg-compose">
+        <textarea id="msgInput" placeholder="Type a message to our team..."></textarea>
+        <button class="msg-send" onclick="sendMessage(${app.id})">Send</button>
+      </div>
+    </div>
+
+    <div class="modal-section" style="background:var(--bg);padding:18px;border-radius:var(--radius);">
+      <h4 style="margin-bottom:10px;">📌 Application Summary</h4>
+      <div style="font-size:0.88rem;color:var(--muted);line-height:1.8;">
+        <div><strong style="color:var(--text);">Reference:</strong> ${escapeHtml(app.reference)}</div>
+        <div><strong style="color:var(--text);">Service:</strong> ${escapeHtml(wf.label)}</div>
+        <div><strong style="color:var(--text);">Submitted:</strong> ${fmtDate(app.created_at)}</div>
+        <div><strong style="color:var(--text);">Last update:</strong> ${fmtDate(app.updated_at)}</div>
+      </div>
+    </div>
+  `;
+
+  const msgList = document.getElementById('msgList');
+  if (msgList) msgList.scrollTop = msgList.scrollHeight;
+}
+
+async function sendMessage(applicationId) {
+  const input = document.getElementById('msgInput');
+  const body = input.value.trim();
+  if (!body) return;
+
+  input.disabled = true;
+
+  try {
+    const { error } = await supabaseClient.from('messages').insert([{
+      application_id: applicationId,
+      sender_id: currentUser.id,
+      sender_role: 'customer',
+      body
+    }]);
+    if (error) throw error;
+
+    const { data } = await supabaseClient
+      .from('messages')
+      .select('*')
+      .eq('application_id', applicationId)
+      .order('created_at', { ascending: true });
+
+    const list = document.getElementById('msgList');
+    if (!data || data.length === 0) {
+      list.innerHTML = '<div class="msg-empty">No messages yet.</div>';
+    } else {
+      list.innerHTML = data.map(m => `
+        <div class="msg ${m.sender_role}">
+          ${escapeHtml(m.body)}
+          <span class="msg-time">${fmtDate(m.created_at)}</span>
+        </div>
+      `).join('');
+      list.scrollTop = list.scrollHeight;
+    }
+
+    input.value = '';
+  } catch (err) {
+    alert('Could not send message: ' + err.message);
+  }
+  input.disabled = false;
+  input.focus();
+}
+
+function closeModal() {
+  document.getElementById('modalBackdrop').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// ============================================================
+// INIT — check session on load
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('.main-nav');
+  if (toggle && nav) toggle.addEventListener('click', () => nav.classList.toggle('open'));
+
+  const logout = document.getElementById('logoutBtn');
+  if (logout) logout.addEventListener('click', handleLogout);
+
+  if (window.location.hash.includes('type=recovery')) {
+    const newPass = prompt('Enter your new password (at least 8 characters):');
+    if (newPass && newPass.length >= 8) {
+      supabaseClient.auth.updateUser({ password: newPass }).then(({ error }) => {
+        if (error) alert('Error: ' + error.message);
+        else alert('Password updated. You can now sign in.');
+        window.location.hash = '';
+      });
+    }
+  }
+
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (session && session.user) {
+      showDashboard(session.user);
+    } else {
+      showAuth();
+    }
+  });
+
+  supabaseClient.auth.getSession().then(({ data }) => {
+    if (data.session && data.session.user) {
+      showDashboard(data.session.user);
+    } else {
+      showAuth();
+    }
+  });
+});
+</script>
+</body>
+</html>
