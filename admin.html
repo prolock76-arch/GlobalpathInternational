@@ -1279,5 +1279,217 @@ document.addEventListener('DOMContentLoaded', async () => {
   console.log('✅ GlobalPath admin chat override loaded');
 })();
 </script>
+  <!-- ============================================================ -->
+<!-- AUTO-POST JOBS TO TELEGRAM CHANNEL — paste before </body>   -->
+<!-- ============================================================ -->
+<script>
+(function () {
+  // ============================================================
+  // CONFIG — must match your Cloudflare Worker
+  // ============================================================
+  const WORKER_URL = 'https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev';
+  const ADMIN_SECRET = 'gp_admin_2026_secret';
+
+  // ============================================================
+  // POST JOB TO CHANNEL
+  // ============================================================
+  async function postJobToChannel(job) {
+    const res = await fetch(`${WORKER_URL}/post-job`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ job, secret: ADMIN_SECRET })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Post failed');
+    return data;
+  }
+
+  async function removeJobFromChannel(jobId) {
+    const res = await fetch(`${WORKER_URL}/remove-job`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ job_id: jobId, secret: ADMIN_SECRET })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Remove failed');
+    return data;
+  }
+
+  // Expose globally so admin.html's saveJob can call them
+  window.postJobToChannel = postJobToChannel;
+  window.removeJobFromChannel = removeJobFromChannel;
+
+  // ============================================================
+  // HOOK INTO saveJob — auto-post when a job is saved
+  // ============================================================
+  // Wait for admin's main script to initialize, then wrap saveJob
+  const wrapSaveJob = () => {
+    const original = window.saveJob;
+    if (typeof original !== 'function') return false;
+
+    window.saveJob = async function (e) {
+      if (e) e.preventDefault();
+
+      const btn = document.getElementById('jobSaveBtn');
+      const isEdit = !!window.currentJobId;
+
+      // Read form values BEFORE calling original
+      const payload = {
+        title: (document.getElementById('jTitle')?.value || '').trim(),
+        employer: (document.getElementById('jEmployer')?.value || '').trim(),
+        country: (document.getElementById('jCountry')?.value || '').trim(),
+        flag: (document.getElementById('jFlag')?.value || '').trim() || '🌍',
+        category: document.getElementById('jCategory')?.value || '',
+        salary: (document.getElementById('jSalary')?.value || '').trim(),
+        description: (document.getElementById('jDescription')?.value || '').trim(),
+        verified: document.getElementById('jVerified')?.value === 'true',
+        urgent: document.getElementById('jUrgent')?.value === 'true',
+        active: document.getElementById('jActive')?.value === 'true',
+        updated_at: new Date().toISOString()
+      };
+
+      try {
+        btn.disabled = true;
+        btn.textContent = 'Saving…';
+
+        // Save to Supabase
+        let savedJob = null;
+        if (window.currentJobId) {
+          const { data, error } = await supabaseClient
+            .from('featured_jobs')
+            .update(payload)
+            .eq('id', window.currentJobId)
+            .select()
+            .single();
+          if (error) throw error;
+          savedJob = data;
+        } else {
+          payload.created_at = new Date().toISOString();
+          const { data, error } = await supabaseClient
+            .from('featured_jobs')
+            .insert([payload])
+            .select()
+            .single();
+          if (error) throw error;
+          savedJob = data;
+        }
+
+        // Auto-post to channel if active
+        if (savedJob && savedJob.active !== false) {
+          btn.textContent = 'Posting to channel…';
+          try {
+            await postJobToChannel(savedJob);
+            showSuccess(`Job ${isEdit ? 'updated' : 'added'} and posted to channel! 📢`);
+          } catch (postErr) {
+            console.error('Channel post failed:', postErr);
+            showSuccess(`Job ${isEdit ? 'updated' : 'added'}. (Channel post: ${postErr.message})`);
+          }
+        } else {
+          showSuccess(`Job ${isEdit ? 'updated' : 'added'}.`);
+        }
+
+        // Close modal + reload jobs list
+        if (typeof closeJobModal === 'function') closeJobModal();
+        if (typeof loadJobs === 'function') await loadJobs();
+
+      } catch (err) {
+        console.error('Save error:', err);
+        if (typeof showError === 'function') showError('Could not save: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '💾 Save Job';
+      }
+    };
+
+    console.log('✅ Auto-post hook installed');
+    return true;
+  };
+
+  // Try to wrap saveJob immediately or after page loads
+  if (!wrapSaveJob()) {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(wrapSaveJob, 500);
+    });
+  }
+
+  // ============================================================
+  // HOOK INTO deleteJob — remove from channel
+  // ============================================================
+  const wrapDeleteJob = () => {
+    const original = window.deleteJob;
+    if (typeof original !== 'function') return false;
+
+    window.deleteJob = async function (id) {
+      if (!confirm('Delete this job? It will also be removed from the channel.')) return;
+
+      try {
+        // Remove from channel first
+        try { await removeJobFromChannel(id); } catch (e) { console.warn('Channel remove:', e); }
+        // Then delete from DB
+        const { error } = await supabaseClient.from('featured_jobs').delete().eq('id', id);
+        if (error) throw error;
+        if (typeof loadJobs === 'function') await loadJobs();
+        showSuccess('Job deleted.');
+      } catch (err) {
+        showError('Could not delete: ' + err.message);
+      }
+    };
+
+    console.log('✅ Delete hook installed');
+    return true;
+  };
+
+  if (!wrapDeleteJob()) {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(wrapDeleteJob, 600);
+    });
+  }
+
+  // ============================================================
+  // HOOK INTO toggleJobActive — post/remove on toggle
+  // ============================================================
+  const wrapToggle = () => {
+    const original = window.toggleJobActive;
+    if (typeof original !== 'function') return false;
+
+    window.toggleJobActive = async function (id) {
+      const j = window.allJobs?.find(x => String(x.id) === String(id));
+      if (!j) return;
+      const newActive = j.active === false;
+
+      try {
+        const { error } = await supabaseClient
+          .from('featured_jobs')
+          .update({ active: newActive })
+          .eq('id', id);
+        if (error) throw error;
+
+        if (newActive) {
+          const { data } = await supabaseClient.from('featured_jobs').select('*').eq('id', id).single();
+          try { await postJobToChannel(data); } catch (e) { console.warn('Post:', e); }
+        } else {
+          try { await removeJobFromChannel(id); } catch (e) { console.warn('Remove:', e); }
+        }
+
+        if (typeof loadJobs === 'function') await loadJobs();
+        showSuccess(newActive ? 'Job reactivated and posted.' : 'Job deactivated and removed from channel.');
+      } catch (err) {
+        showError('Could not update: ' + err.message);
+      }
+    };
+
+    console.log('✅ Toggle hook installed');
+    return true;
+  };
+
+  if (!wrapToggle()) {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(wrapToggle, 700);
+    });
+  }
+
+  console.log('✅ Auto-post extension loaded');
+})();
+</script>
 </body>
 </html>
