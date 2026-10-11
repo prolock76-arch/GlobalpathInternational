@@ -63,6 +63,7 @@ a { color: var(--primary); text-decoration: none; }
 .site-header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -77,6 +78,7 @@ a { color: var(--primary); text-decoration: none; }
   padding: 12px 20px;
   gap: 14px;
   flex-wrap: wrap;
+  position: relative;
 }
 .logo {
   font-family: var(--font-display);
@@ -87,6 +89,7 @@ a { color: var(--primary); text-decoration: none; }
   align-items: center;
   gap: 10px;
   letter-spacing: -0.03em;
+  flex-shrink: 0;
 }
 .logo-mark {
   width: 38px; height: 38px;
@@ -106,7 +109,38 @@ a { color: var(--primary); text-decoration: none; }
   text-transform: uppercase;
   margin-top: 2px;
 }
-.main-nav { display: flex; align-items: center; gap: 12px; }
+
+/* Menu toggle — HAMBURGER */
+.menu-toggle {
+  display: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 1.3rem;
+  color: var(--primary);
+  cursor: pointer;
+  padding: 0;
+  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+  flex-shrink: 0;
+  font-family: inherit;
+  line-height: 1;
+}
+.menu-toggle:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+.menu-toggle:active { transform: scale(0.95); }
+
+/* Nav */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .nav-group {
   display: flex;
   align-items: center;
@@ -127,15 +161,6 @@ a { color: var(--primary); text-decoration: none; }
 }
 .nav-group a:hover { background: #fff; color: var(--primary); }
 .nav-group a.active { background: var(--primary); color: #fff; }
-.menu-toggle {
-  display: none;
-  background: none; border: none;
-  font-size: 1.3rem;
-  color: var(--primary);
-  cursor: pointer;
-  padding: 6px 10px;
-  border-radius: 8px;
-}
 
 /* ============================================================ */
 /* MAIN */
@@ -518,43 +543,27 @@ a { color: var(--primary); text-decoration: none; }
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  box-shadow: 0 8px 24px rgba(34,158,217,0.45), 0 0 0 0 rgba(34,158,217,0.5);
+  box-shadow: 0 8px 24px rgba(34,158,217,0.45);
   z-index: 900;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   animation: floatPulse 2.4s ease-in-out infinite;
 }
-.float-msg-btn:hover {
-  transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 12px 32px rgba(34,158,217,0.55), 0 0 0 8px rgba(34,158,217,0.12);
-  color: #fff;
-}
-.float-msg-btn .fm-icon {
-  display: block;
-  line-height: 1;
-}
+.float-msg-btn:hover { transform: scale(1.08) translateY(-2px); color: #fff; }
 .float-msg-btn .fm-dot {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 14px;
-  height: 14px;
+  top: 4px; right: 4px;
+  width: 14px; height: 14px;
   border-radius: 50%;
   background: #4ade80;
   border: 2.5px solid #fff;
-  box-shadow: 0 0 0 0 rgba(74,222,128,0.7);
-  animation: dotPulse 2s ease-in-out infinite;
 }
 @keyframes floatPulse {
   0%, 100% { box-shadow: 0 8px 24px rgba(34,158,217,0.45), 0 0 0 0 rgba(34,158,217,0.5); }
   50% { box-shadow: 0 8px 24px rgba(34,158,217,0.45), 0 0 0 12px rgba(34,158,217,0); }
 }
-@keyframes dotPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.7); }
-  50% { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
-}
 
 /* ============================================================ */
-/* MOBILE */
+/* MOBILE — hamburger menu works */
 /* ============================================================ */
 @media (max-width: 640px) {
   .track-main { padding: 20px 16px 100px; }
@@ -578,7 +587,11 @@ a { color: var(--primary); text-decoration: none; }
     height: 54px;
     font-size: 1.35rem;
   }
-  .menu-toggle { display: block; }
+
+  /* HAMBURGER — show on mobile */
+  .menu-toggle { display: flex; }
+
+  /* Mobile nav — hidden by default */
   .main-nav {
     display: none;
     flex-direction: column;
@@ -586,11 +599,29 @@ a { color: var(--primary); text-decoration: none; }
     width: 100%;
     order: 3;
     gap: 8px;
-    padding: 10px 0 4px;
+    padding: 12px 0 4px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
   }
-  .main-nav.open { display: flex; }
-  .nav-group { flex-direction: column; }
-  .nav-group a { padding: 11px 14px; text-align: center; }
+  .main-nav.open {
+    display: flex;
+    animation: slideDown 0.22s ease-out;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .nav-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 4px;
+    padding: 5px;
+  }
+  .nav-group a {
+    padding: 13px 16px;
+    text-align: center;
+    font-size: 0.95rem;
+  }
 }
 </style>
 </head>
@@ -624,8 +655,19 @@ a { color: var(--primary); text-decoration: none; }
       </span>
       <span class="logo-text">GlobalPath<small>International</small></span>
     </a>
-    <button class="menu-toggle" onclick="document.querySelector('.main-nav').classList.toggle('open')">☰</button>
-    <nav class="main-nav">
+
+    <!-- HAMBURGER — top right -->
+    <button
+      class="menu-toggle"
+      id="menuToggle"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="mainNav"
+      onclick="toggleMenu()">
+      ☰
+    </button>
+
+    <nav class="main-nav" id="mainNav">
       <div class="nav-group">
         <a href="index.html">Home</a>
         <a href="track.html" class="active">Track</a>
@@ -705,7 +747,7 @@ a { color: var(--primary); text-decoration: none; }
   class="float-msg-btn"
   id="floatMsgBtn"
   aria-label="Chat with support">
-  <span class="fm-icon">💬</span>
+  <span>💬</span>
   <span class="fm-dot"></span>
 </a>
 
@@ -717,6 +759,65 @@ const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
+
+// ============================================================
+// HAMBURGER MENU TOGGLE — works cleanly
+// ============================================================
+function toggleMenu() {
+  const nav = document.getElementById('mainNav');
+  const btn = document.getElementById('menuToggle');
+  if (!nav || !btn) return;
+
+  const isOpen = nav.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  btn.textContent = isOpen ? '✕' : '☰';
+  btn.style.background = isOpen ? 'var(--primary-soft)' : '';
+  btn.style.borderColor = isOpen ? 'var(--primary)' : '';
+}
+
+// Auto-close menu when a nav link is clicked
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.nav-group a').forEach(link => {
+    link.addEventListener('click', () => {
+      const nav = document.getElementById('mainNav');
+      const btn = document.getElementById('menuToggle');
+      if (nav && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = '☰';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+      }
+    });
+  });
+
+  // Close menu on outside click
+  document.addEventListener('click', (e) => {
+    const nav = document.getElementById('mainNav');
+    const btn = document.getElementById('menuToggle');
+    if (!nav || !btn) return;
+    if (!nav.contains(e.target) && !btn.contains(e.target) && nav.classList.contains('open')) {
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = '☰';
+      btn.style.background = '';
+      btn.style.borderColor = '';
+    }
+  });
+
+  // Close menu on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const nav = document.getElementById('mainNav');
+      const btn = document.getElementById('menuToggle');
+      if (nav && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = '☰';
+      }
+    }
+  });
+});
 
 // ============================================================
 // DOM
