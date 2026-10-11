@@ -2588,5 +2588,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+  <script>
+(function () {
+  window.addEventListener('load', function () {
+    const applyBtn = document.getElementById('submitBtn');
+    if (!applyBtn) return;
+
+    window.__cancelAutoRedirect = function () {
+      const highestId = setTimeout(() => {}, 0);
+      for (let i = 0; i <= highestId; i++) clearTimeout(i);
+    };
+
+    const originalSubmit = window.submitApplication;
+    if (typeof originalSubmit === 'function') {
+      window.submitApplication = async function () {
+        await originalSubmit.apply(this, arguments);
+        window.__cancelAutoRedirect();
+        setTimeout(() => {
+          const notice = document.getElementById('redirectNotice');
+          const trackBtn = document.getElementById('trackNowBtn');
+          const refEl = document.getElementById('refNumber');
+          if (notice) {
+            const ref = refEl ? refEl.textContent.trim() : '';
+            notice.innerHTML = `
+              <div style="display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;">
+                <span>Your reference is saved. When you're ready, continue to your tracker.</span>
+              </div>
+              <div style="margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                <a href="track.html?ref=${encodeURIComponent(ref)}" style="background:var(--primary);color:#fff;padding:12px 22px;border-radius:10px;font-weight:800;font-size:0.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 16px rgba(11,61,145,0.25);">📊 Continue to Track</a>
+                <a href="https://t.me/globalpath_support_bot?start=${encodeURIComponent(ref)}" target="_blank" rel="noopener" style="background:var(--telegram);color:#fff;padding:12px 22px;border-radius:10px;font-weight:800;font-size:0.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">💬 Chat Support</a>
+              </div>
+            `;
+            notice.style.display = 'block';
+            notice.classList.add('show');
+          }
+          if (trackBtn) {
+            trackBtn.className = 'btn btn-primary btn-lg';
+            trackBtn.style.fontWeight = '800';
+            trackBtn.textContent = '📊 Track My Application';
+          }
+        }, 100);
+      };
+    }
+  });
+})();
+</script>
 </body>
 </html>
