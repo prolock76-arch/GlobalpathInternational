@@ -30,7 +30,6 @@ h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 a { color: var(--primary); text-decoration: none; }
 button { font-family: inherit; }
 
-/* HEADER */
 .site-header { background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
 .nav-wrap { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; gap: 14px; flex-wrap: wrap; }
 .logo { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; color: var(--primary); display: flex; align-items: center; gap: 10px; letter-spacing: -0.03em; }
@@ -41,7 +40,6 @@ button { font-family: inherit; }
 .admin-badge { background: var(--danger-bg); color: var(--danger); font-size: 0.65rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.1em; text-transform: uppercase; margin-left: 8px; }
 .header-actions { display: flex; align-items: center; gap: 10px; }
 .header-user { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
-.menu-toggle { display: none; background: var(--bg); border: 1px solid var(--border); font-size: 1.3rem; color: var(--primary); cursor: pointer; padding: 0; border-radius: 10px; width: 42px; height: 42px; align-items: center; justify-content: center; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: var(--radius); border: none; font-family: inherit; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; text-decoration: none; white-space: nowrap; }
 .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(11,61,145,0.25); }
 .btn-primary:hover { background: var(--primary-dark); color: #fff; transform: translateY(-1px); }
@@ -49,16 +47,19 @@ button { font-family: inherit; }
 .btn-ghost:hover { background: var(--bg); color: var(--text); border-color: var(--muted); }
 .btn-danger { background: var(--danger); color: #fff; }
 .btn-danger:hover { background: #a03024; color: #fff; }
+.btn-accent { background: var(--accent); color: #1a1a1a; }
+.btn-accent:hover { background: var(--accent-dark); color: #fff; }
+.btn-telegram { background: var(--telegram); color: #fff; }
+.btn-telegram:hover { background: #1a7ab0; color: #fff; }
 .btn-sm { padding: 8px 14px; font-size: 0.8rem; }
 .btn-block { width: 100%; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-/* MAIN */
 .main { flex: 1; max-width: 1300px; width: 100%; margin: 0 auto; padding: 24px 20px 60px; }
 .page-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
 .page-head h1 { font-size: 1.6rem; color: var(--primary); font-weight: 800; letter-spacing: -0.03em; }
 .page-head p { font-size: 0.9rem; color: var(--muted); margin-top: 2px; }
 
-/* TABS */
 .tabs { display: flex; gap: 4px; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 22px; overflow-x: auto; box-shadow: var(--shadow); }
 .tabs::-webkit-scrollbar { display: none; }
 .tab-btn { flex: 1; min-width: 120px; padding: 12px 18px; border: none; background: transparent; border-radius: 8px; font-weight: 700; font-size: 0.88rem; color: var(--muted); cursor: pointer; transition: all 0.18s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
@@ -67,19 +68,16 @@ button { font-family: inherit; }
 .tab-btn .tab-count { background: rgba(255,255,255,0.25); padding: 1px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; }
 .tab-btn:not(.active) .tab-count { background: var(--danger-bg); color: var(--danger); }
 
-/* TAB CONTENT */
 .tab-content { display: none; }
 .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-/* SEARCH BAR */
 .toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
 .toolbar input, .toolbar select { padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 0.9rem; background: #fff; color: var(--text); transition: border 0.2s; }
 .toolbar input:focus, .toolbar select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(11,61,145,0.08); }
 .toolbar input { flex: 1; min-width: 200px; }
 .toolbar select { min-width: 150px; }
 
-/* TABLE */
 .table-wrap { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow); overflow: hidden; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 .data-table thead { background: var(--bg); }
@@ -95,22 +93,19 @@ button { font-family: inherit; }
 .cell-strong { font-weight: 700; color: var(--text); }
 .cell-muted { color: var(--muted); font-size: 0.82rem; }
 
-/* STATUS PILLS */
 .pill { display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
 .pill.submitted { background: var(--info-bg); color: var(--info); }
 .pill.in-progress { background: var(--accent-soft); color: var(--accent-dark); }
 .pill.approved { background: var(--success-bg); color: var(--success); }
 .pill.rejected { background: var(--danger-bg); color: var(--danger); }
-.pill.new { background: var(--danger-bg); color: var(--danger); }
-.pill.read { background: var(--info-bg); color: var(--info); }
-.pill.resolved { background: var(--success-bg); color: var(--success); }
 .pill.active { background: var(--success-bg); color: var(--success); }
 .pill.inactive { background: var(--border); color: var(--muted); }
+.pill.unread { background: var(--danger); color: #fff; }
 
-/* MODAL */
 .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
 .modal-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
 .modal { background: #fff; border-radius: var(--radius-xl); max-width: 620px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 32px 30px; box-shadow: 0 24px 64px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.modal.modal-lg { max-width: 780px; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .modal-close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; background: var(--bg); border: none; font-size: 1.2rem; cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center; transition: all 0.18s; }
 .modal-close:hover { background: var(--danger-bg); color: var(--danger); }
@@ -124,7 +119,6 @@ button { font-family: inherit; }
 .info-item .ii-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
 .info-item .ii-value { font-size: 0.92rem; font-weight: 700; color: var(--text); word-break: break-word; }
 
-/* STATUS CHANGER */
 .status-changer { display: flex; gap: 8px; flex-wrap: wrap; }
 .status-opt { flex: 1; min-width: 90px; padding: 11px 12px; border: 2px solid var(--border); border-radius: var(--radius); background: #fff; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-align: center; transition: all 0.18s; color: var(--muted); }
 .status-opt:hover { border-color: var(--primary); color: var(--primary); }
@@ -133,7 +127,6 @@ button { font-family: inherit; }
 .status-opt.selected.approved { background: var(--success-bg); border-color: var(--success); color: var(--success); }
 .status-opt.selected.rejected { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
 
-/* NOTE FORM */
 .note-form textarea { width: 100%; padding: 13px 15px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 0.92rem; min-height: 90px; resize: vertical; margin-bottom: 10px; }
 .note-form textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(11,61,145,0.08); }
 .note-actions { display: flex; gap: 8px; justify-content: flex-end; }
@@ -142,7 +135,6 @@ button { font-family: inherit; }
 .note-item .ni-meta { font-size: 0.72rem; color: var(--muted); font-weight: 700; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
 .note-item .ni-text { color: var(--text); line-height: 1.6; white-space: pre-wrap; }
 
-/* JOB CARD */
 .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
 .job-card-admin { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow); transition: all 0.2s; position: relative; }
 .job-card-admin:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
@@ -154,9 +146,6 @@ button { font-family: inherit; }
 .job-card-admin .jc-salary { font-size: 0.9rem; font-weight: 800; color: var(--success); margin-bottom: 12px; }
 .job-card-admin .jc-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--border); }
 
-/* FORM */
-.form-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px 24px; box-shadow: var(--shadow); max-width: 720px; }
-.form-card h3 { font-size: 1.15rem; color: var(--primary); font-weight: 800; margin-bottom: 20px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
 .form-group { margin-bottom: 14px; }
 .form-group label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 6px; }
@@ -165,18 +154,28 @@ button { font-family: inherit; }
 .form-group textarea { min-height: 100px; resize: vertical; }
 .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
 
-/* ALERTS */
 .alert { padding: 14px 18px; border-radius: var(--radius); font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; display: none; }
 .alert.show { display: block; }
 .alert-success { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
 .alert-error { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
 
-/* LOADING */
 .loading { text-align: center; padding: 60px 20px; color: var(--muted); }
 .loading .spinner-lg { display: inline-block; width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 14px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* MOBILE */
+/* CHAT */
+.chat-thread { max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); }
+.chat-msg { max-width: 78%; padding: 10px 14px; border-radius: 14px; font-size: 0.9rem; line-height: 1.5; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+.chat-msg.customer { align-self: flex-start; background: #fff; color: var(--text); border-bottom-left-radius: 4px; }
+.chat-msg.staff { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; }
+.chat-msg .cm-meta { font-size: 0.62rem; opacity: 0.75; margin-bottom: 4px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.chat-msg .cm-body { white-space: pre-wrap; word-wrap: break-word; }
+
+.reply-methods { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.reply-method { flex: 1; min-width: 100px; padding: 10px 12px; border: 2px solid var(--border); border-radius: var(--radius); background: #fff; font-family: inherit; font-weight: 700; font-size: 0.82rem; color: var(--muted); cursor: pointer; text-align: center; transition: all 0.18s; }
+.reply-method:hover { border-color: var(--primary); color: var(--primary); }
+.reply-method.selected { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+
 @media (max-width: 720px) {
   .main { padding: 18px 14px 60px; }
   .page-head h1 { font-size: 1.3rem; }
@@ -186,7 +185,7 @@ button { font-family: inherit; }
   .data-table { font-size: 0.82rem; }
   .data-table th, .data-table td { padding: 10px 12px; }
   .modal { padding: 24px 20px; }
-  .menu-toggle { display: flex; }
+  .chat-msg { max-width: 88%; }
 }
 </style>
 </head>
@@ -225,7 +224,6 @@ button { font-family: inherit; }
     <button class="btn btn-ghost btn-sm" onclick="refreshAll()">🔄 Refresh</button>
   </div>
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab-btn active" data-tab="apps" onclick="switchTab('apps')">
       📋 Applications <span class="tab-count" id="appsCount">0</span>
@@ -238,7 +236,6 @@ button { font-family: inherit; }
     </button>
   </div>
 
-  <!-- ALERT -->
   <div class="alert alert-success" id="globalSuccess"></div>
   <div class="alert alert-error" id="globalError"></div>
 
@@ -254,7 +251,6 @@ button { font-family: inherit; }
         <option value="Rejected">Rejected</option>
       </select>
     </div>
-
     <div class="table-wrap">
       <div id="appsTableWrap">
         <div class="loading"><div class="spinner-lg"></div><p>Loading applications…</p></div>
@@ -262,21 +258,19 @@ button { font-family: inherit; }
     </div>
   </div>
 
-  <!-- MESSAGES TAB -->
+  <!-- MESSAGES TAB (chat-style) -->
   <div class="tab-content" id="tab-messages">
     <div class="toolbar">
-      <input type="text" id="msgSearch" placeholder="Search messages…" oninput="filterMessages()">
-      <select id="msgStatusFilter" onchange="filterMessages()">
-        <option value="">All messages</option>
-        <option value="new">New</option>
+      <input type="text" id="msgSearch" placeholder="Search conversations…" oninput="filterConvs()">
+      <select id="msgStatusFilter" onchange="filterConvs()">
+        <option value="">All conversations</option>
+        <option value="unread">Unread only</option>
         <option value="read">Read</option>
-        <option value="resolved">Resolved</option>
       </select>
     </div>
-
     <div class="table-wrap">
-      <div id="messagesTableWrap">
-        <div class="loading"><div class="spinner-lg"></div><p>Loading messages…</p></div>
+      <div id="convsTableWrap">
+        <div class="loading"><div class="spinner-lg"></div><p>Loading conversations…</p></div>
       </div>
     </div>
   </div>
@@ -287,29 +281,24 @@ button { font-family: inherit; }
       <input type="text" id="jobSearch" placeholder="Search jobs…" oninput="filterJobs()">
       <button class="btn btn-primary" onclick="openJobForm()">+ Add Job</button>
     </div>
-
     <div id="jobsWrap">
       <div class="loading"><div class="spinner-lg"></div><p>Loading jobs…</p></div>
     </div>
   </div>
 </main>
 
-<!-- ============================================================ -->
 <!-- APPLICATION MODAL -->
-<!-- ============================================================ -->
 <div class="modal-overlay" id="appModal" onclick="if(event.target===this)closeAppModal()">
   <div class="modal">
     <button class="modal-close" onclick="closeAppModal()">✕</button>
     <h2 id="modalTitle">Application</h2>
     <div class="modal-ref" id="modalRef">GP-2026-00000</div>
 
-    <!-- Info -->
     <div class="modal-section">
       <h4>Applicant Details</h4>
       <div class="info-grid" id="modalInfo"></div>
     </div>
 
-    <!-- Status changer -->
     <div class="modal-section">
       <h4>Update Status</h4>
       <div class="status-changer" id="statusChanger">
@@ -320,7 +309,6 @@ button { font-family: inherit; }
       </div>
     </div>
 
-    <!-- Add note -->
     <div class="modal-section">
       <h4>Add Internal Note</h4>
       <div class="note-form">
@@ -332,7 +320,6 @@ button { font-family: inherit; }
       <div class="notes-list" id="notesList"></div>
     </div>
 
-    <!-- Save -->
     <div class="modal-section" style="display:flex;gap:10px;justify-content:flex-end;">
       <button class="btn btn-ghost" onclick="closeAppModal()">Cancel</button>
       <button class="btn btn-primary" onclick="saveAppChanges()">💾 Save Changes</button>
@@ -340,92 +327,46 @@ button { font-family: inherit; }
   </div>
 </div>
 
-<!-- ============================================================ -->
 <!-- JOB MODAL -->
-<!-- ============================================================ -->
 <div class="modal-overlay" id="jobModal" onclick="if(event.target===this)closeJobModal()">
   <div class="modal">
     <button class="modal-close" onclick="closeJobModal()">✕</button>
     <h2 id="jobModalTitle">Add Job</h2>
     <p class="modal-ref" style="font-family:var(--font-body);letter-spacing:0;">Fill in the job details below.</p>
-
     <form id="jobForm" onsubmit="saveJob(event)">
       <div class="form-row">
-        <div class="form-group">
-          <label>Job Title *</label>
-          <input type="text" id="jTitle" required>
-        </div>
-        <div class="form-group">
-          <label>Employer *</label>
-          <input type="text" id="jEmployer" required>
-        </div>
+        <div class="form-group"><label>Job Title *</label><input type="text" id="jTitle" required></div>
+        <div class="form-group"><label>Employer *</label><input type="text" id="jEmployer" required></div>
       </div>
-
       <div class="form-row">
-        <div class="form-group">
-          <label>Country *</label>
-          <input type="text" id="jCountry" required>
-        </div>
-        <div class="form-group">
-          <label>Flag (emoji)</label>
-          <input type="text" id="jFlag" placeholder="🇬🇧" maxlength="4">
-        </div>
+        <div class="form-group"><label>Country *</label><input type="text" id="jCountry" required></div>
+        <div class="form-group"><label>Flag (emoji)</label><input type="text" id="jFlag" placeholder="🇬🇧" maxlength="4"></div>
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label>Category *</label>
           <select id="jCategory" required>
             <option value="">Select…</option>
-            <option>Healthcare</option>
-            <option>Construction</option>
-            <option>Hospitality</option>
-            <option>IT & Tech</option>
-            <option>Logistics</option>
-            <option>Agriculture</option>
-            <option>Education</option>
-            <option>Engineering</option>
-            <option>Finance</option>
-            <option>Domestic</option>
-            <option>Other</option>
+            <option>Healthcare</option><option>Construction</option><option>Hospitality</option>
+            <option>IT & Tech</option><option>Logistics</option><option>Agriculture</option>
+            <option>Education</option><option>Engineering</option><option>Finance</option>
+            <option>Domestic</option><option>Other</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Salary</label>
-          <input type="text" id="jSalary" placeholder="e.g. £32,000–£42,000/yr">
-        </div>
+        <div class="form-group"><label>Salary</label><input type="text" id="jSalary" placeholder="e.g. £32,000–£42,000/yr"></div>
       </div>
-
-      <div class="form-group">
-        <label>Description</label>
-        <textarea id="jDescription" placeholder="Short description of the role…"></textarea>
-      </div>
-
+      <div class="form-group"><label>Description</label><textarea id="jDescription" placeholder="Short description of the role…"></textarea></div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Verified?</label>
-          <select id="jVerified">
-            <option value="true">Yes — Verified</option>
-            <option value="false">No</option>
-          </select>
+        <div class="form-group"><label>Verified?</label>
+          <select id="jVerified"><option value="true">Yes — Verified</option><option value="false">No</option></select>
         </div>
-        <div class="form-group">
-          <label>Urgent?</label>
-          <select id="jUrgent">
-            <option value="false">No</option>
-            <option value="true">Yes — Urgent</option>
-          </select>
+        <div class="form-group"><label>Urgent?</label>
+          <select id="jUrgent"><option value="false">No</option><option value="true">Yes — Urgent</option></select>
         </div>
       </div>
-
-      <div class="form-group">
-        <label>Status</label>
-        <select id="jActive">
-          <option value="true">Active (visible)</option>
-          <option value="false">Inactive (hidden)</option>
-        </select>
+      <div class="form-group"><label>Status</label>
+        <select id="jActive"><option value="true">Active (visible)</option><option value="false">Inactive (hidden)</option></select>
       </div>
-
       <div class="form-actions">
         <button type="button" class="btn btn-ghost" onclick="closeJobModal()">Cancel</button>
         <button type="submit" class="btn btn-primary" id="jobSaveBtn">💾 Save Job</button>
@@ -434,35 +375,32 @@ button { font-family: inherit; }
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- MESSAGE MODAL -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="msgModal" onclick="if(event.target===this)closeMsgModal()">
-  <div class="modal">
-    <button class="modal-close" onclick="closeMsgModal()">✕</button>
-    <h2 id="msgModalTitle">Message</h2>
-    <p class="modal-ref" id="msgModalFrom" style="font-family:var(--font-body);letter-spacing:0;"></p>
+<!-- CONVERSATION MODAL (chat) -->
+<div class="modal-overlay" id="convModal" onclick="if(event.target===this)closeConv()">
+  <div class="modal modal-lg">
+    <button class="modal-close" onclick="closeConv()">✕</button>
+    <h2 id="convTitle">Conversation</h2>
+    <div class="modal-ref" id="convRef">GP-2026-00000</div>
 
     <div class="modal-section">
-      <h4>Message Content</h4>
-      <div class="note-item" style="border-left-color:var(--accent);background:var(--accent-soft);">
-        <div class="ni-meta" id="msgMeta"></div>
-        <div class="ni-text" id="msgBody"></div>
-      </div>
+      <h4>Message Thread</h4>
+      <div class="chat-thread" id="convThread"></div>
     </div>
 
     <div class="modal-section">
-      <h4>Mark as</h4>
-      <div class="status-changer">
-        <button class="status-opt" data-status="new" onclick="updateMsgStatus('new', this)">New</button>
-        <button class="status-opt" data-status="read" onclick="updateMsgStatus('read', this)">Read</button>
-        <button class="status-opt" data-status="resolved" onclick="updateMsgStatus('resolved', this)">Resolved</button>
-      </div>
-    </div>
+      <h4>Reply</h4>
+      <textarea id="convReply" placeholder="Type your reply…" style="width:100%;min-height:80px;padding:12px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:0.92rem;resize:vertical;"></textarea>
 
-    <div class="modal-section" style="display:flex;gap:10px;justify-content:flex-end;">
-      <button class="btn btn-ghost" onclick="closeMsgModal()">Close</button>
-      <a id="msgReplyBtn" class="btn btn-primary" href="#" target="_blank">✉️ Reply via Email</a>
+      <div class="reply-methods" id="replyMethods">
+        <button type="button" class="reply-method selected" data-method="email" onclick="selectReplyMethod('email')">📧 Email</button>
+        <button type="button" class="reply-method" data-method="app" onclick="selectReplyMethod('app')">💬 In-app</button>
+        <button type="button" class="reply-method" data-method="both" onclick="selectReplyMethod('both')">📧+💬 Both</button>
+      </div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn btn-ghost" onclick="closeConv()">Close</button>
+        <button class="btn btn-primary" id="convSendBtn" onclick="sendConvReply()">📤 Send Reply</button>
+      </div>
     </div>
   </div>
 </div>
@@ -473,55 +411,31 @@ const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let allApps = [];
-let allMessages = [];
+let allConvs = [];
 let allJobs = [];
-
 let currentApp = null;
 let currentStatus = null;
 let currentJobId = null;
-let currentMessage = null;
+let currentConv = null;
+let currentReplyMethod = 'email';
 
-// ============================================================
 // HELPERS
-// ============================================================
 function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function fmtDate(d) { if (!d) return '—'; try { return new Date(d).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}); } catch { return '—'; } }
 function fmtDateTime(d) { if (!d) return '—'; try { return new Date(d).toLocaleString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch { return '—'; } }
 function statusCls(s) { return (s || 'Submitted').toLowerCase().replace(/\s+/g,'-'); }
+function showSuccess(msg) { const el = document.getElementById('globalSuccess'); el.textContent = '✅ ' + msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3500); }
+function showError(msg) { const el = document.getElementById('globalError'); el.textContent = '❌ ' + msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 5000); }
 
-function showSuccess(msg) {
-  const el = document.getElementById('globalSuccess');
-  el.textContent = '✅ ' + msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 3500);
-}
-function showError(msg) {
-  const el = document.getElementById('globalError');
-  el.textContent = '❌ ' + msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 5000);
-}
-
-// ============================================================
-// AUTH (simple — for demo, we allow access; hook up real auth later)
-// ============================================================
 async function checkAuth() {
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session?.user) {
-    document.getElementById('adminEmail').textContent = session.user.email;
-  } else {
-    document.getElementById('adminEmail').textContent = 'Staff';
-  }
+  document.getElementById('adminEmail').textContent = session?.user?.email || 'Staff';
 }
-
 async function signOut() {
   await supabaseClient.auth.signOut();
   window.location.href = 'index.html';
 }
 
-// ============================================================
-// TABS
-// ============================================================
 function switchTab(name) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -530,18 +444,13 @@ function switchTab(name) {
 }
 
 // ============================================================
-// LOAD APPLICATIONS
+// APPLICATIONS
 // ============================================================
 async function loadApps() {
   const wrap = document.getElementById('appsTableWrap');
   wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading applications…</p></div>';
-
   try {
-    const { data, error } = await supabaseClient
-      .from('applications')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(200);
+    const { data, error } = await supabaseClient.from('applications').select('*').order('created_at', { ascending: false }).limit(200);
     if (error) throw error;
     allApps = data || [];
     document.getElementById('appsCount').textContent = allApps.length;
@@ -551,76 +460,39 @@ async function loadApps() {
     wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load applications: ${esc(err.message)}</p></div>`;
   }
 }
-
-function filterApps() {
-  renderApps();
-}
-
+function filterApps() { renderApps(); }
 function renderApps() {
   const wrap = document.getElementById('appsTableWrap');
   const q = document.getElementById('appSearch').value.toLowerCase().trim();
   const statusFilter = document.getElementById('appStatusFilter').value;
-
   let list = allApps;
-  if (q) {
-    list = list.filter(a =>
-      (a.reference || '').toLowerCase().includes(q) ||
-      (a.full_name || '').toLowerCase().includes(q) ||
-      (a.email || '').toLowerCase().includes(q) ||
-      (a.country || '').toLowerCase().includes(q)
-    );
-  }
+  if (q) list = list.filter(a => (a.reference||'').toLowerCase().includes(q) || (a.full_name||'').toLowerCase().includes(q) || (a.email||'').toLowerCase().includes(q) || (a.country||'').toLowerCase().includes(q));
   if (statusFilter) list = list.filter(a => (a.status || 'Submitted') === statusFilter);
-
-  if (list.length === 0) {
-    wrap.innerHTML = `<div class="table-empty"><span class="te-icon">📭</span><p>No applications match your filters.</p></div>`;
-    return;
-  }
-
+  if (list.length === 0) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">📭</span><p>No applications match your filters.</p></div>`; return; }
   wrap.innerHTML = `
     <table class="data-table">
-      <thead>
-        <tr>
-          <th>Reference</th>
-          <th>Applicant</th>
-          <th>Service</th>
-          <th>Country</th>
-          <th>Status</th>
-          <th>Submitted</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Reference</th><th>Applicant</th><th>Service</th><th>Country</th><th>Status</th><th>Submitted</th></tr></thead>
       <tbody>
         ${list.map(a => `
           <tr onclick="openAppModal('${esc(a.reference)}')">
             <td><span class="ref-code">${esc(a.reference)}</span></td>
-            <td>
-              <div class="cell-strong">${esc(a.full_name || '—')}</div>
-              <div class="cell-muted">${esc(a.email || '')}</div>
-            </td>
+            <td><div class="cell-strong">${esc(a.full_name || '—')}</div><div class="cell-muted">${esc(a.email || '')}</div></td>
             <td>${esc((a.service_type || '—').replace(/^\w/, c => c.toUpperCase()))}</td>
             <td>${esc(a.country || '—')}</td>
             <td><span class="pill ${statusCls(a.status)}">${esc(a.status || 'Submitted')}</span></td>
             <td class="cell-muted">${fmtDate(a.created_at)}</td>
-          </tr>
-        `).join('')}
+          </tr>`).join('')}
       </tbody>
-    </table>
-  `;
+    </table>`;
 }
 
-// ============================================================
-// APPLICATION MODAL
-// ============================================================
 function openAppModal(reference) {
   const app = allApps.find(a => a.reference === reference);
   if (!app) return;
-
   currentApp = app;
   currentStatus = app.status || 'Submitted';
-
   document.getElementById('modalTitle').textContent = app.full_name || 'Application';
   document.getElementById('modalRef').textContent = app.reference;
-
   const details = app.details || {};
   const infoItems = [
     { label: 'Email', value: app.email || '—' },
@@ -634,335 +506,250 @@ function openAppModal(reference) {
     { label: 'Agent Requested', value: (app.agent_requested || details.agent_requested) ? '✅ Yes' : 'No' },
     { label: 'Submitted', value: fmtDateTime(app.created_at) }
   ];
-
   document.getElementById('modalInfo').innerHTML = infoItems.map(i => `
-    <div class="info-item">
-      <div class="ii-label">${esc(i.label)}</div>
-      <div class="ii-value">${esc(String(i.value))}</div>
-    </div>
+    <div class="info-item"><div class="ii-label">${esc(i.label)}</div><div class="ii-value">${esc(String(i.value))}</div></div>
   `).join('');
-
-  // Highlight current status
-  document.querySelectorAll('.status-opt').forEach(b => {
-    b.classList.toggle('selected', b.dataset.status === currentStatus);
-  });
-
-  // Notes
+  document.querySelectorAll('#statusChanger .status-opt').forEach(b => b.classList.toggle('selected', b.dataset.status === currentStatus));
   renderNotes(app.reference);
-
   document.getElementById('appModal').classList.add('show');
 }
-
-function closeAppModal() {
-  document.getElementById('appModal').classList.remove('show');
-  currentApp = null;
-  currentStatus = null;
-}
-
+function closeAppModal() { document.getElementById('appModal').classList.remove('show'); currentApp = null; currentStatus = null; }
 function selectStatus(status) {
   currentStatus = status;
-  document.querySelectorAll('.status-opt').forEach(b => {
-    b.classList.toggle('selected', b.dataset.status === status);
-  });
+  document.querySelectorAll('#statusChanger .status-opt').forEach(b => b.classList.toggle('selected', b.dataset.status === status));
 }
-
 async function saveAppChanges() {
   if (!currentApp || !currentStatus) return;
   try {
-    const { error } = await supabaseClient
-      .from('applications')
-      .update({ status: currentStatus })
-      .eq('reference', currentApp.reference);
+    const { error } = await supabaseClient.from('applications').update({ status: currentStatus }).eq('reference', currentApp.reference);
     if (error) throw error;
-
-    // Update local
     const app = allApps.find(a => a.reference === currentApp.reference);
     if (app) app.status = currentStatus;
-
     renderApps();
-    showSuccess(`Status updated to "${currentStatus}" for ${currentApp.reference}`);
+    showSuccess(`Status updated to "${currentStatus}"`);
     closeAppModal();
-  } catch (err) {
-    console.error(err);
-    showError('Could not save: ' + err.message);
-  }
+  } catch (err) { console.error(err); showError('Could not save: ' + err.message); }
 }
 
-// ============================================================
-// NOTES — stored in a separate table `application_notes`
-// ============================================================
+// NOTES
 async function renderNotes(reference) {
   const list = document.getElementById('notesList');
   list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">Loading notes…</div>';
-
   try {
-    const { data, error } = await supabaseClient
-      .from('application_notes')
-      .select('*')
-      .eq('reference', reference)
-      .order('created_at', { ascending: false });
-    if (error) {
-      // If table doesn't exist yet, gracefully show empty
-      list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">No notes yet. (Notes table not set up.)</div>';
-      return;
-    }
-    if (!data || data.length === 0) {
-      list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">No notes yet.</div>';
-      return;
-    }
-    list.innerHTML = data.map(n => `
-      <div class="note-item">
-        <div class="ni-meta">${esc(fmtDateTime(n.created_at))} · ${esc(n.author || 'Staff')}</div>
-        <div class="ni-text">${esc(n.note)}</div>
-      </div>
-    `).join('');
-  } catch (err) {
-    list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">Could not load notes.</div>';
-  }
+    const { data, error } = await supabaseClient.from('application_notes').select('*').eq('reference', reference).order('created_at', { ascending: false });
+    if (error) { list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">No notes yet. (Notes table not set up.)</div>'; return; }
+    if (!data || data.length === 0) { list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">No notes yet.</div>'; return; }
+    list.innerHTML = data.map(n => `<div class="note-item"><div class="ni-meta">${esc(fmtDateTime(n.created_at))} · ${esc(n.author || 'Staff')}</div><div class="ni-text">${esc(n.note)}</div></div>`).join('');
+  } catch (err) { list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">Could not load notes.</div>'; }
 }
-
 async function saveNote() {
   if (!currentApp) return;
   const input = document.getElementById('noteInput');
   const note = input.value.trim();
   if (!note) { showError('Write a note first.'); return; }
-
   try {
-    const { error } = await supabaseClient.from('application_notes').insert([{
-      reference: currentApp.reference,
-      note,
-      author: document.getElementById('adminEmail').textContent || 'Staff',
-      created_at: new Date().toISOString()
-    }]);
+    const { error } = await supabaseClient.from('application_notes').insert([{ reference: currentApp.reference, note, author: document.getElementById('adminEmail').textContent || 'Staff', created_at: new Date().toISOString() }]);
     if (error) throw error;
-
     input.value = '';
     await renderNotes(currentApp.reference);
     showSuccess('Note saved.');
-  } catch (err) {
-    console.error(err);
-    showError('Could not save note: ' + err.message);
-  }
+  } catch (err) { showError('Could not save note: ' + err.message); }
 }
 
 // ============================================================
-// LOAD MESSAGES
+// CONVERSATIONS (chat-style messages)
 // ============================================================
-async function loadMessages() {
-  const wrap = document.getElementById('messagesTableWrap');
-  wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading messages…</p></div>';
-
+async function loadConvs() {
+  const wrap = document.getElementById('convsTableWrap');
+  wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading conversations…</p></div>';
   try {
-    const { data, error } = await supabaseClient
-      .from('messages')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(200);
-    if (error) throw error;
-    allMessages = data || [];
-    document.getElementById('msgsCount').textContent = allMessages.filter(m => (m.status || 'new') === 'new').length;
-    renderMessages();
-  } catch (err) {
-    console.error(err);
-    wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load messages: ${esc(err.message)}</p></div>`;
-  }
-}
+    const [msgsRes, appsRes] = await Promise.all([
+      supabaseClient.from('messages').select('*').order('created_at', { ascending: false }).limit(500),
+      supabaseClient.from('applications').select('id, reference, full_name, email').order('id', { ascending: false }).limit(500)
+    ]);
+    if (msgsRes.error) throw msgsRes.error;
+    if (appsRes.error) throw appsRes.error;
 
-function filterMessages() { renderMessages(); }
+    const appsById = {};
+    (appsRes.data || []).forEach(a => { appsById[a.id] = a; });
 
-function renderMessages() {
-  const wrap = document.getElementById('messagesTableWrap');
-  const q = document.getElementById('msgSearch').value.toLowerCase().trim();
-  const statusFilter = document.getElementById('msgStatusFilter').value;
-
-  let list = allMessages;
-  if (q) list = list.filter(m =>
-    (m.name || '').toLowerCase().includes(q) ||
-    (m.email || '').toLowerCase().includes(q) ||
-    (m.subject || '').toLowerCase().includes(q) ||
-    (m.message || '').toLowerCase().includes(q)
-  );
-  if (statusFilter) list = list.filter(m => (m.status || 'new') === statusFilter);
-
-  if (list.length === 0) {
-    wrap.innerHTML = `<div class="table-empty"><span class="te-icon">📭</span><p>No messages.</p></div>`;
-    return;
-  }
-
-  wrap.innerHTML = `
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>Subject</th>
-          <th>Reference</th>
-          <th>Status</th>
-          <th>Received</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${list.map(m => `
-          <tr onclick="openMsgModal('${esc(m.id)}')">
-            <td>
-              <div class="cell-strong">${esc(m.name || '—')}</div>
-              <div class="cell-muted">${esc(m.email || '')}</div>
-            </td>
-            <td>${esc(m.subject || '—')}</td>
-            <td><span class="ref-code">${esc(m.reference || '—')}</span></td>
-            <td><span class="pill ${statusCls(m.status || 'new')}">${esc((m.status || 'new').toUpperCase())}</span></td>
-            <td class="cell-muted">${fmtDate(m.created_at)}</td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-  `;
-}
-
-// ============================================================
-// MESSAGE MODAL
-// ============================================================
-function openMsgModal(id) {
-  const m = allMessages.find(x => String(x.id) === String(id));
-  if (!m) return;
-  currentMessage = m;
-
-  document.getElementById('msgModalTitle').textContent = m.subject || 'Message';
-  document.getElementById('msgModalFrom').textContent = `${m.name} <${m.email}>`;
-  document.getElementById('msgMeta').textContent = `${fmtDateTime(m.created_at)}${m.reference ? ' · Ref ' + m.reference : ''}`;
-  document.getElementById('msgBody').textContent = m.message || '';
-
-  document.querySelectorAll('#msgModal .status-opt').forEach(b => {
-    b.classList.toggle('selected', b.dataset.status === (m.status || 'new'));
-  });
-
-  const replyBtn = document.getElementById('msgReplyBtn');
-  replyBtn.href = `mailto:${m.email}?subject=Re: ${encodeURIComponent(m.subject || 'Your enquiry')}`;
-
-  document.getElementById('msgModal').classList.add('show');
-
-  // Auto-mark as read
-  if ((m.status || 'new') === 'new') {
-    updateMsgStatus('read', null, true);
-  }
-}
-
-function closeMsgModal() {
-  document.getElementById('msgModal').classList.remove('show');
-  currentMessage = null;
-}
-
-async function updateMsgStatus(status, btn, silent) {
-  if (!currentMessage) return;
-  try {
-    const { error } = await supabaseClient
-      .from('messages')
-      .update({ status })
-      .eq('id', currentMessage.id);
-    if (error) throw error;
-
-    currentMessage.status = status;
-    const m = allMessages.find(x => x.id === currentMessage.id);
-    if (m) m.status = status;
-
-    document.querySelectorAll('#msgModal .status-opt').forEach(b => {
-      b.classList.toggle('selected', b.dataset.status === status);
+    const threads = {};
+    (msgsRes.data || []).forEach(m => {
+      const key = m.application_id || 'orphan';
+      if (!threads[key]) {
+        threads[key] = { application_id: key, app: appsById[key] || null, messages: [], unread_count: 0, last_message_at: m.created_at, last_snippet: m.body || '', last_sender: m.sender_role };
+      }
+      threads[key].messages.push(m);
+      if (m.sender_role === 'customer' && m.read_by_staff === false) threads[key].unread_count++;
     });
 
-    renderMessages();
-    document.getElementById('msgsCount').textContent = allMessages.filter(x => (x.status || 'new') === 'new').length;
+    allConvs = Object.values(threads).sort((a,b) => new Date(b.last_message_at) - new Date(a.last_message_at));
+    const unreadTotal = allConvs.reduce((sum, t) => sum + t.unread_count, 0);
+    document.getElementById('msgsCount').textContent = unreadTotal;
+    renderConvs();
+  } catch (err) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load: ${esc(err.message)}</p></div>`; }
+}
+function filterConvs() { renderConvs(); }
+function renderConvs() {
+  const wrap = document.getElementById('convsTableWrap');
+  const q = (document.getElementById('msgSearch').value || '').toLowerCase().trim();
+  const filter = document.getElementById('msgStatusFilter').value;
+  let list = allConvs;
+  if (q) list = list.filter(t => (t.app?.full_name||'').toLowerCase().includes(q) || (t.app?.reference||'').toLowerCase().includes(q) || (t.app?.email||'').toLowerCase().includes(q) || (t.last_snippet||'').toLowerCase().includes(q));
+  if (filter === 'unread') list = list.filter(t => t.unread_count > 0);
+  if (filter === 'read') list = list.filter(t => t.unread_count === 0);
+  if (list.length === 0) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">💬</span><p>No conversations found.</p></div>`; return; }
+  wrap.innerHTML = `
+    <table class="data-table">
+      <thead><tr><th>Applicant</th><th>Reference</th><th>Last message</th><th>Unread</th><th>Received</th><th></th></tr></thead>
+      <tbody>
+        ${list.map(t => `
+          <tr>
+            <td><div class="cell-strong">${esc(t.app?.full_name || 'Unknown')}</div><div class="cell-muted">${esc(t.app?.email || '')}</div></td>
+            <td>${t.app?.reference ? `<span class="ref-code">${esc(t.app.reference)}</span>` : `<span class="cell-muted">App #${esc(t.application_id)}</span>`}</td>
+            <td><div class="cell-strong" style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc((t.last_snippet || '').slice(0, 60))}${t.last_snippet.length > 60 ? '…' : ''}</div><div class="cell-muted" style="font-size:0.7rem;">from ${esc(t.last_sender || 'unknown')}</div></td>
+            <td>${t.unread_count > 0 ? `<span class="pill unread">${t.unread_count} new</span>` : `<span class="cell-muted">${t.messages.length}</span>`}</td>
+            <td class="cell-muted">${fmtDateTime(t.last_message_at)}</td>
+            <td><button class="btn btn-primary btn-sm" onclick="openConv('${esc(t.application_id)}')">Open →</button></td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
 
-    if (!silent) showSuccess(`Message marked as ${status}.`);
-  } catch (err) {
-    if (!silent) showError('Could not update: ' + err.message);
-  }
+function openConv(applicationId) {
+  const thread = allConvs.find(t => String(t.application_id) === String(applicationId));
+  if (!thread) return;
+  currentConv = thread;
+  document.getElementById('convTitle').textContent = thread.app?.full_name || 'Conversation';
+  document.getElementById('convRef').textContent = thread.app?.reference || `App #${applicationId}`;
+  document.getElementById('convReply').value = '';
+  renderConvThread();
+  document.getElementById('convModal').classList.add('show');
+  markThreadRead(thread);
+}
+function closeConv() { document.getElementById('convModal').classList.remove('show'); currentConv = null; }
+function renderConvThread() {
+  const el = document.getElementById('convThread');
+  if (!currentConv) return;
+  const sorted = [...currentConv.messages].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+  el.innerHTML = sorted.map(m => {
+    const isStaff = m.sender_role === 'staff';
+    return `<div class="chat-msg ${isStaff ? 'staff' : 'customer'}"><div class="cm-meta">${isStaff ? '👤 Staff' : '🧑 Applicant'} · ${fmtDateTime(m.created_at)}</div><div class="cm-body">${esc(m.body || '')}</div></div>`;
+  }).join('');
+  setTimeout(() => { el.scrollTop = el.scrollHeight; }, 50);
+}
+async function markThreadRead(thread) {
+  const unreadIds = thread.messages.filter(m => m.sender_role === 'customer' && m.read_by_staff === false).map(m => m.id);
+  if (unreadIds.length === 0) return;
+  try {
+    const { error } = await supabaseClient.from('messages').update({ read_by_staff: true, status: 'read' }).in('id', unreadIds);
+    if (error) throw error;
+    thread.messages.forEach(m => { if (unreadIds.includes(m.id)) { m.read_by_staff = true; m.status = 'read'; } });
+    thread.unread_count = 0;
+    document.getElementById('msgsCount').textContent = allConvs.reduce((s, t) => s + t.unread_count, 0);
+    renderConvs();
+  } catch (err) { console.error('Mark read error:', err); }
+}
+
+function selectReplyMethod(method) {
+  currentReplyMethod = method;
+  document.querySelectorAll('#replyMethods .reply-method').forEach(b => b.classList.toggle('selected', b.dataset.method === method));
+}
+
+async function sendConvReply() {
+  if (!currentConv) return;
+  const textarea = document.getElementById('convReply');
+  const text = textarea.value.trim();
+  if (!text) { showError('Write a reply first.'); return; }
+  const btn = document.getElementById('convSendBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const staffId = session?.user?.id || 'f467579e-2a6b-48aa-a7e5-e6c66129d7a3';
+    const applicantEmail = currentConv.app?.email || '';
+    const applicantName = currentConv.app?.full_name || 'Applicant';
+    const ref = currentConv.app?.reference || `App #${currentConv.application_id}`;
+
+    // Save to messages table (for email + app + both)
+    const { data, error } = await supabaseClient.from('messages').insert([{
+      application_id: currentConv.application_id,
+      sender_id: staffId,
+      sender_role: 'staff',
+      body: text,
+      read_by_customer: false,
+      read_by_staff: true,
+      status: 'read',
+      created_at: new Date().toISOString()
+    }]).select().single();
+    if (error) throw error;
+
+    currentConv.messages.push(data);
+    currentConv.last_message_at = data.created_at;
+    currentConv.last_snippet = data.body;
+    currentConv.last_sender = 'staff';
+    textarea.value = '';
+    renderConvThread();
+
+    // Open email client if email or both
+    if ((currentReplyMethod === 'email' || currentReplyMethod === 'both') && applicantEmail) {
+      const subject = encodeURIComponent(`Re: Your GlobalPath application ${ref}`);
+      const body = encodeURIComponent(`Hi ${applicantName},\n\n${text}\n\n—\nGlobalPath International\nReference: ${ref}`);
+      window.open(`mailto:${applicantEmail}?subject=${subject}&body=${body}`, '_blank');
+    }
+
+    showSuccess('Reply sent.');
+  } catch (err) { console.error(err); showError('Could not send: ' + err.message); }
+  finally { btn.disabled = false; btn.textContent = '📤 Send Reply'; }
 }
 
 // ============================================================
-// LOAD JOBS
+// JOBS
 // ============================================================
 async function loadJobs() {
   const wrap = document.getElementById('jobsWrap');
   wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading jobs…</p></div>';
-
   try {
-    const { data, error } = await supabaseClient
-      .from('featured_jobs')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(200);
+    const { data, error } = await supabaseClient.from('featured_jobs').select('*').order('created_at', { ascending: false }).limit(200);
     if (error) throw error;
     allJobs = data || [];
     document.getElementById('jobsCount').textContent = allJobs.filter(j => j.active !== false).length;
     renderJobs();
-  } catch (err) {
-    console.error(err);
-    wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load jobs: ${esc(err.message)}</p></div>`;
-  }
+  } catch (err) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load jobs: ${esc(err.message)}</p></div>`; }
 }
-
 function filterJobs() { renderJobs(); }
-
 function renderJobs() {
   const wrap = document.getElementById('jobsWrap');
   const q = document.getElementById('jobSearch').value.toLowerCase().trim();
-
   let list = allJobs;
-  if (q) list = list.filter(j =>
-    (j.title || '').toLowerCase().includes(q) ||
-    (j.employer || '').toLowerCase().includes(q) ||
-    (j.country || '').toLowerCase().includes(q) ||
-    (j.category || '').toLowerCase().includes(q)
-  );
-
-  if (list.length === 0) {
-    wrap.innerHTML = `<div class="table-empty"><span class="te-icon">💼</span><p>No jobs yet. Click <strong>+ Add Job</strong> to create one.</p></div>`;
-    return;
-  }
-
+  if (q) list = list.filter(j => (j.title||'').toLowerCase().includes(q) || (j.employer||'').toLowerCase().includes(q) || (j.country||'').toLowerCase().includes(q) || (j.category||'').toLowerCase().includes(q));
+  if (list.length === 0) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">💼</span><p>No jobs yet. Click <strong>+ Add Job</strong> to create one.</p></div>`; return; }
   wrap.innerHTML = `<div class="job-grid">${list.map(j => `
     <div class="job-card-admin">
       <div class="jc-head">
-        <div>
-          <h4>${esc(j.flag || '🌍')} ${esc(j.title)}</h4>
-          <div class="jc-company">${esc(j.employer)} · ${esc(j.country)}</div>
-        </div>
+        <div><h4>${esc(j.flag || '🌍')} ${esc(j.title)}</h4><div class="jc-company">${esc(j.employer)} · ${esc(j.country)}</div></div>
         <span class="pill ${j.active !== false ? 'active' : 'inactive'}">${j.active !== false ? 'Active' : 'Inactive'}</span>
       </div>
-      <div class="jc-meta">
-        <span>${esc(j.category || '—')}</span>
-        ${j.verified ? '<span>✓ Verified</span>' : ''}
-        ${j.urgent ? '<span style="background:var(--danger-bg);color:var(--danger);border-color:var(--danger);">🔥 Urgent</span>' : ''}
-      </div>
+      <div class="jc-meta"><span>${esc(j.category || '—')}</span>${j.verified ? '<span>✓ Verified</span>' : ''}${j.urgent ? '<span style="background:var(--danger-bg);color:var(--danger);border-color:var(--danger);">🔥 Urgent</span>' : ''}</div>
       <div class="jc-salary">💰 ${esc(j.salary || '—')}</div>
       <div class="jc-actions">
         <button class="btn btn-primary btn-sm" onclick="editJob('${esc(j.id)}')">✏️ Edit</button>
         <button class="btn btn-ghost btn-sm" onclick="toggleJobActive('${esc(j.id)}')">${j.active !== false ? '⏸ Deactivate' : '▶ Activate'}</button>
         <button class="btn btn-danger btn-sm" onclick="deleteJob('${esc(j.id)}')">🗑 Delete</button>
       </div>
-    </div>
-  `).join('')}</div>`;
+    </div>`).join('')}</div>`;
 }
-
-// ============================================================
-// JOB FORM
-// ============================================================
 function openJobForm() {
   currentJobId = null;
   document.getElementById('jobModalTitle').textContent = 'Add Job';
   document.getElementById('jobForm').reset();
   document.getElementById('jobModal').classList.add('show');
 }
-
-function closeJobModal() {
-  document.getElementById('jobModal').classList.remove('show');
-  currentJobId = null;
-}
-
+function closeJobModal() { document.getElementById('jobModal').classList.remove('show'); currentJobId = null; }
 function editJob(id) {
   const j = allJobs.find(x => String(x.id) === String(id));
   if (!j) return;
   currentJobId = id;
-
   document.getElementById('jobModalTitle').textContent = 'Edit Job';
   document.getElementById('jTitle').value = j.title || '';
   document.getElementById('jEmployer').value = j.employer || '';
@@ -974,16 +761,13 @@ function editJob(id) {
   document.getElementById('jVerified').value = String(j.verified !== false);
   document.getElementById('jUrgent').value = String(j.urgent === true);
   document.getElementById('jActive').value = String(j.active !== false);
-
   document.getElementById('jobModal').classList.add('show');
 }
-
 async function saveJob(e) {
   e.preventDefault();
   const btn = document.getElementById('jobSaveBtn');
   btn.disabled = true;
   btn.textContent = 'Saving…';
-
   const payload = {
     title: document.getElementById('jTitle').value.trim(),
     employer: document.getElementById('jEmployer').value.trim(),
@@ -997,7 +781,6 @@ async function saveJob(e) {
     active: document.getElementById('jActive').value === 'true',
     updated_at: new Date().toISOString()
   };
-
   try {
     if (currentJobId) {
       const { error } = await supabaseClient.from('featured_jobs').update(payload).eq('id', currentJobId);
@@ -1011,31 +794,19 @@ async function saveJob(e) {
     }
     closeJobModal();
     await loadJobs();
-  } catch (err) {
-    console.error(err);
-    showError('Could not save job: ' + err.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '💾 Save Job';
-  }
+  } catch (err) { showError('Could not save job: ' + err.message); }
+  finally { btn.disabled = false; btn.textContent = '💾 Save Job'; }
 }
-
 async function toggleJobActive(id) {
   const j = allJobs.find(x => String(x.id) === String(id));
   if (!j) return;
   try {
-    const { error } = await supabaseClient
-      .from('featured_jobs')
-      .update({ active: j.active === false ? true : false })
-      .eq('id', id);
+    const { error } = await supabaseClient.from('featured_jobs').update({ active: j.active === false }).eq('id', id);
     if (error) throw error;
     await loadJobs();
     showSuccess('Job updated.');
-  } catch (err) {
-    showError('Could not update: ' + err.message);
-  }
+  } catch (err) { showError('Could not update: ' + err.message); }
 }
-
 async function deleteJob(id) {
   if (!confirm('Delete this job? This cannot be undone.')) return;
   try {
@@ -1043,25 +814,19 @@ async function deleteJob(id) {
     if (error) throw error;
     await loadJobs();
     showSuccess('Job deleted.');
-  } catch (err) {
-    showError('Could not delete: ' + err.message);
-  }
+  } catch (err) { showError('Could not delete: ' + err.message); }
 }
 
 // ============================================================
-// REFRESH ALL
+// REFRESH + INIT
 // ============================================================
 async function refreshAll() {
-  await Promise.all([loadApps(), loadMessages(), loadJobs()]);
+  await Promise.all([loadApps(), loadConvs(), loadJobs()]);
   showSuccess('Refreshed.');
 }
-
-// ============================================================
-// INIT
-// ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
   await checkAuth();
-  await Promise.all([loadApps(), loadMessages(), loadJobs()]);
+  await Promise.all([loadApps(), loadConvs(), loadJobs()]);
 });
 </script>
 </body>
