@@ -46,9 +46,11 @@
   --font-body: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-display: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', monospace;
+  --header-h: 70px;
+  --progress-h: 92px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 140px; }
+html { scroll-behavior: smooth; scroll-padding-top: 180px; }
 body {
   font-family: var(--font-body);
   background: var(--bg);
@@ -57,6 +59,7 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
@@ -256,9 +259,11 @@ a:hover { color: var(--primary-dark); }
   background: #fff;
   border-bottom: 1px solid var(--border);
   position: sticky;
-  top: 70px;
+  top: var(--header-h);
   z-index: 900;
   box-shadow: 0 2px 12px rgba(11,61,145,0.05);
+  transition: box-shadow 0.3s ease;
+  will-change: transform;
 }
 .progress-top-line {
   height: 4px;
@@ -269,7 +274,7 @@ a:hover { color: var(--primary-dark); }
 .progress-top-line-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--primary), var(--primary-light));
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 0 4px 4px 0;
 }
 .progress-steps {
@@ -281,6 +286,7 @@ a:hover { color: var(--primary-dark); }
   justify-content: space-between;
   overflow-x: auto;
   scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 .progress-steps::-webkit-scrollbar { display: none; }
 .p-step {
@@ -292,6 +298,7 @@ a:hover { color: var(--primary-dark); }
   min-width: 58px;
   position: relative;
   z-index: 2;
+  transition: opacity 0.35s ease;
 }
 .p-dot {
   width: 32px;
@@ -306,7 +313,7 @@ a:hover { color: var(--primary-dark); }
   font-weight: 800;
   font-size: 0.78rem;
   color: var(--muted);
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
   position: relative;
   z-index: 2;
 }
@@ -328,7 +335,7 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
   color: var(--muted);
   white-space: nowrap;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
   letter-spacing: 0.02em;
 }
 .p-step.active .p-label { color: var(--primary); font-weight: 800; }
@@ -382,12 +389,12 @@ a:hover { color: var(--primary-dark); }
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border);
   display: none;
-  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  scroll-margin-top: 140px;
+  animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  scroll-margin-top: 180px;
 }
 .panel.active { display: block; }
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .panel-head { margin-bottom: 32px; text-align: center; }
@@ -456,7 +463,7 @@ a:hover { color: var(--primary-dark); }
   border-radius: var(--radius-lg);
   padding: 32px 24px 28px;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -469,7 +476,7 @@ a:hover { color: var(--primary-dark); }
   background: linear-gradient(90deg, var(--primary), var(--accent));
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
 .path-option:hover::before { transform: scaleX(1); }
 .path-option:hover {
@@ -539,7 +546,7 @@ a:hover { color: var(--primary-dark); }
   border-radius: var(--radius-lg);
   padding: 24px 22px;
   cursor: pointer;
-  transition: all 0.22s;
+  transition: border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
   position: relative;
   text-align: left;
 }
@@ -614,7 +621,7 @@ a:hover { color: var(--primary-dark); }
   font-family: inherit;
   background: #fff;
   color: var(--text);
-  transition: border 0.2s, box-shadow 0.2s;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 .form-group input:focus,
 .form-group select:focus,
@@ -636,7 +643,7 @@ a:hover { color: var(--primary-dark); }
   border-radius: var(--radius-lg);
   padding: 28px 20px;
   cursor: pointer;
-  transition: all 0.22s;
+  transition: border-color 0.22s ease, transform 0.22s ease, background 0.22s ease;
   text-align: center;
   background: #fff;
   position: relative;
@@ -774,7 +781,7 @@ a:hover { color: var(--primary-dark); }
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
-  transition: all 0.18s;
+  transition: border-color 0.18s ease, background 0.18s ease;
   background: #fff;
 }
 .checkbox-item:hover { border-color: var(--primary); background: var(--primary-soft); }
@@ -860,7 +867,7 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
   color: var(--muted);
   cursor: pointer;
-  transition: all 0.18s;
+  transition: all 0.18s ease;
   white-space: nowrap;
 }
 .cat-chip:hover { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
@@ -876,7 +883,7 @@ a:hover { color: var(--primary-dark); }
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 22px;
-  transition: all 0.25s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -891,7 +898,7 @@ a:hover { color: var(--primary-dark); }
   background: linear-gradient(90deg, var(--primary), var(--accent));
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.35s;
+  transition: transform 0.35s ease;
 }
 .job-card-mini:hover {
   transform: translateY(-6px);
@@ -1017,7 +1024,7 @@ a:hover { color: var(--primary-dark); }
   font-size: 0.98rem;
   cursor: pointer;
   border: none;
-  transition: all 0.2s;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   text-align: center;
   line-height: 1.4;
   white-space: nowrap;
@@ -1045,6 +1052,11 @@ a:hover { color: var(--primary-dark); }
   justify-content: center;
   font-size: 2.6rem;
   margin: 0 auto 26px;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 .success-panel h2 {
   font-family: var(--font-display);
@@ -1088,6 +1100,7 @@ a:hover { color: var(--primary-dark); }
   font-size: 0.9rem;
   cursor: pointer;
   font-family: inherit;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 .copy-btn:hover { background: rgba(255,255,255,0.3); border-color: #fff; }
 .copy-btn.copied { background: var(--success); border-color: var(--success); }
@@ -1098,6 +1111,19 @@ a:hover { color: var(--primary-dark); }
   flex-wrap: wrap;
   margin-top: 30px;
 }
+
+.redirect-notice {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 16px auto 0;
+  padding: 12px 18px;
+  background: var(--primary-soft);
+  border-radius: var(--radius);
+  max-width: 400px;
+  display: none;
+}
+.redirect-notice strong { color: var(--primary); font-family: var(--font-display); }
 
 .spinner {
   display: inline-block;
@@ -1144,6 +1170,7 @@ a:hover { color: var(--primary-dark); }
 }
 
 @media (max-width: 720px) {
+  :root { --header-h: 64px; }
   .panel .btn-row { display: none; }
   .panel { padding-bottom: 110px; }
 
@@ -1300,9 +1327,7 @@ a:hover { color: var(--primary-dark); }
 <div class="form-wrap">
   <div class="error-msg" id="errorMsg"></div>
 
-  <!-- ============================================================ -->
   <!-- STEP 1: PATH -->
-  <!-- ============================================================ -->
   <div class="panel active" data-panel="path">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 1</span>
@@ -1351,9 +1376,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- STEP 2: BASIC DETAILS -->
-  <!-- ============================================================ -->
+  <!-- STEP 2: BASIC -->
   <div class="panel" data-panel="basic">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 2</span>
@@ -1399,9 +1422,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 3: PASSPORT CHECK -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="passport-check">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 3</span>
@@ -1429,9 +1450,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 4a: VISA TYPE -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="visa-type">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 4 · Visa</span>
@@ -1488,9 +1507,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 4b: VISA REALITY -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="visa-reality">
     <div class="panel-head">
       <span class="panel-eyebrow">Important</span>
@@ -1519,9 +1536,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 4c: JOB DESTINATION -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="job-destination">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 4 · Destination</span>
@@ -1558,9 +1573,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 5: DOCUMENTS -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="documents">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 5</span>
@@ -1588,9 +1601,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 6: EXPERIENCE -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="experience">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 6</span>
@@ -1637,9 +1648,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 7: FINANCIAL -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="financial">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 7</span>
@@ -1679,9 +1688,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 8: REVIEW -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="review">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 8 · Review</span>
@@ -1695,9 +1702,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- STEP 9: AGENT -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="agent">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 9 · Final</span>
@@ -1745,9 +1750,7 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- SUCCESS -->
-  <!-- ============================================================ -->
   <div class="panel" data-panel="success">
     <div class="success-panel">
       <div class="success-icon">✓</div>
@@ -1762,6 +1765,10 @@ a:hover { color: var(--primary-dark); }
 
       <div class="info-box success">
         <strong>What happens next:</strong> We'll review your application within 1–2 business days. You can track progress anytime with your reference number.
+      </div>
+
+      <div class="redirect-notice" id="redirectNotice">
+        Redirecting to your tracker in <strong id="redirectCountdown">3</strong>s…
       </div>
 
       <div class="info-box" id="agentConfirmBox" style="display:none;background:linear-gradient(135deg,#f0f7ff 0%,#fff 100%);border-left-color:var(--primary);color:var(--primary-dark);">
@@ -1781,15 +1788,13 @@ a:hover { color: var(--primary-dark); }
       </div>
 
       <div class="success-actions">
-        <a href="track.html" class="btn btn-secondary btn-lg">Track My Application</a>
+        <a id="trackNowBtn" href="track.html" class="btn btn-secondary btn-lg">Track My Application →</a>
         <a href="portal.html" class="btn btn-ghost btn-lg">Create Account</a>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <!-- FEATURED JOBS -->
-  <!-- ============================================================ -->
   <div id="featuredJobsSection" style="display:none;">
     <div class="featured-section">
       <div class="featured-header">
@@ -1889,6 +1894,8 @@ let flow = [];
 let currentIndex = 0;
 let selectedCategory = 'all';
 let FEATURED_JOBS = [];
+let isNavigating = false;
+let redirectTimer = null;
 
 let formData = {
   service_type: '', visa_type: '', full_name: '', email: '', phone: '',
@@ -1942,7 +1949,7 @@ function displayIndexForPanel(panel) {
 }
 
 // ============================================================
-// RENDER PROGRESS
+// RENDER PROGRESS — smooth, no jitter
 // ============================================================
 function renderProgress() {
   const inner = document.getElementById('progressInner');
@@ -1998,6 +2005,23 @@ function renderProgress() {
 }
 
 // ============================================================
+// SMOOTH PANEL SCROLL
+// ============================================================
+function scrollToFormTop() {
+  const progressBar = document.querySelector('.progress-bar');
+  if (!progressBar) return;
+
+  const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 70;
+  const progressH = progressBar.offsetHeight || 92;
+  const targetY = progressBar.offsetTop + progressH + 16;
+
+  window.scrollTo({
+    top: Math.max(0, targetY),
+    behavior: 'smooth'
+  });
+}
+
+// ============================================================
 // PANEL SHOW
 // ============================================================
 function showPanel(name) {
@@ -2013,19 +2037,27 @@ function showPanel(name) {
     featured.style.display = 'none';
   }
 
-  window.scrollTo({ top: 200, behavior: 'smooth' });
+  // Smooth scroll — deferred to avoid jitter with re-render
+  requestAnimationFrame(() => {
+    setTimeout(scrollToFormTop, 60);
+  });
+
   updateMobileBar();
 }
 
 // ============================================================
-// NEXT / PREV
+// NEXT / PREV — with navigation guard
 // ============================================================
 function goNext() {
+  if (isNavigating) return;
+  isNavigating = true;
+  setTimeout(() => { isNavigating = false; }, 500);
+
   hideError();
   const current = flow[currentIndex];
 
   if (current === 'path') {
-    if (!formData.service_type) return showError('Please select what you need help with.');
+    if (!formData.service_type) { isNavigating = false; return showError('Please select what you need help with.'); }
   }
 
   if (current === 'basic') {
@@ -2034,24 +2066,24 @@ function goNext() {
     formData.phone = document.getElementById('phone').value.trim();
     formData.country = document.getElementById('country').value;
     formData.city = document.getElementById('city').value.trim();
-    if (!formData.full_name) return showError('Please enter your full name.');
-    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return showError('Please enter a valid email.');
-    if (!formData.phone) return showError('Please enter your phone number.');
-    if (!formData.country) return showError('Please select your country.');
-    if (!formData.city) return showError('Please enter your city.');
+    if (!formData.full_name) { isNavigating = false; return showError('Please enter your full name.'); }
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) { isNavigating = false; return showError('Please enter a valid email.'); }
+    if (!formData.phone) { isNavigating = false; return showError('Please enter your phone number.'); }
+    if (!formData.country) { isNavigating = false; return showError('Please select your country.'); }
+    if (!formData.city) { isNavigating = false; return showError('Please enter your city.'); }
   }
 
   if (current === 'passport-check') {
-    if (formData.has_passport === null) return showError('Please tell us if you have a passport.');
+    if (formData.has_passport === null) { isNavigating = false; return showError('Please tell us if you have a passport.'); }
   }
 
   if (current === 'visa-type') {
-    if (!formData.visa_type) return showError('Please select a visa type.');
+    if (!formData.visa_type) { isNavigating = false; return showError('Please select a visa type.'); }
   }
 
   if (current === 'job-destination') {
     const selected = Array.from(document.querySelectorAll('.d_job_dest:checked')).map(el => el.value);
-    if (selected.length === 0) return showError('Please select at least one destination country.');
+    if (selected.length === 0) { isNavigating = false; return showError('Please select at least one destination country.'); }
     formData.details = formData.details || {};
     formData.details.job_destinations = selected;
   }
@@ -2064,7 +2096,7 @@ function goNext() {
   if (current === 'experience') {
     formData.details = formData.details || {};
     const edu = document.getElementById('d_education_level')?.value;
-    if (!edu) return showError('Please select your highest education level.');
+    if (!edu) { isNavigating = false; return showError('Please select your highest education level.'); }
     formData.details.education = edu;
     formData.details.work_years = document.getElementById('d_work_years')?.value || '';
     formData.details.industry = document.getElementById('d_industry')?.value.trim() || '';
@@ -2073,20 +2105,14 @@ function goNext() {
 
   if (current === 'financial') {
     formData.details = formData.details || {};
-    if (!formData.details.funds) return showError('Please tell us about your financial readiness.');
+    if (!formData.details.funds) { isNavigating = false; return showError('Please tell us about your financial readiness.'); }
     formData.details.financial_notes = document.getElementById('d_financial_notes')?.value.trim() || '';
-  }
-
-  // legacy details panel (if used)
-  if (current === 'details') {
-    if (!validateDetails()) return;
   }
 
   flow = buildFlow();
   if (currentIndex < flow.length - 1) {
     currentIndex++;
     const nextPanel = flow[currentIndex];
-    if (nextPanel === 'details') renderDetails();
     if (nextPanel === 'review') renderReview();
     renderProgress();
     showPanel(nextPanel);
@@ -2094,6 +2120,10 @@ function goNext() {
 }
 
 function goPrev() {
+  if (isNavigating) return;
+  isNavigating = true;
+  setTimeout(() => { isNavigating = false; }, 500);
+
   hideError();
   if (currentIndex > 0) {
     currentIndex--;
@@ -2304,17 +2334,6 @@ function visaContinueWithOffer() {
 }
 
 // ============================================================
-// LEGACY DETAILS RENDER (kept for safety)
-// ============================================================
-function renderDetails() {
-  const body = document.getElementById('detailsBody');
-  if (!body) return;
-  body.innerHTML = '';
-}
-
-function validateDetails() { return true; }
-
-// ============================================================
 // REVIEW
 // ============================================================
 function renderReview() {
@@ -2368,7 +2387,7 @@ function escapeHtml(s) {
 }
 
 // ============================================================
-// SUBMIT
+// SUBMIT + AUTO REDIRECT TO TRACK
 // ============================================================
 async function submitApplication() {
   hideError();
@@ -2399,14 +2418,42 @@ async function submitApplication() {
     document.getElementById('refNumber').textContent = reference;
     document.querySelector('.progress-bar').style.display = 'none';
 
-    if (formData.agent_requested === true) document.getElementById('agentConfirmBox').style.display = 'block';
+    if (formData.agent_requested === true) {
+      document.getElementById('agentConfirmBox').style.display = 'block';
+    }
 
     const tgLink = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${reference}`;
     document.getElementById('telegramLink').href = tgLink;
     document.getElementById('telegramConnectBox').style.display = 'block';
     document.getElementById('featuredJobsSection').style.display = 'none';
 
+    // Set track button link
+    const trackBtn = document.getElementById('trackNowBtn');
+    if (trackBtn) {
+      trackBtn.href = `track.html?ref=${encodeURIComponent(reference)}`;
+    }
+
     showPanel('success');
+
+    // Show redirect countdown
+    const notice = document.getElementById('redirectNotice');
+    const counter = document.getElementById('redirectCountdown');
+    if (notice && counter) {
+      notice.style.display = 'block';
+      let seconds = 3;
+      counter.textContent = seconds;
+      const interval = setInterval(() => {
+        seconds--;
+        counter.textContent = seconds;
+        if (seconds <= 0) clearInterval(interval);
+      }, 1000);
+    }
+
+    // Auto-redirect after 2.5s
+    redirectTimer = setTimeout(() => {
+      window.location.href = `track.html?ref=${encodeURIComponent(reference)}`;
+    }, 2500);
+
   } catch (err) {
     console.error('Submit error:', err);
     showError('Could not submit: ' + (err.message || 'Please try again.'));
@@ -2420,6 +2467,7 @@ async function submitApplication() {
 // ============================================================
 function copyReference() {
   const ref = document.getElementById('refNumber').textContent;
+  if (redirectTimer) clearTimeout(redirectTimer);
   navigator.clipboard.writeText(ref).then(() => {
     const btn = document.getElementById('copyBtn');
     btn.textContent = '✓ Copied!';
@@ -2467,16 +2515,24 @@ window.addEventListener('orientationchange', () => setTimeout(updateMobileBar, 1
 // ============================================================
 // SCROLL
 // ============================================================
+let scrollRaf = null;
 window.addEventListener('scroll', () => {
-  const winScroll = document.documentElement.scrollTop;
-  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-  const bar = document.getElementById('scrollProgress');
-  if (bar) bar.style.width = scrolled + '%';
+  if (scrollRaf) return;
+  scrollRaf = requestAnimationFrame(() => {
+    const winScroll = document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    const bar = document.getElementById('scrollProgress');
+    if (bar) bar.style.width = scrolled + '%';
 
-  const backBtn = document.getElementById('backToTop');
-  if (backBtn) { if (winScroll > 400) backBtn.classList.add('show'); else backBtn.classList.remove('show'); }
-});
+    const backBtn = document.getElementById('backToTop');
+    if (backBtn) {
+      if (winScroll > 400) backBtn.classList.add('show');
+      else backBtn.classList.remove('show');
+    }
+    scrollRaf = null;
+  });
+}, { passive: true });
 
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
