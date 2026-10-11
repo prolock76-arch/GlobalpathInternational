@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Apply — GlobalPath International</title>
 <meta name="description" content="Apply for passport, visa, or international job assistance.">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
@@ -37,16 +43,24 @@
   --shadow-lg: 0 12px 32px rgba(11,61,145,0.12);
   --shadow-xl: 0 24px 64px rgba(11,61,145,0.18);
   --max-width: 1200px;
+  --font-body: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', monospace;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: 140px; }
 body {
-  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
 a:hover { color: var(--primary-dark); }
@@ -100,29 +114,36 @@ a:hover { color: var(--primary-dark); }
   gap: 16px;
 }
 .logo {
+  font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: var(--primary);
   display: flex;
   align-items: center;
-  gap: 10px;
-  letter-spacing: -0.02em;
+  gap: 11px;
+  letter-spacing: -0.03em;
 }
 .logo-mark {
-  width: 38px; height: 38px;
+  width: 42px; height: 42px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 14px rgba(11,61,145,0.28);
-  border-radius: 10px;
+  border-radius: 12px;
   flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(11,61,145,0.28);
 }
 .logo-mark svg { display: block; width: 100%; height: 100%; }
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
 .logo-text small {
-  display: block;
-  font-size: 0.62rem;
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 600;
   color: var(--muted);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  margin-top: 2px;
 }
 
 .main-nav {
@@ -200,9 +221,9 @@ a:hover { color: var(--primary-dark); }
 .hero-apply h1 {
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
   margin-bottom: 16px;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 .hero-apply p {
   font-size: 1.1rem;
@@ -235,7 +256,7 @@ a:hover { color: var(--primary-dark); }
   background: #fff;
   border-bottom: 1px solid var(--border);
   position: sticky;
-  top: 67px;
+  top: 70px;
   z-index: 900;
   box-shadow: 0 2px 12px rgba(11,61,145,0.05);
 }
@@ -252,9 +273,9 @@ a:hover { color: var(--primary-dark); }
   border-radius: 0 4px 4px 0;
 }
 .progress-steps {
-  max-width: 900px;
+  max-width: 1040px;
   margin: 0 auto;
-  padding: 22px 24px 20px;
+  padding: 20px 16px 16px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -266,23 +287,24 @@ a:hover { color: var(--primary-dark); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex: 1;
-  min-width: 70px;
+  min-width: 58px;
   position: relative;
   z-index: 2;
 }
 .p-dot {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: #fff;
   border: 2px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: var(--muted);
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -293,7 +315,7 @@ a:hover { color: var(--primary-dark); }
   border-color: var(--primary);
   color: #fff;
   box-shadow: 0 4px 14px rgba(11,61,145,0.35);
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 .p-step.done .p-dot {
   background: var(--success);
@@ -302,11 +324,12 @@ a:hover { color: var(--primary-dark); }
   box-shadow: 0 2px 8px rgba(15,138,77,0.25);
 }
 .p-label {
-  font-size: 0.74rem;
+  font-size: 0.62rem;
   font-weight: 700;
   color: var(--muted);
   white-space: nowrap;
   transition: color 0.3s;
+  letter-spacing: 0.02em;
 }
 .p-step.active .p-label { color: var(--primary); font-weight: 800; }
 .p-step.done .p-label { color: var(--success); }
@@ -314,11 +337,11 @@ a:hover { color: var(--primary-dark); }
   flex: 1;
   height: 2px;
   background: var(--border);
-  min-width: 20px;
-  max-width: 80px;
+  min-width: 8px;
+  max-width: 42px;
   align-self: center;
-  margin-top: -26px;
-  margin-bottom: 22px;
+  margin-top: -22px;
+  margin-bottom: 18px;
   border-radius: 2px;
   overflow: hidden;
   position: relative;
@@ -334,16 +357,17 @@ a:hover { color: var(--primary-dark); }
 }
 .p-connector.filled .p-connector-fill { width: 100%; }
 .progress-count {
-  font-size: 0.78rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
   font-weight: 800;
   color: var(--primary);
   white-space: nowrap;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background: var(--primary-soft);
   border-radius: 20px;
-  margin-left: 16px;
+  margin-left: 12px;
   align-self: center;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .form-wrap {
@@ -372,7 +396,7 @@ a:hover { color: var(--primary-dark); }
   color: var(--primary);
   margin-bottom: 10px;
   font-weight: 800;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
 }
 .panel-head p {
   color: var(--muted);
@@ -382,6 +406,7 @@ a:hover { color: var(--primary-dark); }
 }
 .panel-eyebrow {
   display: inline-block;
+  font-family: var(--font-display);
   color: var(--accent-dark);
   background: var(--accent-soft);
   font-size: 0.7rem;
@@ -407,6 +432,7 @@ a:hover { color: var(--primary-dark); }
 .step-alert .sa-icon { font-size: 1.5rem; flex-shrink: 0; line-height: 1; }
 .step-alert .sa-content { flex: 1; }
 .step-alert .sa-title {
+  font-family: var(--font-display);
   font-size: 0.9rem;
   font-weight: 800;
   color: #8a5a00;
@@ -473,7 +499,13 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
 }
 .path-option .icon { font-size: 2.6rem; margin-bottom: 16px; display: block; }
-.path-option h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 8px; font-weight: 800; }
+.path-option h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-weight: 800;
+}
 .path-option p { font-size: 0.88rem; color: var(--muted); line-height: 1.55; margin-bottom: 12px; }
 .path-option .path-time {
   display: inline-block;
@@ -536,7 +568,13 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
 }
 .visa-option .v-icon { font-size: 1.7rem; margin-bottom: 10px; display: block; }
-.visa-option h4 { color: var(--primary); font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+.visa-option h4 {
+  font-family: var(--font-display);
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
 .visa-option p { color: var(--muted); font-size: 0.85rem; line-height: 1.55; margin-bottom: 10px; }
 .visa-option .v-tag {
   display: inline-block;
@@ -623,7 +661,14 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
 }
 .choice-card .choice-icon { font-size: 2rem; margin-bottom: 12px; }
-.choice-card strong { display: block; color: var(--primary); font-size: 1rem; margin-bottom: 6px; font-weight: 800; }
+.choice-card strong {
+  display: block;
+  font-family: var(--font-display);
+  color: var(--primary);
+  font-size: 1rem;
+  margin-bottom: 6px;
+  font-weight: 800;
+}
 .choice-card small { color: var(--muted); font-size: 0.82rem; line-height: 1.5; display: block; }
 
 .info-box {
@@ -656,6 +701,7 @@ a:hover { color: var(--primary-dark); }
   margin-bottom: 24px;
 }
 .reality-card h3 {
+  font-family: var(--font-display);
   color: #8a5a00;
   font-size: 1.15rem;
   margin-bottom: 16px;
@@ -691,6 +737,7 @@ a:hover { color: var(--primary-dark); }
   margin-bottom: 24px;
 }
 .agent-benefits h3 {
+  font-family: var(--font-display);
   color: var(--primary);
   font-size: 1.15rem;
   margin-bottom: 16px;
@@ -756,9 +803,16 @@ a:hover { color: var(--primary-dark); }
   flex-wrap: wrap;
   margin-bottom: 26px;
 }
-.featured-header h2 { font-size: 1.4rem; color: var(--primary); font-weight: 800; margin-bottom: 4px; }
+.featured-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--primary);
+  font-weight: 800;
+  margin-bottom: 4px;
+}
 .featured-header p { font-size: 0.92rem; color: var(--muted); }
 .featured-badge {
+  font-family: var(--font-display);
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff;
   font-size: 0.7rem;
@@ -849,6 +903,7 @@ a:hover { color: var(--primary-dark); }
   position: absolute;
   top: 12px;
   right: 12px;
+  font-family: var(--font-display);
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: #fff;
   font-size: 0.65rem;
@@ -891,7 +946,13 @@ a:hover { color: var(--primary-dark); }
   padding: 3px 10px;
   border-radius: 20px;
 }
-.job-card-mini h4 { font-size: 1.02rem; color: var(--primary); font-weight: 800; margin-bottom: 4px; }
+.job-card-mini h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--primary);
+  font-weight: 800;
+  margin-bottom: 4px;
+}
 .job-card-mini .jc-employer { font-size: 0.84rem; color: var(--muted); margin-bottom: 12px; }
 .job-card-mini .jc-meta {
   display: flex;
@@ -902,6 +963,7 @@ a:hover { color: var(--primary-dark); }
   margin-bottom: 12px;
 }
 .job-card-mini .jc-salary {
+  font-family: var(--font-display);
   font-size: 0.98rem;
   font-weight: 800;
   color: var(--success);
@@ -950,13 +1012,13 @@ a:hover { color: var(--primary-dark); }
   display: inline-block;
   padding: 14px 30px;
   border-radius: var(--radius);
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.98rem;
   cursor: pointer;
   border: none;
   transition: all 0.2s;
   text-align: center;
-  font-family: inherit;
   line-height: 1.4;
   white-space: nowrap;
 }
@@ -984,7 +1046,13 @@ a:hover { color: var(--primary-dark); }
   font-size: 2.6rem;
   margin: 0 auto 26px;
 }
-.success-panel h2 { color: var(--primary); font-size: 1.8rem; margin-bottom: 12px; font-weight: 800; }
+.success-panel h2 {
+  font-family: var(--font-display);
+  color: var(--primary);
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  font-weight: 800;
+}
 .success-panel > p { color: var(--muted); font-size: 1.02rem; margin-bottom: 26px; }
 .reference-box {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -1003,10 +1071,10 @@ a:hover { color: var(--primary-dark); }
   font-weight: 700;
 }
 .reference-number {
+  font-family: var(--font-mono);
   font-size: 2.2rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.05em;
-  font-family: 'SF Mono', 'Monaco', monospace;
   margin-bottom: 18px;
   word-break: break-all;
 }
@@ -1129,6 +1197,7 @@ a:hover { color: var(--primary-dark); }
     top: -12px;
     left: 50%;
     transform: translateX(-50%);
+    font-family: var(--font-display);
     background: var(--primary);
     color: #fff;
     font-size: 0.7rem;
@@ -1151,6 +1220,10 @@ a:hover { color: var(--primary-dark); }
   .reality-actions { flex-direction: column; }
   .reality-actions .btn { width: 100%; }
   .success-actions .btn { width: 100%; }
+  .progress-steps { padding: 18px 12px 14px; }
+  .p-label { font-size: 0.56rem; }
+  .p-dot { width: 28px; height: 28px; font-size: 0.7rem; }
+  .p-connector { max-width: 22px; margin-top: -20px; margin-bottom: 16px; }
 }
 
 @media (max-width: 480px) {
@@ -1169,19 +1242,26 @@ a:hover { color: var(--primary-dark); }
   <div class="nav-wrap">
     <a href="index.html" class="logo">
       <span class="logo-mark">
-        <svg viewBox="0 0 40 40" width="38" height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 44 44" width="42" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="gpGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <linearGradient id="gpGrad" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stop-color="#1a5bc4"/>
               <stop offset="100%" stop-color="#0B3D91"/>
             </linearGradient>
+            <linearGradient id="gpArc" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#F5A623"/>
+              <stop offset="100%" stop-color="#d98c0f"/>
+            </linearGradient>
           </defs>
-          <rect width="40" height="40" rx="10" fill="url(#gpGrad)"/>
-          <circle cx="20" cy="20" r="10" stroke="#F5A623" stroke-width="1.8" fill="none" opacity="0.85"/>
-          <ellipse cx="20" cy="20" rx="4.5" ry="10" stroke="#F5A623" stroke-width="1.5" fill="none" opacity="0.9"/>
-          <line x1="10" y1="20" x2="30" y2="20" stroke="#F5A623" stroke-width="1.5" opacity="0.9"/>
-          <path d="M20 5 L22.2 17.8 L35 20 L22.2 22.2 L20 35 L17.8 22.2 L5 20 L17.8 17.8 Z" fill="#ffffff" opacity="0.95"/>
-          <circle cx="20" cy="20" r="2.2" fill="#F5A623"/>
+          <rect width="44" height="44" rx="12" fill="url(#gpGrad)"/>
+          <circle cx="22" cy="22" r="13" stroke="#ffffff" stroke-width="1.6" fill="none" opacity="0.35"/>
+          <path d="M 9 22 Q 22 9 35 22" stroke="url(#gpArc)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M 9 22 Q 22 35 35 22" stroke="url(#gpArc)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+          <path d="M 22 9 L 22 35" stroke="#ffffff" stroke-width="1.4" opacity="0.5" stroke-linecap="round"/>
+          <circle cx="22" cy="22" r="4" fill="#F5A623"/>
+          <circle cx="22" cy="22" r="2" fill="#ffffff"/>
+          <circle cx="35" cy="22" r="1.6" fill="#ffffff"/>
+          <circle cx="9" cy="22" r="1.6" fill="#ffffff"/>
         </svg>
       </span>
       <span class="logo-text">GlobalPath<small>International</small></span>
@@ -1192,6 +1272,7 @@ a:hover { color: var(--primary-dark); }
         <a href="index.html">Home</a>
         <a href="track.html">Track</a>
         <a href="portal.html">My Account</a>
+        <a href="support.html">Support</a>
       </div>
       <a href="https://t.me/globalpath_support_bot" target="_blank" rel="noopener" class="nav-help">💬 Need Help?</a>
     </nav>
@@ -1211,7 +1292,7 @@ a:hover { color: var(--primary-dark); }
 
 <div class="progress-bar" id="progressBar">
   <div class="progress-top-line">
-    <div class="progress-top-line-fill" id="topLineFill" style="width:0%"></div>
+    <div class="progress-top-line-fill" id="topLineFill" style="width:11.1%"></div>
   </div>
   <div class="progress-steps" id="progressInner"></div>
 </div>
@@ -1219,6 +1300,9 @@ a:hover { color: var(--primary-dark); }
 <div class="form-wrap">
   <div class="error-msg" id="errorMsg"></div>
 
+  <!-- ============================================================ -->
+  <!-- STEP 1: PATH -->
+  <!-- ============================================================ -->
   <div class="panel active" data-panel="path">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 1</span>
@@ -1267,6 +1351,9 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- STEP 2: BASIC DETAILS -->
+  <!-- ============================================================ -->
   <div class="panel" data-panel="basic">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 2</span>
@@ -1312,6 +1399,9 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- STEP 3: PASSPORT CHECK -->
+  <!-- ============================================================ -->
   <div class="panel" data-panel="passport-check">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 3</span>
@@ -1339,6 +1429,9 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- STEP 4a: VISA TYPE -->
+  <!-- ============================================================ -->
   <div class="panel" data-panel="visa-type">
     <div class="panel-head">
       <span class="panel-eyebrow">Step 4 · Visa</span>
@@ -1395,6 +1488,9 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- STEP 4b: VISA REALITY -->
+  <!-- ============================================================ -->
   <div class="panel" data-panel="visa-reality">
     <div class="panel-head">
       <span class="panel-eyebrow">Important</span>
@@ -1423,9 +1519,12 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- STEP 4c: JOB DESTINATION -->
+  <!-- ============================================================ -->
   <div class="panel" data-panel="job-destination">
     <div class="panel-head">
-      <span class="panel-eyebrow">Where to work?</span>
+      <span class="panel-eyebrow">Step 4 · Destination</span>
       <h2>Where would you like to work?</h2>
       <p>Choose one or more countries. We'll match you with verified international employers.</p>
     </div>
@@ -1459,22 +1558,133 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
-  <div class="panel" data-panel="details">
+  <!-- ============================================================ -->
+  <!-- STEP 5: DOCUMENTS -->
+  <!-- ============================================================ -->
+  <div class="panel" data-panel="documents">
     <div class="panel-head">
-      <span class="panel-eyebrow" id="detailsEyebrow">Step 6</span>
-      <h2 id="detailsTitle">A few more details</h2>
-      <p id="detailsSubtitle">This helps us prepare your application correctly.</p>
+      <span class="panel-eyebrow">Step 5</span>
+      <h2>Documents you have</h2>
+      <p>Tick everything you currently have. Don't worry if you're missing some — we'll help.</p>
     </div>
-    <div id="detailsBody"></div>
+    <div class="checkbox-group" id="docsGrid">
+      <label class="checkbox-item"><input type="checkbox" value="passport" class="d_docs_panel"><span>🛂 Valid Passport</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="birth" class="d_docs_panel"><span>📜 Birth Certificate</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="national_id" class="d_docs_panel"><span>🪪 National ID</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="photos" class="d_docs_panel"><span>📸 Passport Photos</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="bank" class="d_docs_panel"><span>🏦 Bank Statements</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="employment" class="d_docs_panel"><span>💼 Employment Letter</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="education" class="d_docs_panel"><span>🎓 Education Certificates</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="police" class="d_docs_panel"><span>👮 Police Clearance</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="medical" class="d_docs_panel"><span>🏥 Medical Report</span></label>
+      <label class="checkbox-item"><input type="checkbox" value="invitation" class="d_docs_panel"><span>✉️ Invitation Letter</span></label>
+    </div>
+    <div class="info-box blue">
+      <strong>💡 Missing something?</strong> Choose <em>Yes, assign me an agent</em> in the last step and we'll help you get everything.
+    </div>
     <div class="btn-row">
       <button class="btn btn-ghost btn-lg" onclick="goPrev()">← Back</button>
       <button class="btn btn-secondary btn-lg" onclick="goNext()">Continue →</button>
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- STEP 6: EXPERIENCE -->
+  <!-- ============================================================ -->
+  <div class="panel" data-panel="experience">
+    <div class="panel-head">
+      <span class="panel-eyebrow">Step 6</span>
+      <h2>Your experience</h2>
+      <p>Tell us about your work and education background.</p>
+    </div>
+    <div class="form-group">
+      <label>Highest Education Level <span class="req">*</span></label>
+      <select id="d_education_level">
+        <option value="">— Select —</option>
+        <option value="none">No formal education</option>
+        <option value="primary">Primary school</option>
+        <option value="secondary">Secondary / High school</option>
+        <option value="diploma">Diploma / Certificate</option>
+        <option value="bachelor">Bachelor's degree</option>
+        <option value="master">Master's degree</option>
+        <option value="phd">PhD / Doctorate</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Years of Work Experience</label>
+        <select id="d_work_years">
+          <option value="">— Select —</option>
+          <option value="0">None</option>
+          <option value="1-2">1–2 years</option>
+          <option value="3-5">3–5 years</option>
+          <option value="5-10">5–10 years</option>
+          <option value="10+">10+ years</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Field / Industry</label>
+        <input type="text" id="d_industry" placeholder="e.g. Healthcare, IT, Construction">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Tell us about your skills or experience</label>
+      <textarea id="d_experience_notes" placeholder="Briefly describe your work experience, skills, or anything relevant..."></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost btn-lg" onclick="goPrev()">← Back</button>
+      <button class="btn btn-secondary btn-lg" onclick="goNext()">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 7: FINANCIAL -->
+  <!-- ============================================================ -->
+  <div class="panel" data-panel="financial">
+    <div class="panel-head">
+      <span class="panel-eyebrow">Step 7</span>
+      <h2>Financial readiness</h2>
+      <p>This helps us match you with the right options.</p>
+    </div>
+    <div class="form-group">
+      <label>Do you have funds for application fees and travel? <span class="req">*</span></label>
+      <div class="choice-grid" id="fundsChoice">
+        <div class="choice-card" data-funds="yes">
+          <div class="choice-icon">✅</div>
+          <strong>Yes, ready now</strong>
+          <small>Can cover all costs</small>
+        </div>
+        <div class="choice-card" data-funds="partial">
+          <div class="choice-icon">🔄</div>
+          <strong>Partially</strong>
+          <small>Need to save a bit more</small>
+        </div>
+        <div class="choice-card" data-funds="no">
+          <div class="choice-icon">⏳</div>
+          <strong>Not yet</strong>
+          <small>Need financial planning help</small>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <strong>💰 Typical costs:</strong> Passport ($50–$200) · Visa ($100–$500) · Medical ($50–$300) · Travel ($400–$2,000+). We'll give you an exact estimate before you commit.
+    </div>
+    <div class="form-group">
+      <label>Anything else we should know?</label>
+      <textarea id="d_financial_notes" placeholder="Optional: any financial constraints or questions..."></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost btn-lg" onclick="goPrev()">← Back</button>
+      <button class="btn btn-secondary btn-lg" onclick="goNext()">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STEP 8: REVIEW -->
+  <!-- ============================================================ -->
   <div class="panel" data-panel="review">
     <div class="panel-head">
-      <span class="panel-eyebrow">Review</span>
+      <span class="panel-eyebrow">Step 8 · Review</span>
       <h2>Review your application</h2>
       <p>Please check everything is correct before continuing.</p>
     </div>
@@ -1485,9 +1695,12 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- STEP 9: AGENT -->
+  <!-- ============================================================ -->
   <div class="panel" data-panel="agent">
     <div class="panel-head">
-      <span class="panel-eyebrow">Final Step</span>
+      <span class="panel-eyebrow">Step 9 · Final</span>
       <h2>Would you like a Verified Agent?</h2>
       <p>Talk to a trained GlobalPath agent — free consultation, no obligation.</p>
     </div>
@@ -1532,6 +1745,9 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- SUCCESS -->
+  <!-- ============================================================ -->
   <div class="panel" data-panel="success">
     <div class="success-panel">
       <div class="success-icon">✓</div>
@@ -1571,6 +1787,9 @@ a:hover { color: var(--primary-dark); }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- FEATURED JOBS -->
+  <!-- ============================================================ -->
   <div id="featuredJobsSection" style="display:none;">
     <div class="featured-section">
       <div class="featured-header">
@@ -1612,16 +1831,22 @@ a:hover { color: var(--primary-dark); }
 
 <div class="mobile-action-bar" id="mobileBar">
   <button class="mab-back" onclick="goPrev()" aria-label="Back">←</button>
-  <span class="mab-step" id="mabStep">Step 1 of 5</span>
+  <span class="mab-step" id="mabStep">Step 1 of 9</span>
   <button class="mab-next" id="mabNext" onclick="mobileNext()">Continue →</button>
 </div>
 
 <script>
+// ============================================================
+// SUPABASE
+// ============================================================
 const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
 
+// ============================================================
+// COUNTRIES
+// ============================================================
 const ALL_COUNTRIES = [
   'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria',
   'Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan',
@@ -1645,10 +1870,26 @@ const ALL_COUNTRIES = [
   'Vatican City','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'
 ];
 
+// ============================================================
+// STATE
+// ============================================================
+const DISPLAY_STEPS = [
+  { key: 'path',            label: 'Path' },
+  { key: 'basic',           label: 'Details' },
+  { key: 'passport-check',  label: 'Passport' },
+  { key: 'job-destination', label: 'Destination' },
+  { key: 'documents',       label: 'Documents' },
+  { key: 'experience',      label: 'Experience' },
+  { key: 'financial',       label: 'Financial' },
+  { key: 'review',          label: 'Review' },
+  { key: 'agent',           label: 'Agent' }
+];
+
 let flow = [];
 let currentIndex = 0;
 let selectedCategory = 'all';
 let FEATURED_JOBS = [];
+
 let formData = {
   service_type: '', visa_type: '', full_name: '', email: '', phone: '',
   country: '', city: '', has_passport: null, agent_requested: false, details: {}
@@ -1665,74 +1906,77 @@ const SAMPLE_JOBS = [
   { title: 'Civil Engineer', employer: 'AECOM', country: 'Saudi Arabia', flag: '🇸🇦', category: 'Engineering', salary: 'SAR 12,000–18,000/mo', verified: true }
 ];
 
-async function loadFeaturedJobs() {
-  try {
-    const { data, error } = await supabaseClient
-      .from('featured_jobs')
-      .select('*')
-      .eq('active', true)
-      .order('created_at', { ascending: false })
-      .limit(50);
-    if (!error && data && data.length > 0) {
-      FEATURED_JOBS = data;
-    } else {
-      FEATURED_JOBS = SAMPLE_JOBS;
-    }
-  } catch (e) {
-    FEATURED_JOBS = SAMPLE_JOBS;
-  }
-  const section = document.getElementById('featuredJobsSection');
-  if (section) renderJobs();
-}
-
+// ============================================================
+// FLOW BUILDER
+// ============================================================
 function buildFlow() {
   const type = formData.service_type;
-  if (type === 'passport') return ['path', 'basic', 'details', 'review', 'agent'];
+  if (type === 'passport') return ['path', 'basic', 'passport-check', 'documents', 'experience', 'financial', 'review', 'agent'];
   if (type === 'visa') {
-    if (formData.has_passport === false) return ['path', 'basic', 'passport-check', 'details', 'review', 'agent'];
+    if (formData.has_passport === false) return ['path', 'basic', 'passport-check', 'documents', 'experience', 'financial', 'review', 'agent'];
     const base = ['path', 'basic', 'passport-check', 'visa-type'];
-    if (formData.visa_type === 'work') return [...base, 'visa-reality', 'details', 'review', 'agent'];
-    return [...base, 'details', 'review', 'agent'];
+    if (formData.visa_type === 'work') return [...base, 'visa-reality', 'job-destination', 'documents', 'experience', 'financial', 'review', 'agent'];
+    return [...base, 'documents', 'experience', 'financial', 'review', 'agent'];
   }
-  if (type === 'job') {
-    if (formData.has_passport === false) return ['path', 'basic', 'passport-check', 'job-destination', 'details', 'review', 'agent'];
-    return ['path', 'basic', 'passport-check', 'job-destination', 'details', 'review', 'agent'];
-  }
-  if (type === 'documents') return ['path', 'basic', 'details', 'review', 'agent'];
+  if (type === 'job') return ['path', 'basic', 'passport-check', 'job-destination', 'documents', 'experience', 'financial', 'review', 'agent'];
+  if (type === 'documents') return ['path', 'basic', 'passport-check', 'documents', 'experience', 'financial', 'review', 'agent'];
   return ['path'];
 }
 
+function displayIndexForPanel(panel) {
+  const map = {
+    'path': 0,
+    'basic': 1,
+    'passport-check': 2,
+    'visa-type': 2,
+    'visa-reality': 3,
+    'job-destination': 3,
+    'documents': 4,
+    'experience': 5,
+    'financial': 6,
+    'review': 7,
+    'agent': 8,
+    'details': 4
+  };
+  return map[panel] ?? 0;
+}
+
+// ============================================================
+// RENDER PROGRESS
+// ============================================================
 function renderProgress() {
   const inner = document.getElementById('progressInner');
   inner.innerHTML = '';
 
-  const labels = {
-    'path': 'Path', 'basic': 'Your Info', 'passport-check': 'Passport',
-    'visa-type': 'Visa Type', 'visa-reality': 'Important',
-    'job-destination': 'Destination', 'details': 'Details',
-    'review': 'Review', 'agent': 'Agent'
-  };
+  const currentPanel = flow[currentIndex];
+  const activeDisplayIdx = displayIndexForPanel(currentPanel);
 
-  flow.forEach((panelName, idx) => {
-    const isDone = idx < currentIndex;
-    const isActive = idx === currentIndex;
+  const reachableKeys = new Set(
+    flow.map(p => DISPLAY_STEPS[displayIndexForPanel(p)]?.key).filter(Boolean)
+  );
 
-    const step = document.createElement('div');
-    step.className = 'p-step';
-    if (isDone) step.classList.add('done');
-    if (isActive) step.classList.add('active');
+  DISPLAY_STEPS.forEach((step, idx) => {
+    const isReachable = reachableKeys.has(step.key);
+    const isDone = idx < activeDisplayIdx;
+    const isActive = idx === activeDisplayIdx;
+
+    const stepEl = document.createElement('div');
+    stepEl.className = 'p-step';
+    if (isDone) stepEl.classList.add('done');
+    if (isActive) stepEl.classList.add('active');
+    if (!isReachable) stepEl.style.opacity = '0.35';
 
     const dotContent = isDone
-      ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+      ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
       : (idx + 1);
 
-    step.innerHTML = `
+    stepEl.innerHTML = `
       <div class="p-dot">${dotContent}</div>
-      <div class="p-label">${labels[panelName] || panelName}</div>
+      <div class="p-label">${step.label}</div>
     `;
-    inner.appendChild(step);
+    inner.appendChild(stepEl);
 
-    if (idx < flow.length - 1) {
+    if (idx < DISPLAY_STEPS.length - 1) {
       const conn = document.createElement('div');
       conn.className = 'p-connector';
       if (isDone) conn.classList.add('filled');
@@ -1743,23 +1987,26 @@ function renderProgress() {
 
   const countEl = document.createElement('div');
   countEl.className = 'progress-count';
-  countEl.textContent = `${currentIndex + 1}/${flow.length}`;
+  countEl.textContent = `${activeDisplayIdx + 1}/9`;
   inner.appendChild(countEl);
 
-  const pct = ((currentIndex + 1) / flow.length) * 100;
+  const pct = ((activeDisplayIdx + 1) / DISPLAY_STEPS.length) * 100;
   const topFill = document.getElementById('topLineFill');
   if (topFill) topFill.style.width = pct + '%';
 
   updateMobileBar();
 }
 
+// ============================================================
+// PANEL SHOW
+// ============================================================
 function showPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   const panel = document.querySelector(`.panel[data-panel="${name}"]`);
   if (panel) panel.classList.add('active');
 
   const featured = document.getElementById('featuredJobsSection');
-  if (name === 'details' && formData.service_type === 'job') {
+  if (name === 'job-destination' && formData.service_type === 'job') {
     featured.style.display = 'block';
     renderJobs();
   } else {
@@ -1770,6 +2017,9 @@ function showPanel(name) {
   updateMobileBar();
 }
 
+// ============================================================
+// NEXT / PREV
+// ============================================================
 function goNext() {
   hideError();
   const current = flow[currentIndex];
@@ -1777,6 +2027,7 @@ function goNext() {
   if (current === 'path') {
     if (!formData.service_type) return showError('Please select what you need help with.');
   }
+
   if (current === 'basic') {
     formData.full_name = document.getElementById('full_name').value.trim();
     formData.email = document.getElementById('email').value.trim();
@@ -1789,18 +2040,44 @@ function goNext() {
     if (!formData.country) return showError('Please select your country.');
     if (!formData.city) return showError('Please enter your city.');
   }
+
   if (current === 'passport-check') {
     if (formData.has_passport === null) return showError('Please tell us if you have a passport.');
   }
+
   if (current === 'visa-type') {
     if (!formData.visa_type) return showError('Please select a visa type.');
   }
+
   if (current === 'job-destination') {
     const selected = Array.from(document.querySelectorAll('.d_job_dest:checked')).map(el => el.value);
     if (selected.length === 0) return showError('Please select at least one destination country.');
     formData.details = formData.details || {};
     formData.details.job_destinations = selected;
   }
+
+  if (current === 'documents') {
+    formData.details = formData.details || {};
+    formData.details.documents_have = Array.from(document.querySelectorAll('.d_docs_panel:checked')).map(el => el.value);
+  }
+
+  if (current === 'experience') {
+    formData.details = formData.details || {};
+    const edu = document.getElementById('d_education_level')?.value;
+    if (!edu) return showError('Please select your highest education level.');
+    formData.details.education = edu;
+    formData.details.work_years = document.getElementById('d_work_years')?.value || '';
+    formData.details.industry = document.getElementById('d_industry')?.value.trim() || '';
+    formData.details.experience_notes = document.getElementById('d_experience_notes')?.value.trim() || '';
+  }
+
+  if (current === 'financial') {
+    formData.details = formData.details || {};
+    if (!formData.details.funds) return showError('Please tell us about your financial readiness.');
+    formData.details.financial_notes = document.getElementById('d_financial_notes')?.value.trim() || '';
+  }
+
+  // legacy details panel (if used)
   if (current === 'details') {
     if (!validateDetails()) return;
   }
@@ -1827,6 +2104,25 @@ function goPrev() {
   }
 }
 
+// ============================================================
+// JOBS
+// ============================================================
+async function loadFeaturedJobs() {
+  try {
+    const { data, error } = await supabaseClient
+      .from('featured_jobs')
+      .select('*')
+      .eq('active', true)
+      .order('created_at', { ascending: false })
+      .limit(50);
+    if (!error && data && data.length > 0) FEATURED_JOBS = data;
+    else FEATURED_JOBS = SAMPLE_JOBS;
+  } catch (e) {
+    FEATURED_JOBS = SAMPLE_JOBS;
+  }
+  renderJobs();
+}
+
 function renderJobs() {
   const grid = document.getElementById('jobsGrid');
   if (!grid) return;
@@ -1834,15 +2130,13 @@ function renderJobs() {
   const search = (document.getElementById('jobSearch')?.value || '').toLowerCase().trim();
 
   let filtered = FEATURED_JOBS;
-  if (selectedCategory !== 'all') {
-    filtered = filtered.filter(j => j.category === selectedCategory);
-  }
+  if (selectedCategory !== 'all') filtered = filtered.filter(j => j.category === selectedCategory);
   if (search) {
     filtered = filtered.filter(j =>
-      j.title.toLowerCase().includes(search) ||
-      j.employer.toLowerCase().includes(search) ||
-      j.country.toLowerCase().includes(search) ||
-      j.category.toLowerCase().includes(search)
+      (j.title||'').toLowerCase().includes(search) ||
+      (j.employer||'').toLowerCase().includes(search) ||
+      (j.country||'').toLowerCase().includes(search) ||
+      (j.category||'').toLowerCase().includes(search)
     );
   }
 
@@ -1905,16 +2199,12 @@ function scrollToJobs(e) {
 }
 
 function continueApplication() {
-  // If we're on the path step with job selected, continue to the next step
-  if (currentIndex === 0 && formData.service_type === 'job') {
-    goNext();
-  } else if (flow[currentIndex] === 'path') {
-    goNext();
-  } else {
-    document.querySelector('.form-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  document.querySelector('.form-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// ============================================================
+// ALERTS
+// ============================================================
 function showAlert(msg, type = 'info') {
   const el = document.getElementById('errorMsg');
   el.textContent = msg;
@@ -1925,6 +2215,22 @@ function showAlert(msg, type = 'info') {
   setTimeout(() => el.classList.remove('show'), 4000);
 }
 
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.background = '';
+  el.style.color = '';
+  el.style.borderLeftColor = '';
+  el.classList.add('show');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return false;
+}
+
+function hideError() { document.getElementById('errorMsg').classList.remove('show'); }
+
+// ============================================================
+// PATH SELECT
+// ============================================================
 const pathGrid = document.getElementById('pathGrid');
 if (pathGrid) {
   pathGrid.addEventListener('click', (e) => {
@@ -1938,6 +2244,9 @@ function selectPath(option) {
   formData.service_type = option.dataset.path;
 }
 
+// ============================================================
+// PASSPORT CHOICE
+// ============================================================
 document.getElementById('passportChoice').addEventListener('click', (e) => {
   const card = e.target.closest('.choice-card');
   if (!card) return;
@@ -1948,6 +2257,9 @@ document.getElementById('passportChoice').addEventListener('click', (e) => {
   notice.style.display = (card.dataset.has === 'no' && (formData.service_type === 'visa' || formData.service_type === 'job')) ? 'block' : 'none';
 });
 
+// ============================================================
+// VISA CHOICE
+// ============================================================
 document.getElementById('visaGrid').addEventListener('click', (e) => {
   const option = e.target.closest('.visa-option');
   if (!option) return;
@@ -1956,6 +2268,9 @@ document.getElementById('visaGrid').addEventListener('click', (e) => {
   formData.visa_type = option.dataset.visa;
 });
 
+// ============================================================
+// AGENT CHOICE
+// ============================================================
 document.getElementById('agentChoice').addEventListener('click', (e) => {
   const card = e.target.closest('.choice-card');
   if (!card) return;
@@ -1964,175 +2279,49 @@ document.getElementById('agentChoice').addEventListener('click', (e) => {
   formData.agent_requested = card.dataset.agent === 'yes';
 });
 
+// ============================================================
+// FUNDS CHOICE
+// ============================================================
+const fundsChoice = document.getElementById('fundsChoice');
+if (fundsChoice) {
+  fundsChoice.addEventListener('click', (e) => {
+    const card = e.target.closest('.choice-card');
+    if (!card) return;
+    document.querySelectorAll('#fundsChoice .choice-card').forEach(el => el.classList.remove('selected'));
+    card.classList.add('selected');
+    formData.details = formData.details || {};
+    formData.details.funds = card.dataset.funds;
+  });
+}
+
+// ============================================================
+// VISA REALITY CONTINUE
+// ============================================================
 function visaContinueWithOffer() {
+  formData.details = formData.details || {};
   formData.details.has_job_offer = true;
   goNext();
 }
 
+// ============================================================
+// LEGACY DETAILS RENDER (kept for safety)
+// ============================================================
 function renderDetails() {
   const body = document.getElementById('detailsBody');
-  const title = document.getElementById('detailsTitle');
-  const subtitle = document.getElementById('detailsSubtitle');
-
-  let effectiveType = formData.service_type;
-  if ((formData.service_type === 'visa' || formData.service_type === 'job') && formData.has_passport === false) {
-    effectiveType = 'passport';
-  }
+  if (!body) return;
   body.innerHTML = '';
-
-  if (effectiveType === 'passport') {
-    title.textContent = 'Passport details';
-    subtitle.textContent = 'Tell us about your passport application.';
-    body.innerHTML = `
-      <div class="form-group">
-        <label>Application Type <span class="req">*</span></label>
-        <select id="d_passport_type">
-          <option value="">Select type</option>
-          <option value="first">First-time application</option>
-          <option value="renewal">Renewal</option>
-          <option value="replacement">Replacement (lost/damaged)</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>Birth certificate? <span class="req">*</span></label><select id="d_birth_cert"><option value="">Select</option><option value="yes">Yes</option><option value="no">No — I need help</option></select></div>
-        <div class="form-group"><label>National ID? <span class="req">*</span></label><select id="d_national_id"><option value="">Select</option><option value="yes">Yes</option><option value="no">No — I need help</option></select></div>
-      </div>
-      <div class="form-group"><label>Preferred appointment location</label><input type="text" id="d_appointment_location" placeholder="e.g. HM Passport Office, London"></div>
-      <div class="form-group"><label>Anything else?</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>
-    `;
-  } else if (effectiveType === 'visa') {
-    title.textContent = 'Visa details';
-    subtitle.textContent = 'Tell us where you\'re going and why.';
-    const visaTypeLabels = { work: 'Work Visa', family: 'Spouse / Family Visa', student: 'Student Visa', tourist: 'Tourist / Visit Visa', medical: 'Medical Visa', transit: 'Transit Visa', business: 'Business Visa' };
-    body.innerHTML = `
-      <div class="info-box blue"><strong>Visa type:</strong> ${visaTypeLabels[formData.visa_type] || '—'}</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Destination Country <span class="req">*</span></label>
-          <select id="d_destination"><option value="">Select country</option><option>Canada</option><option>United Kingdom</option><option>United States</option><option>Australia</option><option>Germany</option><option>UAE</option><option>Saudi Arabia</option><option>Qatar</option><option>Other</option></select>
-        </div>
-        <div class="form-group"><label>Intended Travel Date</label><input type="date" id="d_travel_date"></div>
-      </div>
-    `;
-    if (formData.visa_type === 'work') {
-      body.innerHTML += `
-        <div class="form-row">
-          <div class="form-group"><label>Employer Name <span class="req">*</span></label><input type="text" id="d_employer_name" placeholder="Company name"></div>
-          <div class="form-group"><label>Job Title <span class="req">*</span></label><input type="text" id="d_job_title" placeholder="e.g. Registered Nurse"></div>
-        </div>
-      `;
-    }
-    if (formData.visa_type === 'family') {
-      body.innerHTML += `
-        <div class="form-row">
-          <div class="form-group"><label>Relationship <span class="req">*</span></label><select id="d_relationship"><option value="">Select</option><option>Spouse / Partner</option><option>Parent</option><option>Child</option><option>Sibling</option><option>Other</option></select></div>
-          <div class="form-group"><label>Sponsor's Status <span class="req">*</span></label><select id="d_sponsor_status"><option value="">Select</option><option>Citizen</option><option>Permanent Resident</option><option>Work Visa Holder</option><option>Student Visa Holder</option></select></div>
-        </div>
-      `;
-    }
-    if (formData.visa_type === 'student') {
-      body.innerHTML += `<div class="form-group"><label>Institution <span class="req">*</span></label><input type="text" id="d_institution" placeholder="University name"></div>`;
-    }
-    if (formData.visa_type === 'medical') {
-      body.innerHTML += `<div class="form-group"><label>Hospital <span class="req">*</span></label><input type="text" id="d_hospital" placeholder="Hospital name"></div>`;
-    }
-    if (formData.visa_type === 'transit') {
-      body.innerHTML += `<div class="form-group"><label>Final Destination <span class="req">*</span></label><input type="text" id="d_final_destination" placeholder="Where going?"></div>`;
-    }
-    if (formData.visa_type === 'business') {
-      body.innerHTML += `<div class="form-group"><label>Company <span class="req">*</span></label><input type="text" id="d_company" placeholder="Your company"></div>`;
-    }
-    body.innerHTML += `<div class="form-group"><label>Additional Notes</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>`;
-  } else if (effectiveType === 'job') {
-    title.textContent = 'Job preference';
-    subtitle.textContent = 'Browse featured jobs below or tell us your preferences.';
-    body.innerHTML = `
-      <div class="form-row">
-        <div class="form-group">
-          <label>Job Category <span class="req">*</span></label>
-          <select id="d_job_category"><option value="">Select</option><option>Healthcare</option><option>Construction</option><option>Hospitality</option><option>IT &amp; Tech</option><option>Logistics</option><option>Agriculture</option><option>Education</option><option>Engineering</option><option>Finance</option><option>Domestic Work</option><option>Other</option></select>
-        </div>
-        <div class="form-group">
-          <label>Years of Experience <span class="req">*</span></label>
-          <select id="d_experience"><option value="">Select</option><option>0–1 years</option><option>2–4 years</option><option>5–9 years</option><option>10+ years</option></select>
-        </div>
-      </div>
-      <div class="form-group"><label>Anything else?</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>
-    `;
-  } else if (effectiveType === 'documents') {
-    title.textContent = 'Document assistance';
-    subtitle.textContent = 'Tell us which documents you need help with.';
-    body.innerHTML = `
-      <div class="form-group">
-        <label>Which documents? <span class="req">*</span></label>
-        <div class="checkbox-group">
-          <label class="checkbox-item"><input type="checkbox" value="CV Improvement" class="d_docs"><span>CV improvement</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Cover Letter" class="d_docs"><span>Cover letter</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Certificates" class="d_docs"><span>Certificate review</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Reference Letters" class="d_docs"><span>Reference letters</span></label>
-          <label class="checkbox-item"><input type="checkbox" value="Application Forms" class="d_docs"><span>Application forms</span></label>
-        </div>
-      </div>
-      <div class="form-group"><label>Describe what you need</label><textarea id="d_notes" placeholder="Optional..."></textarea></div>
-    `;
-  }
 }
 
-function validateDetails() {
-  const type = formData.service_type;
-  const d = {};
+function validateDetails() { return true; }
 
-  if (type === 'passport') {
-    d.passport_type = getVal('d_passport_type');
-    d.birth_certificate = getVal('d_birth_cert');
-    d.national_id = getVal('d_national_id');
-    d.appointment_location = getVal('d_appointment_location');
-    d.notes = getVal('d_notes');
-    if (!d.passport_type) return showError('Please select passport application type.');
-    if (!d.birth_certificate) return showError('Please tell us about your birth certificate.');
-    if (!d.national_id) return showError('Please tell us about your national ID.');
-  } else if (type === 'visa') {
-    d.destination = getVal('d_destination');
-    d.travel_date = getVal('d_travel_date');
-    d.notes = getVal('d_notes');
-    if (!d.destination) return showError('Please select a destination country.');
-    if (formData.visa_type === 'work') {
-      d.employer_name = getVal('d_employer_name');
-      d.job_title = getVal('d_job_title');
-      if (!d.employer_name) return showError('Please enter employer name.');
-      if (!d.job_title) return showError('Please enter job title.');
-    }
-    if (formData.visa_type === 'family') {
-      d.relationship = getVal('d_relationship');
-      d.sponsor_status = getVal('d_sponsor_status');
-      if (!d.relationship) return showError('Please select relationship.');
-    }
-    if (formData.visa_type === 'student' && !getVal('d_institution')) return showError('Please enter institution.');
-    if (formData.visa_type === 'medical' && !getVal('d_hospital')) return showError('Please enter hospital.');
-    if (formData.visa_type === 'transit' && !getVal('d_final_destination')) return showError('Please enter final destination.');
-    if (formData.visa_type === 'business' && !getVal('d_company')) return showError('Please enter company name.');
-  } else if (type === 'job') {
-    d.job_category = getVal('d_job_category');
-    d.experience = getVal('d_experience');
-    d.notes = getVal('d_notes');
-    if (!d.job_category) return showError('Please select a job category.');
-    if (!d.experience) return showError('Please select experience.');
-  } else if (type === 'documents') {
-    d.documents_needed = getChecked('d_docs');
-    d.notes = getVal('d_notes');
-    if (!d.documents_needed || d.documents_needed.length === 0) return showError('Please select at least one document.');
-  }
-
-  formData.details = { ...formData.details, ...d };
-  return true;
-}
-
-function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
-function getChecked(className) { return Array.from(document.querySelectorAll('.' + className + ':checked')).map(el => el.value); }
-
+// ============================================================
+// REVIEW
+// ============================================================
 function renderReview() {
   const body = document.getElementById('reviewBody');
   const visaTypeLabels = { work: 'Work Visa', family: 'Spouse / Family Visa', student: 'Student Visa', tourist: 'Tourist / Visit Visa', medical: 'Medical Visa', transit: 'Transit Visa', business: 'Business Visa' };
+  const eduLabels = { none: 'No formal education', primary: 'Primary', secondary: 'Secondary', diploma: 'Diploma', bachelor: "Bachelor's", master: "Master's", phd: 'PhD' };
+  const fundsLabels = { yes: 'Ready now', partial: 'Partially ready', no: 'Not yet' };
   const pathLabels = {
     passport: '🛂 Passport Application',
     visa: '✈️ Visa Application' + (formData.visa_type ? ` (${visaTypeLabels[formData.visa_type]})` : ''),
@@ -2151,23 +2340,17 @@ function renderReview() {
     </div>
   `;
 
-  const d = formData.details;
+  const d = formData.details || {};
   const rows = [];
-  if (formData.service_type === 'passport') {
-    rows.push(['Application type', d.passport_type]);
-    rows.push(['Birth certificate', d.birth_certificate === 'yes' ? 'Yes' : 'No']);
-    rows.push(['National ID', d.national_id === 'yes' ? 'Yes' : 'No']);
-  } else if (formData.service_type === 'visa') {
-    rows.push(['Visa type', visaTypeLabels[formData.visa_type] || '—']);
-    rows.push(['Destination', d.destination]);
-    if (d.travel_date) rows.push(['Travel date', d.travel_date]);
-  } else if (formData.service_type === 'job') {
-    rows.push(['Category', d.job_category]);
-    rows.push(['Experience', d.experience]);
-    if (d.job_destinations && d.job_destinations.length) rows.push(['Preferred', d.job_destinations.join(', ')]);
-  } else if (formData.service_type === 'documents') {
-    if (d.documents_needed) rows.push(['Documents', d.documents_needed.join(', ')]);
-  }
+
+  if (formData.service_type === 'visa') rows.push(['Visa type', visaTypeLabels[formData.visa_type] || '—']);
+  if (d.job_destinations && d.job_destinations.length) rows.push(['Preferred countries', d.job_destinations.join(', ')]);
+  if (d.job_title) rows.push(['Selected job', d.job_title]);
+  if (d.documents_have && d.documents_have.length) rows.push(['Documents held', d.documents_have.length + ' items']);
+  if (d.education) rows.push(['Education', eduLabels[d.education] || d.education]);
+  if (d.work_years) rows.push(['Work years', d.work_years]);
+  if (d.industry) rows.push(['Industry', d.industry]);
+  if (d.funds) rows.push(['Funds', fundsLabels[d.funds] || d.funds]);
 
   if (rows.length) {
     html += `<div class="info-box" style="background:#fff;border-left-color:var(--accent);color:var(--text);text-align:left;">`;
@@ -2177,10 +2360,16 @@ function renderReview() {
   body.innerHTML = html;
 }
 
+// ============================================================
+// ESCAPE
+// ============================================================
 function escapeHtml(s) {
   return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+// ============================================================
+// SUBMIT
+// ============================================================
 async function submitApplication() {
   hideError();
   const btn = document.getElementById('submitBtn');
@@ -2199,7 +2388,7 @@ async function submitApplication() {
       email: formData.email,
       phone: formData.phone,
       country: formData.country,
-      details: { city: formData.city, has_passport: formData.has_passport, visa_type: formData.visa_type || null, ...formData.details },
+      details: { city: formData.city, has_passport: formData.has_passport, visa_type: formData.visa_type || null, ...(formData.details || {}) },
       status: 'Submitted',
       agent_requested: formData.agent_requested === true
     };
@@ -2226,6 +2415,9 @@ async function submitApplication() {
   }
 }
 
+// ============================================================
+// COPY REFERENCE
+// ============================================================
 function copyReference() {
   const ref = document.getElementById('refNumber').textContent;
   navigator.clipboard.writeText(ref).then(() => {
@@ -2236,18 +2428,9 @@ function copyReference() {
   });
 }
 
-function showError(msg) {
-  const el = document.getElementById('errorMsg');
-  el.textContent = msg;
-  el.style.background = '';
-  el.style.color = '';
-  el.style.borderLeftColor = '';
-  el.classList.add('show');
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  return false;
-}
-function hideError() { document.getElementById('errorMsg').classList.remove('show'); }
-
+// ============================================================
+// MOBILE BAR
+// ============================================================
 function updateMobileBar() {
   const bar = document.getElementById('mobileBar');
   if (!bar) return;
@@ -2260,7 +2443,8 @@ function updateMobileBar() {
   const nextBtn = document.getElementById('mabNext');
   const backBtn = document.querySelector('.mab-back');
 
-  if (stepLabel) stepLabel.textContent = `Step ${currentIndex + 1} of ${flow.length}`;
+  const displayIdx = displayIndexForPanel(currentPanel);
+  if (stepLabel) stepLabel.textContent = `Step ${displayIdx + 1} of 9`;
   if (backBtn) {
     if (currentIndex === 0) { backBtn.style.opacity = '0.4'; backBtn.style.pointerEvents = 'none'; }
     else { backBtn.style.opacity = '1'; backBtn.style.pointerEvents = 'auto'; }
@@ -2280,6 +2464,9 @@ function mobileNext() {
 window.addEventListener('resize', updateMobileBar);
 window.addEventListener('orientationchange', () => setTimeout(updateMobileBar, 100));
 
+// ============================================================
+// SCROLL
+// ============================================================
 window.addEventListener('scroll', () => {
   const winScroll = document.documentElement.scrollTop;
   const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -2293,6 +2480,9 @@ window.addEventListener('scroll', () => {
 
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
+// ============================================================
+// INIT
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.main-nav');
@@ -2315,7 +2505,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const type = params.get('type');
   const view = params.get('view');
 
-  // Pre-select the path if type is provided
   if (type && ['passport', 'visa', 'job', 'documents'].includes(type)) {
     const option = document.querySelector(`.path-option[data-path="${type}"]`);
     if (option) selectPath(option);
@@ -2325,22 +2514,18 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProgress();
   setTimeout(updateMobileBar, 200);
 
-  // If ?view=jobs OR type=job, jump straight to featured jobs
   if (view === 'jobs' || type === 'job') {
     setTimeout(() => {
       if (!formData.service_type) {
         const jobOption = document.querySelector('.path-option[data-path="job"]');
         if (jobOption) selectPath(jobOption);
       }
-
       const featured = document.getElementById('featuredJobsSection');
       if (featured) {
         featured.style.display = 'block';
         loadFeaturedJobs().then(() => {
           renderJobs();
-          setTimeout(() => {
-            featured.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 300);
+          setTimeout(() => featured.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
         });
       }
     }, 100);
