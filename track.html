@@ -1000,5 +1000,145 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+  <!-- ============================================================ -->
+<!-- HAMBURGER MENU — self-contained drop-in                     -->
+<!-- Works with any existing <nav class="main-nav"> or .nav-group  -->
+<!-- ============================================================ -->
+<style>
+/* Hamburger button — hidden on desktop */
+#gpMenuToggle {
+  display: none;
+  background: var(--bg, #F7F9FC);
+  border: 1px solid var(--border, #e5e9f0);
+  font-size: 1.3rem;
+  color: var(--primary, #0B3D91);
+  cursor: pointer;
+  padding: 0;
+  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: inherit;
+  line-height: 1;
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+}
+#gpMenuToggle:hover {
+  background: var(--primary-soft, #eef4ff);
+  border-color: var(--primary, #0B3D91);
+}
+#gpMenuToggle:active { transform: scale(0.95); }
+
+@media (max-width: 640px) {
+  #gpMenuToggle { display: flex; }
+
+  /* Mobile nav — hidden by default, opens when .open is added */
+  .main-nav.gp-open {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    order: 3 !important;
+    gap: 8px !important;
+    padding: 12px 0 4px !important;
+    border-top: 1px solid var(--border, #e5e9f0);
+    margin-top: 8px;
+    animation: gpSlideDown 0.22s ease-out;
+  }
+  @keyframes gpSlideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .main-nav.gp-open .nav-group {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 4px !important;
+    padding: 5px !important;
+  }
+  .main-nav.gp-open .nav-group a {
+    padding: 13px 16px !important;
+    text-align: center !important;
+    font-size: 0.95rem !important;
+  }
+}
+</style>
+
+<script>
+(function () {
+  function initHamburger() {
+    // Find the nav
+    const nav = document.querySelector('.main-nav');
+    if (!nav) return;
+
+    // Already initialised?
+    if (document.getElementById('gpMenuToggle')) return;
+
+    // Find the nav's parent wrapper (where the logo lives)
+    const wrap = nav.parentElement;
+    if (!wrap) return;
+
+    // Create the hamburger button
+    const btn = document.createElement('button');
+    btn.id = 'gpMenuToggle';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Toggle menu');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'gpMainNav');
+    btn.textContent = '☰';
+    if (!nav.id) nav.id = 'gpMainNav';
+
+    // Insert BEFORE the nav
+    nav.parentNode.insertBefore(btn, nav);
+
+    // Toggle function
+    function toggle() {
+      const isOpen = nav.classList.toggle('gp-open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      btn.textContent = isOpen ? '✕' : '☰';
+      btn.style.background = isOpen ? 'var(--primary-soft, #eef4ff)' : '';
+      btn.style.borderColor = isOpen ? 'var(--primary, #0B3D91)' : '';
+    }
+
+    function close() {
+      if (nav.classList.contains('gp-open')) {
+        nav.classList.remove('gp-open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = '☰';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+      }
+    }
+
+    // Click toggle
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      toggle();
+    });
+
+    // Auto-close on link click
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', close);
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function (e) {
+      if (!nav.contains(e.target) && !btn.contains(e.target)) close();
+    });
+
+    // Close on ESC
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHamburger);
+  } else {
+    initHamburger();
+  }
+})();
+</script>
 </body>
 </html>
