@@ -829,5 +829,455 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([loadApps(), loadConvs(), loadJobs()]);
 });
 </script>
+  <!-- ============================================================ -->
+<!-- ADMIN MESSAGES OVERRIDE — paste before </body>              -->
+<!-- ============================================================ -->
+<style>
+/* Chat modal styles */
+.gp-chat-thread {
+  max-height: 420px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.gp-chat-msg {
+  max-width: 78%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.gp-chat-msg.customer {
+  align-self: flex-start;
+  background: #fff;
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.gp-chat-msg.staff {
+  align-self: flex-end;
+  background: var(--primary);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.gp-chat-msg .cm-meta {
+  font-size: 0.62rem;
+  opacity: 0.75;
+  margin-bottom: 4px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.gp-chat-msg .cm-body {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.gp-reply-box textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.92rem;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+.gp-reply-box textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(11,61,145,0.08);
+}
+.gp-reply-hint {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+</style>
+
+<script>
+(function () {
+  // ============================================================
+  // CONFIG — SAME AS WORKER
+  // ============================================================
+  const WORKER_URL = 'https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev';
+  const ADMIN_SECRET = 'gp_admin_2026_secret';
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  let gpConvs = [];
+  let gpCurrentConv = null;
+
+  // ============================================================
+  // HELPERS (avoid name clashes with existing admin.html)
+  // ============================================================
+  function gpEsc(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+  function gpFmtDateTime(d) {
+    if (!d) return '—';
+    try { return new Date(d).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+    catch { return '—'; }
+  }
+
+  // ============================================================
+  // LOAD CONVERSATIONS (replace old renderMessages)
+  // ============================================================
+  async function gpLoadConvs() {
+    const wrap = document.getElementById('convsTableWrap') || document.getElementById('messagesTableWrap');
+    if (!wrap) return;
+    wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading conversations…</p></div>';
+
+    try {
+      const { data: msgs, error: mErr } = await supabaseClient
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(500);
+      if (mErr) throw mErr;
+
+      const { data: apps, error: aErr } = await supabaseClient
+        .from('applications')
+        .select('id, reference, full_name, email')
+        .limit(500);
+      if (aErr) throw aErr;
+
+      const appsById = {};
+      (apps || []).forEach(a => { appsById[a.id] = a; });
+
+      // Group by application_id
+      const threads = {};
+      (msgs || []).forEach(m => {
+        const key = m.application_id || 'orphan';
+        if (!threads[key]) {
+          threads[key] = {
+            application_id: key,
+            app: appsById[key] || null,
+            messages: [],
+            unread_count: 0,
+            last_message_at: m.created_at,
+            last_snippet: m.body || '',
+            last_sender: m.sender_role
+          };
+        }
+        threads[key].messages.push(m);
+        if (m.sender_role === 'customer' && m.read_by_staff === false) {
+          threads[key].unread_count++;
+        }
+      });
+
+      gpConvs = Object.values(threads).sort((a, b) =>
+        new Date(b.last_message_at) - new Date(a.last_message_at)
+      );
+
+      const unreadTotal = gpConvs.reduce((sum, t) => sum + t.unread_count, 0);
+      const badge = document.getElementById('msgsCount');
+      if (badge) badge.textContent = unreadTotal;
+
+      gpRenderConvs();
+    } catch (err) {
+      console.error('Load convs:', err);
+      wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load: ${gpEsc(err.message)}</p></div>`;
+    }
+  }
+
+  function gpRenderConvs() {
+    const wrap = document.getElementById('convsTableWrap') || document.getElementById('messagesTableWrap');
+    if (!wrap) return;
+
+    const qEl = document.getElementById('msgSearch');
+    const fEl = document.getElementById('msgStatusFilter');
+    const q = (qEl?.value || '').toLowerCase().trim();
+    const filter = fEl?.value || '';
+
+    let list = gpConvs;
+    if (q) {
+      list = list.filter(t =>
+        (t.app?.full_name || '').toLowerCase().includes(q) ||
+        (t.app?.reference || '').toLowerCase().includes(q) ||
+        (t.app?.email || '').toLowerCase().includes(q) ||
+        (t.last_snippet || '').toLowerCase().includes(q)
+      );
+    }
+    if (filter === 'unread') list = list.filter(t => t.unread_count > 0);
+    if (filter === 'read')   list = list.filter(t => t.unread_count === 0);
+
+    if (list.length === 0) {
+      wrap.innerHTML = `<div class="table-empty"><span class="te-icon">💬</span><p>No conversations yet.</p></div>`;
+      return;
+    }
+
+    wrap.innerHTML = `
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Applicant</th>
+            <th>Reference</th>
+            <th>Last message</th>
+            <th>Unread</th>
+            <th>Received</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(t => `
+            <tr>
+              <td>
+                <div class="cell-strong">${gpEsc(t.app?.full_name || 'Unknown')}</div>
+                <div class="cell-muted">${gpEsc(t.app?.email || '')}</div>
+              </td>
+              <td>${t.app?.reference ? `<span class="ref-code">${gpEsc(t.app.reference)}</span>` : `<span class="cell-muted">App #${gpEsc(t.application_id)}</span>`}</td>
+              <td>
+                <div class="cell-strong" style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                  ${gpEsc((t.last_snippet || '').slice(0, 60))}${t.last_snippet.length > 60 ? '…' : ''}
+                </div>
+                <div class="cell-muted" style="font-size:0.7rem;">from ${gpEsc(t.last_sender || 'unknown')}</div>
+              </td>
+              <td>${t.unread_count > 0 ? `<span class="pill unread">${t.unread_count} new</span>` : `<span class="cell-muted">${t.messages.length}</span>`}</td>
+              <td class="cell-muted">${gpFmtDateTime(t.last_message_at)}</td>
+              <td><button class="btn btn-primary btn-sm" onclick="gpOpenConv('${gpEsc(t.application_id)}')">Open →</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+
+  // ============================================================
+  // OPEN CONVERSATION (chat modal)
+  // ============================================================
+  window.gpOpenConv = function (applicationId) {
+    const thread = gpConvs.find(t => String(t.application_id) === String(applicationId));
+    if (!thread) return;
+    gpCurrentConv = thread;
+
+    let modal = document.getElementById('gpConvModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'gpConvModal';
+      modal.className = 'modal-overlay';
+      modal.onclick = (e) => { if (e.target === modal) window.gpCloseConv(); };
+      modal.innerHTML = `
+        <div class="modal modal-lg" style="max-width:720px;">
+          <button class="modal-close" onclick="gpCloseConv()">✕</button>
+          <h2 id="gpConvTitle">Conversation</h2>
+          <div class="modal-ref" id="gpConvRef"></div>
+
+          <div class="modal-section">
+            <h4>Message Thread</h4>
+            <div class="gp-chat-thread" id="gpConvThread"></div>
+          </div>
+
+          <div class="modal-section">
+            <h4>Reply via Telegram</h4>
+            <div class="gp-reply-box">
+              <div class="gp-reply-hint">
+                💬 Your reply will be sent directly to the applicant on Telegram.
+              </div>
+              <textarea id="gpConvReply" placeholder="Type your reply…"></textarea>
+              <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button class="btn btn-ghost" onclick="gpCloseConv()">Close</button>
+                <button class="btn btn-primary" id="gpConvSendBtn" onclick="gpSendReply()">📤 Send via Telegram</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    document.getElementById('gpConvTitle').textContent = thread.app?.full_name || 'Conversation';
+    document.getElementById('gpConvRef').textContent = thread.app?.reference || `App #${applicationId}`;
+    document.getElementById('gpConvReply').value = '';
+    gpRenderThread();
+
+    modal.classList.add('show');
+    gpMarkRead(thread);
+  };
+
+  window.gpCloseConv = function () {
+    const modal = document.getElementById('gpConvModal');
+    if (modal) modal.classList.remove('show');
+    gpCurrentConv = null;
+  };
+
+  function gpRenderThread() {
+    const el = document.getElementById('gpConvThread');
+    if (!el || !gpCurrentConv) return;
+    const sorted = [...gpCurrentConv.messages].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    el.innerHTML = sorted.map(m => {
+      const isStaff = m.sender_role === 'staff';
+      return `
+        <div class="gp-chat-msg ${isStaff ? 'staff' : 'customer'}">
+          <div class="cm-meta">${isStaff ? '👤 Staff' : '🧑 Applicant'} · ${gpFmtDateTime(m.created_at)}</div>
+          <div class="cm-body">${gpEsc(m.body || '')}</div>
+        </div>
+      `;
+    }).join('');
+    setTimeout(() => { el.scrollTop = el.scrollHeight; }, 50);
+  }
+
+  async function gpMarkRead(thread) {
+    const unreadIds = thread.messages
+      .filter(m => m.sender_role === 'customer' && m.read_by_staff === false)
+      .map(m => m.id);
+
+    if (unreadIds.length === 0) return;
+
+    try {
+      const { error } = await supabaseClient
+        .from('messages')
+        .update({ read_by_staff: true, status: 'read' })
+        .in('id', unreadIds);
+      if (error) throw error;
+
+      thread.messages.forEach(m => {
+        if (unreadIds.includes(m.id)) {
+          m.read_by_staff = true;
+          m.status = 'read';
+        }
+      });
+      thread.unread_count = 0;
+
+      const badge = document.getElementById('msgsCount');
+      if (badge) badge.textContent = gpConvs.reduce((s, t) => s + t.unread_count, 0);
+
+      gpRenderConvs();
+    } catch (err) { console.error('Mark read:', err); }
+  }
+
+  // ============================================================
+  // SEND REPLY (through Worker → Telegram)
+  // ============================================================
+  window.gpSendReply = async function () {
+    if (!gpCurrentConv) return;
+
+    const textarea = document.getElementById('gpConvReply');
+    const text = textarea.value.trim();
+    if (!text) return alert('Please write a reply.');
+
+    const btn = document.getElementById('gpConvSendBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      // Find telegram chat id from tg_conversations by reference
+      let chatId = null;
+
+      if (gpCurrentConv.app?.reference) {
+        const { data: tgConvs } = await supabaseClient
+          .from('tg_conversations')
+          .select('telegram_chat_id')
+          .eq('reference', gpCurrentConv.app.reference)
+          .limit(1);
+        if (tgConvs && tgConvs.length > 0) {
+          chatId = tgConvs[0].telegram_chat_id;
+        }
+      }
+
+      if (!chatId) {
+        // Fallback: try to find by any application_id → tg_conversations
+        const { data: tgConvs2 } = await supabaseClient
+          .from('tg_conversations')
+          .select('telegram_chat_id')
+          .limit(1);
+        if (tgConvs2 && tgConvs2.length > 0) chatId = tgConvs2[0].telegram_chat_id;
+      }
+
+      if (!chatId) {
+        throw new Error('Could not find Telegram chat for this applicant.');
+      }
+
+      // Send via Worker
+      const res = await fetch(`${WORKER_URL}/send-message`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: ADMIN_SECRET,
+          chat_id: chatId,
+          text,
+          staff_name: document.getElementById('adminEmail')?.textContent || 'Staff'
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Send failed');
+
+      // Save to messages table as staff
+      const { data: saved, error: sErr } = await supabaseClient
+        .from('messages')
+        .insert([{
+          application_id: gpCurrentConv.application_id,
+          sender_role: 'staff',
+          sender_id: '00000000-0000-0000-0000-000000000000',
+          body: text,
+          read_by_staff: true,
+          read_by_customer: false,
+          status: 'read',
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      if (sErr) console.error('Save staff msg:', sErr);
+
+      if (saved) {
+        gpCurrentConv.messages.push(saved);
+        gpCurrentConv.last_message_at = saved.created_at;
+        gpCurrentConv.last_snippet = saved.body;
+        gpCurrentConv.last_sender = 'staff';
+      }
+
+      textarea.value = '';
+      gpRenderThread();
+      gpRenderConvs();
+
+      // Small success feedback
+      btn.textContent = '✓ Sent';
+      setTimeout(() => { btn.textContent = '📤 Send via Telegram'; btn.disabled = false; }, 1500);
+    } catch (err) {
+      console.error('Send reply:', err);
+      alert('Could not send: ' + err.message);
+      btn.textContent = '📤 Send via Telegram';
+      btn.disabled = false;
+    }
+  };
+
+  // ============================================================
+  // HOOK INTO EXISTING TAB SWITCH + REFRESH
+  // ============================================================
+  // Override the existing loadMessages() if it exists
+  window.loadMessages = gpLoadConvs;
+  window.loadConvs = gpLoadConvs;
+  window.filterMessages = gpRenderConvs;
+  window.filterConvs = gpRenderConvs;
+
+  // Re-load convs when Messages tab is switched to
+  const origSwitchTab = window.switchTab;
+  window.switchTab = function (name) {
+    if (typeof origSwitchTab === 'function') origSwitchTab(name);
+    if (name === 'messages') setTimeout(gpLoadConvs, 100);
+  };
+
+  // Also on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(gpLoadConvs, 800);
+  });
+
+  // Fallback for pages already loaded
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(gpLoadConvs, 800);
+  }
+
+  console.log('✅ GlobalPath admin chat override loaded');
+})();
+</script>
 </body>
 </html>
