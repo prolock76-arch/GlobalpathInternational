@@ -3123,5 +3123,70 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 </script>
+  <!-- ============================================================ -->
+<!-- SPONSOR EMAIL TRIGGER — Auto-sends email 60s after submit -->
+<!-- ============================================================ -->
+<script>
+(function () {
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+
+      const originalSubmit = window.submitApplication;
+      if (typeof originalSubmit !== 'function' || originalSubmit._gpSponsorWrapped) return;
+
+      window.submitApplication = async function () {
+        // Run original submit
+        await originalSubmit.apply(this, arguments);
+
+        // Wait for success panel to render
+        setTimeout(async () => {
+          const refEl = document.getElementById('refNumber');
+          const reference = refEl ? refEl.textContent.trim() : '';
+
+          if (!reference || !/^GP-/.test(reference)) {
+            console.log('❌ No reference found — skip sponsor email');
+            return;
+          }
+
+          const userEmail = (window.formData && window.formData.email) || '';
+          const userName = (window.formData && window.formData.full_name) || 'there';
+
+          if (!userEmail) {
+            console.log('❌ No email in formData — skip sponsor email');
+            return;
+          }
+
+          // ⭐ Auto-trigger email 60 seconds after submit
+          setTimeout(async () => {
+            try {
+              const res = await fetch('https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev/send-sponsor-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: userEmail,
+                  name: userName,
+                  reference: reference
+                })
+              });
+              const data = await res.json();
+              if (res.ok) {
+                console.log('✅ Sponsor email sent for', reference, data);
+              } else {
+                console.warn('⚠️ Sponsor email failed:', data.error);
+              }
+            } catch (err) {
+              console.warn('⚠️ Sponsor email fetch error:', err.message);
+            }
+          }, 60000); // 60 seconds after submit
+
+        }, 800);
+      };
+
+      window.submitApplication._gpSponsorWrapped = true;
+      console.log('✅ Sponsor email auto-trigger installed');
+    }, 500);
+  });
+})();
+</script>
 </body>
 </html>
