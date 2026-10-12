@@ -1168,6 +1168,7 @@ const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
+const WORKER_SEND_URL = 'https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev/send-sponsor-email';
 
 // ============================================================
 // COUNTRIES
@@ -1736,11 +1737,11 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <!-- ============================================================ -->
-<!-- SPONSOR EMAIL AUTO-TRIGGER v3 — Hooks the submit button -->
+<!-- SPONSOR EMAIL AUTO-TRIGGER v4 — HARDENED FOR ALL DEVICES -->
 <!-- ============================================================ -->
 <script>
 (function () {
-  console.log('🚀 Sponsor trigger script starting...');
+  console.log('🚀 Sponsor trigger v4 starting...');
 
   window.addEventListener('load', function () {
     setTimeout(function () {
@@ -1766,23 +1767,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('📧 Captured:', { userEmail, userName });
 
-        if (!userEmail) { console.log('❌ No email — skipping'); return; }
+        if (!userEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+          console.log('❌ Invalid or empty email — skipping');
+          return;
+        }
 
-        // Wait for submission + success panel
+        // ---- Wait for submission + success panel ----
         setTimeout(async () => {
           let reference = refNumber.textContent.trim();
-          console.log('🔍 Checking reference:', reference);
+          console.log('🔍 Initial reference:', reference);
 
-          // Retry if not ready yet
+          // ---- Extended retry: up to 30 attempts × 700ms = 21 seconds ----
           let attempts = 0;
-          while ((!reference || !/^GP-/.test(reference)) && attempts < 10) {
+          while ((!reference || !/^GP-/.test(reference)) && attempts < 30) {
             attempts++;
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 700));
             reference = refNumber.textContent.trim();
+            console.log('🔁 Attempt ' + attempts + ' — reference =', reference);
           }
 
-          if (!reference || !/^GP-/.test(reference)) { console.log('❌ No reference after retries — skip'); return; }
-          if (reference === lastFiredRef) { console.log('⏭️ Already sent for', reference); return; }
+          if (!reference || !/^GP-/.test(reference)) {
+            console.log('❌ No valid reference after 30 retries — aborting email send');
+            return;
+          }
+
+          if (reference === lastFiredRef) {
+            console.log('⏭️ Already sent for', reference);
+            return;
+          }
 
           lastFiredRef = reference;
           await triggerEmail(userEmail, userName, reference);
@@ -1790,22 +1802,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
       });
 
+      // ---- Robust email trigger with CORS + no-cache + fallback ----
       async function triggerEmail(email, name, reference) {
-        console.log('📧 Sending sponsor email for', reference);
+        console.log('📧 Sending sponsor email →', { email, name, reference });
+
         try {
-          const res = await fetch('https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev/send-sponsor-email', {
+          const res = await fetch(WORKER_SEND_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            cache: 'no-store',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
             body: JSON.stringify({ email, name, reference })
           });
-          const data = await res.json();
-          console.log('📧 Response:', res.status, data);
+
+          let data = null;
+          try { data = await res.json(); } catch (e) { data = { raw: 'non-json response' }; }
+
+          console.log('📧 Worker response:', res.status, data);
+
+          if (!res.ok) {
+            console.warn('⚠️ Worker returned non-OK status:', res.status);
+          }
+
         } catch (err) {
-          console.warn('⚠️ Fetch error:', err.message);
+          console.warn('⚠️ Primary send failed, trying fallback GET:', err.message);
+
+          // ---- Fallback: try a GET with query params (some proxies strip POST) ----
+          try {
+            const fallbackUrl = WORKER_SEND_URL +
+              '?email=' + encodeURIComponent(email) +
+              '&name=' + encodeURIComponent(name) +
+              '&reference=' + encodeURIComponent(reference);
+            const res2 = await fetch(fallbackUrl, { method: 'GET', mode: 'cors', cache: 'no-store' });
+            console.log('📧 Fallback response:', res2.status);
+          } catch (err2) {
+            console.warn('⚠️ Fallback also failed:', err2.message);
+          }
         }
       }
 
-      console.log('✅ Sponsor email auto-trigger installed');
+      console.log('✅ Sponsor email auto-trigger v4 installed');
     }, 500);
   });
 })();
