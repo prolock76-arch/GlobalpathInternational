@@ -1109,5 +1109,281 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('✅ Track sponsor extension loaded (v2)');
 })();
 </script>
+  <script>
+(function () {
+  const SITE = 'https://globalpathjobplacement.online';
+
+  // Inject animation styles once
+  if (!document.getElementById('gpSponsorStyles')) {
+    const style = document.createElement('style');
+    style.id = 'gpSponsorStyles';
+    style.textContent = `
+      @keyframes gpSlideIn {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes gpPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245,166,35,0.7); }
+        50%      { transform: scale(1.06); box-shadow: 0 0 0 10px rgba(245,166,35,0); }
+      }
+      @keyframes gpShine {
+        0%   { left: -60%; }
+        60%  { left: 130%; }
+        100% { left: 130%; }
+      }
+      @keyframes gpBadgeGlow {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.55); }
+        50%      { box-shadow: 0 0 0 8px rgba(220,38,38,0); }
+      }
+      @keyframes gpFloat {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-3px); }
+      }
+      #gpSponsorCard {
+        animation: gpSlideIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      }
+      #gpSponsorCard .gp-badge {
+        animation: gpBadgeGlow 1.8s ease-in-out infinite;
+      }
+      #gpSponsorCard .gp-cta {
+        position: relative;
+        overflow: hidden;
+        animation: gpFloat 2.6s ease-in-out infinite;
+      }
+      #gpSponsorCard .gp-cta::after {
+        content: '';
+        position: absolute;
+        top: 0; left: -60%;
+        width: 50%; height: 100%;
+        background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
+        transform: skewX(-20deg);
+        animation: gpShine 2.8s ease-in-out infinite;
+      }
+      #gpSponsorCard .gp-cta:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 12px 32px rgba(245,166,35,0.5) !important;
+      }
+      #gpSponsorCard .gp-spark {
+        display: inline-block;
+        animation: gpPulse 1.6s ease-in-out infinite;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  async function checkSponsors(reference) {
+    try {
+      const { data, error } = await supabaseClient
+        .from('applications')
+        .select('reference,sponsor_email_sent,sponsor_match_count,country')
+        .ilike('reference', reference)
+        .limit(1);
+
+      if (error) { console.error('Supabase error:', error); return null; }
+      if (!data || data.length === 0) return null;
+      return data[0];
+    } catch (err) {
+      console.error('Check sponsors error:', err);
+      return null;
+    }
+  }
+
+  function showSponsorCard(app) {
+    if (!app.sponsor_email_sent) return;
+    if (!app.sponsor_match_count || app.sponsor_match_count < 1) return;
+    if (document.getElementById('gpSponsorCard')) return;
+
+    const card = document.createElement('div');
+    card.id = 'gpSponsorCard';
+    card.style.cssText = `
+      background: linear-gradient(135deg, #fff8e8 0%, #ffffff 60%, #fff5e1 100%);
+      border: 2px solid #F5A623;
+      border-radius: 20px;
+      padding: 26px 24px 22px;
+      margin: 18px 0 22px;
+      box-shadow: 0 16px 40px rgba(245,166,35,0.22), 0 0 0 1px rgba(245,166,35,0.1) inset;
+      position: relative;
+      overflow: hidden;
+    `;
+
+    const unlockUrl = `${SITE}/unlock.html?ref=${encodeURIComponent(app.reference)}`;
+
+    card.innerHTML = `
+      <div class="gp-badge" style="
+        position:absolute;
+        top:-10px;
+        right:18px;
+        background:linear-gradient(135deg,#dc2626,#ef4444);
+        color:#fff;
+        font-size:0.68rem;
+        font-weight:900;
+        letter-spacing:0.12em;
+        text-transform:uppercase;
+        padding:5px 12px;
+        border-radius:20px;
+        box-shadow:0 4px 12px rgba(220,38,38,0.45);
+        z-index:2;
+      ">● New Match</div>
+
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;">
+        <div style="
+          width:56px;height:56px;flex-shrink:0;
+          border-radius:16px;
+          background:linear-gradient(135deg,#F5A623,#d98c0f);
+          display:flex;align-items:center;justify-content:center;
+          font-size:1.7rem;
+          box-shadow:0 8px 20px rgba(245,166,35,0.4);
+        ">🎯</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#8a5a00;font-weight:900;margin-bottom:5px;">
+            Sponsor Match Ready
+          </div>
+          <h3 style="
+            font-size:1.25rem;
+            font-weight:900;
+            color:#0B3D91;
+            margin:0 0 4px;
+            line-height:1.25;
+            letter-spacing:-0.02em;
+          ">
+            <span class="gp-spark">✨</span>
+            ${app.sponsor_match_count} Sponsors Found
+          </h3>
+          <p style="font-size:0.82rem;color:#64748b;margin:0;font-weight:600;">
+            Actively hiring in ${app.country || 'your destination'}
+          </p>
+        </div>
+      </div>
+
+      <p style="font-size:0.9rem;color:#334155;line-height:1.6;margin:0 0 18px;">
+        Employers verified to sponsor visas for <strong>${app.country || 'your destination'}</strong> are ready to receive your application. Unlock their direct contact details now.
+      </p>
+
+      <a href="${unlockUrl}" class="gp-cta" style="
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+        background:linear-gradient(135deg,#F5A623 0%,#d98c0f 100%);
+        color:#1a1a1a;
+        text-decoration:none;
+        padding:17px 26px;
+        border-radius:14px;
+        font-family:'Outfit','Plus Jakarta Sans',sans-serif;
+        font-weight:900;
+        font-size:1.05rem;
+        letter-spacing:-0.01em;
+        box-shadow:0 10px 26px rgba(245,166,35,0.45);
+        transition:all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        margin-bottom:14px;
+        position:relative;
+        z-index:1;
+      ">
+        <span style="font-size:1.2rem;">🔓</span>
+        Unlock Sponsor Contacts
+        <span style="font-size:1.15rem;">→</span>
+      </a>
+
+      <div style="
+        display:flex;
+        justify-content:center;
+        gap:16px;
+        flex-wrap:wrap;
+        font-size:0.78rem;
+        color:#475569;
+        font-weight:700;
+      ">
+        <span>✅ 30-day refund</span>
+        <span>🔒 Secure checkout</span>
+        <span>⚡ Instant access</span>
+      </div>
+
+      <div style="
+        margin-top:14px;
+        padding-top:14px;
+        border-top:1px dashed rgba(245,166,35,0.4);
+        font-size:0.76rem;
+        color:#8a5a00;
+        font-weight:700;
+        text-align:center;
+        letter-spacing:0.02em;
+      ">
+        ⏳ Limited sponsor slots this week — first come, first served
+      </div>
+    `;
+
+    // Insert at the TOP of the results area, right after the result card
+    const resultBox = document.getElementById('trackResult');
+    const supportBlock = document.getElementById('supportBlock');
+
+    if (resultBox && resultBox.parentNode && resultBox.classList.contains('show')) {
+      resultBox.parentNode.insertBefore(card, resultBox.nextSibling);
+    } else if (supportBlock && supportBlock.parentNode) {
+      supportBlock.parentNode.insertBefore(card, supportBlock);
+    } else {
+      const main = document.querySelector('.track-main');
+      if (main) main.appendChild(card);
+    }
+
+    // Smooth scroll to the card so the user notices it
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+
+    console.log('✅ Sponsor card shown');
+  }
+
+  function hookTrack() {
+    const original = window.trackApplication;
+    if (typeof original !== 'function' || original._gpSponsorWrapped) return false;
+
+    window.trackApplication = async function () {
+      const result = await original.apply(this, arguments);
+
+      setTimeout(async () => {
+        const input = document.getElementById('refInput');
+        const ref = input?.value?.trim()?.toUpperCase();
+        if (!ref) return;
+
+        const app = await checkSponsors(ref);
+        if (app) showSponsorCard(app);
+      }, 1200);
+
+      return result;
+    };
+
+    window.trackApplication._gpSponsorWrapped = true;
+    console.log('✅ Track hooked for sponsors');
+    return true;
+  }
+
+  async function autoCheckFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const ref = (params.get('ref') || '').toUpperCase().trim();
+    if (!ref) return;
+
+    await new Promise(r => setTimeout(r, 1800));
+
+    const app = await checkSponsors(ref);
+    if (app) showSponsorCard(app);
+  }
+
+  function init() {
+    if (!hookTrack()) {
+      document.addEventListener('DOMContentLoaded', () => setTimeout(hookTrack, 500));
+      setTimeout(hookTrack, 1500);
+    }
+    autoCheckFromUrl();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  console.log('✅ Track sponsor extension loaded (v3 — lively)');
+})();
+</script>
 </body>
 </html>
