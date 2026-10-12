@@ -57,9 +57,6 @@ body {
 h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 a { color: var(--primary); text-decoration: none; }
 
-/* ============================================================ */
-/* HEADER */
-/* ============================================================ */
 .site-header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: saturate(180%) blur(12px);
@@ -110,7 +107,6 @@ a { color: var(--primary); text-decoration: none; }
   margin-top: 2px;
 }
 
-/* Menu toggle — HAMBURGER */
 .menu-toggle {
   display: none;
   background: var(--bg);
@@ -135,7 +131,6 @@ a { color: var(--primary); text-decoration: none; }
 }
 .menu-toggle:active { transform: scale(0.95); }
 
-/* Nav */
 .main-nav {
   display: flex;
   align-items: center;
@@ -162,9 +157,6 @@ a { color: var(--primary); text-decoration: none; }
 .nav-group a:hover { background: #fff; color: var(--primary); }
 .nav-group a.active { background: var(--primary); color: #fff; }
 
-/* ============================================================ */
-/* MAIN */
-/* ============================================================ */
 .track-main {
   flex: 1;
   max-width: 720px;
@@ -189,7 +181,6 @@ a { color: var(--primary); text-decoration: none; }
   font-size: 0.94rem;
 }
 
-/* Reference bar */
 .ref-bar {
   background: #fff;
   border: 2px solid var(--border);
@@ -241,7 +232,6 @@ a { color: var(--primary); text-decoration: none; }
 .ref-bar button:hover:not(:disabled) { background: var(--primary-dark); }
 .ref-bar button:disabled { opacity: 0.55; cursor: not-allowed; }
 
-/* Loading */
 .track-loading {
   text-align: center;
   padding: 40px 20px;
@@ -261,7 +251,6 @@ a { color: var(--primary); text-decoration: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .track-loading p { font-size: 0.9rem; }
 
-/* Error */
 .track-error {
   background: var(--danger-bg);
   color: var(--danger);
@@ -278,7 +267,6 @@ a { color: var(--primary); text-decoration: none; }
 .track-error.show { display: flex; }
 .track-error .icon { font-size: 1.2rem; flex-shrink: 0; }
 
-/* Result */
 .track-result { display: none; }
 .track-result.show { display: block; }
 
@@ -422,9 +410,6 @@ a { color: var(--primary); text-decoration: none; }
 }
 .mini-detail.agent .md-value { color: var(--primary); }
 
-/* ============================================================ */
-/* SUPPORT BLOCK */
-/* ============================================================ */
 .support-block {
   background: linear-gradient(135deg, var(--telegram) 0%, var(--telegram-dark) 100%);
   border-radius: var(--radius-xl);
@@ -527,9 +512,6 @@ a { color: var(--primary); text-decoration: none; }
 }
 .support-cta:hover .arrow { transform: translateX(4px); }
 
-/* ============================================================ */
-/* FLOATING MESSAGE BUTTON */
-/* ============================================================ */
 .float-msg-btn {
   position: fixed;
   bottom: 24px;
@@ -562,9 +544,6 @@ a { color: var(--primary); text-decoration: none; }
   50% { box-shadow: 0 8px 24px rgba(34,158,217,0.45), 0 0 0 12px rgba(34,158,217,0); }
 }
 
-/* ============================================================ */
-/* MOBILE — hamburger menu works */
-/* ============================================================ */
 @media (max-width: 640px) {
   .track-main { padding: 20px 16px 100px; }
   .track-header h1 { font-size: 1.35rem; }
@@ -588,10 +567,8 @@ a { color: var(--primary); text-decoration: none; }
     font-size: 1.35rem;
   }
 
-  /* HAMBURGER — show on mobile */
   .menu-toggle { display: flex; }
 
-  /* Mobile nav — hidden by default */
   .main-nav {
     display: none;
     flex-direction: column;
@@ -627,9 +604,6 @@ a { color: var(--primary); text-decoration: none; }
 </head>
 <body>
 
-<!-- ============================================================ -->
-<!-- HEADER -->
-<!-- ============================================================ -->
 <header class="site-header">
   <div class="nav-wrap">
     <a href="index.html" class="logo">
@@ -656,7 +630,6 @@ a { color: var(--primary); text-decoration: none; }
       <span class="logo-text">GlobalPath<small>International</small></span>
     </a>
 
-    <!-- HAMBURGER — top right -->
     <button
       class="menu-toggle"
       id="menuToggle"
@@ -678,9 +651,6 @@ a { color: var(--primary); text-decoration: none; }
   </div>
 </header>
 
-<!-- ============================================================ -->
-<!-- MAIN -->
-<!-- ============================================================ -->
 <main class="track-main">
 
   <div class="track-header">
@@ -688,7 +658,6 @@ a { color: var(--primary); text-decoration: none; }
     <p>Live status, updates, and instant support.</p>
   </div>
 
-  <!-- Reference bar -->
   <div class="ref-bar">
     <input
       type="text"
@@ -701,22 +670,18 @@ a { color: var(--primary); text-decoration: none; }
     <button id="trackBtn" onclick="trackApplication()">Track →</button>
   </div>
 
-  <!-- Loading -->
   <div class="track-loading" id="trackLoading">
     <div class="spinner-lg"></div>
     <p>Looking up your application…</p>
   </div>
 
-  <!-- Error -->
   <div class="track-error" id="trackError">
     <span class="icon">⚠️</span>
     <span id="trackErrorText">We couldn't find an application with that reference.</span>
   </div>
 
-  <!-- Result -->
   <div class="track-result" id="trackResult"></div>
 
-  <!-- Support block -->
   <div class="support-block" id="supportBlock">
     <div class="support-top">
       <div class="support-avatar">💬</div>
@@ -739,7 +704,6 @@ a { color: var(--primary); text-decoration: none; }
 
 </main>
 
-<!-- Floating message button -->
 <a
   href="https://t.me/globalpath_support_bot"
   target="_blank"
@@ -761,7 +725,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
 
 // ============================================================
-// HAMBURGER MENU TOGGLE — works cleanly
+// HAMBURGER
 // ============================================================
 function toggleMenu() {
   const nav = document.getElementById('mainNav');
@@ -775,7 +739,6 @@ function toggleMenu() {
   btn.style.borderColor = isOpen ? 'var(--primary)' : '';
 }
 
-// Auto-close menu when a nav link is clicked
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.nav-group a').forEach(link => {
     link.addEventListener('click', () => {
@@ -791,7 +754,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Close menu on outside click
   document.addEventListener('click', (e) => {
     const nav = document.getElementById('mainNav');
     const btn = document.getElementById('menuToggle');
@@ -805,7 +767,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Close menu on ESC
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       const nav = document.getElementById('mainNav');
@@ -981,7 +942,7 @@ function renderResult(app) {
 }
 
 // ============================================================
-// INIT — auto-fill from ?ref= and auto-track
+// INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
@@ -1000,153 +961,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-  <!-- ============================================================ -->
-<!-- HAMBURGER MENU — self-contained drop-in                     -->
-<!-- Works with any existing <nav class="main-nav"> or .nav-group  -->
-<!-- ============================================================ -->
-<style>
-/* Hamburger button — hidden on desktop */
-#gpMenuToggle {
-  display: none;
-  background: var(--bg, #F7F9FC);
-  border: 1px solid var(--border, #e5e9f0);
-  font-size: 1.3rem;
-  color: var(--primary, #0B3D91);
-  cursor: pointer;
-  padding: 0;
-  border-radius: 10px;
-  width: 42px;
-  height: 42px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-family: inherit;
-  line-height: 1;
-  transition: background 0.18s, border-color 0.18s, transform 0.18s;
-}
-#gpMenuToggle:hover {
-  background: var(--primary-soft, #eef4ff);
-  border-color: var(--primary, #0B3D91);
-}
-#gpMenuToggle:active { transform: scale(0.95); }
-
-@media (max-width: 640px) {
-  #gpMenuToggle { display: flex; }
-
-  /* Mobile nav — hidden by default, opens when .open is added */
-  .main-nav.gp-open {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    width: 100% !important;
-    order: 3 !important;
-    gap: 8px !important;
-    padding: 12px 0 4px !important;
-    border-top: 1px solid var(--border, #e5e9f0);
-    margin-top: 8px;
-    animation: gpSlideDown 0.22s ease-out;
-  }
-  @keyframes gpSlideDown {
-    from { opacity: 0; transform: translateY(-6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .main-nav.gp-open .nav-group {
-    flex-direction: column !important;
-    width: 100% !important;
-    gap: 4px !important;
-    padding: 5px !important;
-  }
-  .main-nav.gp-open .nav-group a {
-    padding: 13px 16px !important;
-    text-align: center !important;
-    font-size: 0.95rem !important;
-  }
-}
-</style>
 
 <script>
 (function () {
-  function initHamburger() {
-    // Find the nav
-    const nav = document.querySelector('.main-nav');
-    if (!nav) return;
-
-    // Already initialised?
-    if (document.getElementById('gpMenuToggle')) return;
-
-    // Find the nav's parent wrapper (where the logo lives)
-    const wrap = nav.parentElement;
-    if (!wrap) return;
-
-    // Create the hamburger button
-    const btn = document.createElement('button');
-    btn.id = 'gpMenuToggle';
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Toggle menu');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.setAttribute('aria-controls', 'gpMainNav');
-    btn.textContent = '☰';
-    if (!nav.id) nav.id = 'gpMainNav';
-
-    // Insert BEFORE the nav
-    nav.parentNode.insertBefore(btn, nav);
-
-    // Toggle function
-    function toggle() {
-      const isOpen = nav.classList.toggle('gp-open');
-      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      btn.textContent = isOpen ? '✕' : '☰';
-      btn.style.background = isOpen ? 'var(--primary-soft, #eef4ff)' : '';
-      btn.style.borderColor = isOpen ? 'var(--primary, #0B3D91)' : '';
-    }
-
-    function close() {
-      if (nav.classList.contains('gp-open')) {
-        nav.classList.remove('gp-open');
-        btn.setAttribute('aria-expanded', 'false');
-        btn.textContent = '☰';
-        btn.style.background = '';
-        btn.style.borderColor = '';
-      }
-    }
-
-    // Click toggle
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      toggle();
-    });
-
-    // Auto-close on link click
-    nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', close);
-    });
-
-    // Close on outside click
-    document.addEventListener('click', function (e) {
-      if (!nav.contains(e.target) && !btn.contains(e.target)) close();
-    });
-
-    // Close on ESC
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') close();
-    });
-  }
-
-  // Run after DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHamburger);
-  } else {
-    initHamburger();
-  }
-})();
-</script>
-(function () {
   const SITE = 'https://globalpathinternational.onrender.com';
 
-  // ============================================================
-  // CHECK APPLICATION FOR SPONSOR FLAG
-  // Uses the existing supabaseClient (already configured)
-  // ============================================================
   async function checkSponsors(reference) {
     try {
       const { data, error } = await supabaseClient
@@ -1155,10 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .ilike('reference', reference)
         .limit(1);
 
-      if (error) {
-        console.error('Supabase error:', error);
-        return null;
-      }
+      if (error) { console.error('Supabase error:', error); return null; }
       if (!data || data.length === 0) return null;
       return data[0];
     } catch (err) {
@@ -1167,9 +983,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ============================================================
-  // SHOW SPONSOR CARD
-  // ============================================================
   function showSponsorCard(app) {
     if (!app.sponsor_email_sent) return;
     if (!app.sponsor_match_count || app.sponsor_match_count < 1) return;
@@ -1229,7 +1042,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // Insert after result card
     const resultBox = document.getElementById('trackResult');
     const supportBlock = document.getElementById('supportBlock');
 
@@ -1245,9 +1057,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ Sponsor card shown');
   }
 
-  // ============================================================
-  // HOOK INTO trackApplication
-  // ============================================================
   function hookTrack() {
     const original = window.trackApplication;
     if (typeof original !== 'function' || original._gpSponsorWrapped) return false;
@@ -1272,9 +1081,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  // ============================================================
-  // AUTO-CHECK FROM URL
-  // ============================================================
   async function autoCheckFromUrl() {
     const params = new URLSearchParams(window.location.search);
     const ref = (params.get('ref') || '').toUpperCase().trim();
@@ -1286,9 +1092,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (app) showSponsorCard(app);
   }
 
-  // ============================================================
-  // INIT
-  // ============================================================
   function init() {
     if (!hookTrack()) {
       document.addEventListener('DOMContentLoaded', () => setTimeout(hookTrack, 500));
