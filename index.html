@@ -931,5 +931,35 @@ document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
   }
 })();
 </script>
+  <!-- REMOVE DUPLICATE HAMBURGER -->
+<script>
+(function () {
+  function removeDuplicate() {
+    // Find all hamburger buttons
+    const toggles = document.querySelectorAll('.menu-toggle, #gpMenuToggle');
+    if (toggles.length <= 1) return; // nothing to fix
+
+    // Keep the ORIGINAL one (the first one in the DOM)
+    // Remove all subsequent ones (the injected ones)
+    for (let i = 1; i < toggles.length; i++) {
+      toggles[i].remove();
+      console.log('🗑️ Removed duplicate hamburger #' + i);
+    }
+  }
+
+  // Run once when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', removeDuplicate);
+  } else {
+    removeDuplicate();
+  }
+
+  // Run again after 500ms to catch any late-injected duplicates
+  setTimeout(removeDuplicate, 500);
+
+  // Run a third time after 1500ms to be safe
+  setTimeout(removeDuplicate, 1500);
+})();
+</script>
 </body>
 </html>
