@@ -6,7 +6,6 @@
 <title>Apply — GlobalPath International</title>
 <meta name="description" content="Apply for passport, visa, or international job assistance.">
 
-<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
@@ -1949,7 +1948,7 @@ function displayIndexForPanel(panel) {
 }
 
 // ============================================================
-// RENDER PROGRESS — smooth, no jitter
+// RENDER PROGRESS
 // ============================================================
 function renderProgress() {
   const inner = document.getElementById('progressInner');
@@ -2010,15 +2009,10 @@ function renderProgress() {
 function scrollToFormTop() {
   const progressBar = document.querySelector('.progress-bar');
   if (!progressBar) return;
-
   const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 70;
   const progressH = progressBar.offsetHeight || 92;
   const targetY = progressBar.offsetTop + progressH + 16;
-
-  window.scrollTo({
-    top: Math.max(0, targetY),
-    behavior: 'smooth'
-  });
+  window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
 }
 
 // ============================================================
@@ -2037,7 +2031,6 @@ function showPanel(name) {
     featured.style.display = 'none';
   }
 
-  // Smooth scroll — deferred to avoid jitter with re-render
   requestAnimationFrame(() => {
     setTimeout(scrollToFormTop, 60);
   });
@@ -2046,7 +2039,7 @@ function showPanel(name) {
 }
 
 // ============================================================
-// NEXT / PREV — with navigation guard
+// NEXT / PREV
 // ============================================================
 function goNext() {
   if (isNavigating) return;
@@ -2156,9 +2149,7 @@ async function loadFeaturedJobs() {
 function renderJobs() {
   const grid = document.getElementById('jobsGrid');
   if (!grid) return;
-
   const search = (document.getElementById('jobSearch')?.value || '').toLowerCase().trim();
-
   let filtered = FEATURED_JOBS;
   if (selectedCategory !== 'all') filtered = filtered.filter(j => j.category === selectedCategory);
   if (search) {
@@ -2169,12 +2160,10 @@ function renderJobs() {
       (j.category||'').toLowerCase().includes(search)
     );
   }
-
   if (filtered.length === 0) {
     grid.innerHTML = '<div class="no-results">No jobs match your search. Try different keywords.</div>';
     return;
   }
-
   grid.innerHTML = filtered.map((j, i) => {
     const isUrgent = j.urgent || i < 3;
     const postedDays = Math.floor(Math.random() * 3) + 1;
@@ -2427,7 +2416,6 @@ async function submitApplication() {
     document.getElementById('telegramConnectBox').style.display = 'block';
     document.getElementById('featuredJobsSection').style.display = 'none';
 
-    // Set track button link
     const trackBtn = document.getElementById('trackNowBtn');
     if (trackBtn) {
       trackBtn.href = `track.html?ref=${encodeURIComponent(reference)}`;
@@ -2435,7 +2423,6 @@ async function submitApplication() {
 
     showPanel('success');
 
-    // Show redirect countdown
     const notice = document.getElementById('redirectNotice');
     const counter = document.getElementById('redirectCountdown');
     if (notice && counter) {
@@ -2449,7 +2436,6 @@ async function submitApplication() {
       }, 1000);
     }
 
-    // Auto-redirect after 2.5s
     redirectTimer = setTimeout(() => {
       window.location.href = `track.html?ref=${encodeURIComponent(reference)}`;
     }, 2500);
@@ -2588,439 +2574,123 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
-  <script>
-(function () {
-  window.addEventListener('load', function () {
-    const applyBtn = document.getElementById('submitBtn');
-    if (!applyBtn) return;
 
-    window.__cancelAutoRedirect = function () {
-      const highestId = setTimeout(() => {}, 0);
-      for (let i = 0; i <= highestId; i++) clearTimeout(i);
-    };
-
-    const originalSubmit = window.submitApplication;
-    if (typeof originalSubmit === 'function') {
-      window.submitApplication = async function () {
-        await originalSubmit.apply(this, arguments);
-        window.__cancelAutoRedirect();
-        setTimeout(() => {
-          const notice = document.getElementById('redirectNotice');
-          const trackBtn = document.getElementById('trackNowBtn');
-          const refEl = document.getElementById('refNumber');
-          if (notice) {
-            const ref = refEl ? refEl.textContent.trim() : '';
-            notice.innerHTML = `
-              <div style="display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;">
-                <span>Your reference is saved. When you're ready, continue to your tracker.</span>
-              </div>
-              <div style="margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                <a href="track.html?ref=${encodeURIComponent(ref)}" style="background:var(--primary);color:#fff;padding:12px 22px;border-radius:10px;font-weight:800;font-size:0.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 16px rgba(11,61,145,0.25);">📊 Continue to Track</a>
-                <a href="https://t.me/globalpath_support_bot?start=${encodeURIComponent(ref)}" target="_blank" rel="noopener" style="background:var(--telegram);color:#fff;padding:12px 22px;border-radius:10px;font-weight:800;font-size:0.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">💬 Chat Support</a>
-              </div>
-            `;
-            notice.style.display = 'block';
-            notice.classList.add('show');
-          }
-          if (trackBtn) {
-            trackBtn.className = 'btn btn-primary btn-lg';
-            trackBtn.style.fontWeight = '800';
-            trackBtn.textContent = '📊 Track My Application';
-          }
-        }, 100);
-      };
-    }
-  });
-})();
-</script>
-  <!-- ============================================================ -->
-<!-- HAMBURGER MENU — self-contained drop-in                     -->
-<!-- Works with any existing <nav class="main-nav"> or .nav-group  -->
 <!-- ============================================================ -->
-<style>
-/* Hamburger button — hidden on desktop */
-#gpMenuToggle {
-  display: none;
-  background: var(--bg, #F7F9FC);
-  border: 1px solid var(--border, #e5e9f0);
-  font-size: 1.3rem;
-  color: var(--primary, #0B3D91);
-  cursor: pointer;
-  padding: 0;
-  border-radius: 10px;
-  width: 42px;
-  height: 42px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-family: inherit;
-  line-height: 1;
-  transition: background 0.18s, border-color 0.18s, transform 0.18s;
-}
-#gpMenuToggle:hover {
-  background: var(--primary-soft, #eef4ff);
-  border-color: var(--primary, #0B3D91);
-}
-#gpMenuToggle:active { transform: scale(0.95); }
-
-@media (max-width: 640px) {
-  #gpMenuToggle { display: flex; }
-
-  /* Mobile nav — hidden by default, opens when .open is added */
-  .main-nav.gp-open {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    width: 100% !important;
-    order: 3 !important;
-    gap: 8px !important;
-    padding: 12px 0 4px !important;
-    border-top: 1px solid var(--border, #e5e9f0);
-    margin-top: 8px;
-    animation: gpSlideDown 0.22s ease-out;
-  }
-  @keyframes gpSlideDown {
-    from { opacity: 0; transform: translateY(-6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .main-nav.gp-open .nav-group {
-    flex-direction: column !important;
-    width: 100% !important;
-    gap: 4px !important;
-    padding: 5px !important;
-  }
-  .main-nav.gp-open .nav-group a {
-    padding: 13px 16px !important;
-    text-align: center !important;
-    font-size: 0.95rem !important;
-  }
-}
-</style>
-
-<script>
-(function () {
-  function initHamburger() {
-    // Find the nav
-    const nav = document.querySelector('.main-nav');
-    if (!nav) return;
-
-    // Already initialised?
-    if (document.getElementById('gpMenuToggle')) return;
-
-    // Find the nav's parent wrapper (where the logo lives)
-    const wrap = nav.parentElement;
-    if (!wrap) return;
-
-    // Create the hamburger button
-    const btn = document.createElement('button');
-    btn.id = 'gpMenuToggle';
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Toggle menu');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.setAttribute('aria-controls', 'gpMainNav');
-    btn.textContent = '☰';
-    if (!nav.id) nav.id = 'gpMainNav';
-
-    // Insert BEFORE the nav
-    nav.parentNode.insertBefore(btn, nav);
-
-    // Toggle function
-    function toggle() {
-      const isOpen = nav.classList.toggle('gp-open');
-      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      btn.textContent = isOpen ? '✕' : '☰';
-      btn.style.background = isOpen ? 'var(--primary-soft, #eef4ff)' : '';
-      btn.style.borderColor = isOpen ? 'var(--primary, #0B3D91)' : '';
-    }
-
-    function close() {
-      if (nav.classList.contains('gp-open')) {
-        nav.classList.remove('gp-open');
-        btn.setAttribute('aria-expanded', 'false');
-        btn.textContent = '☰';
-        btn.style.background = '';
-        btn.style.borderColor = '';
-      }
-    }
-
-    // Click toggle
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      toggle();
-    });
-
-    // Auto-close on link click
-    nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', close);
-    });
-
-    // Close on outside click
-    document.addEventListener('click', function (e) {
-      if (!nav.contains(e.target) && !btn.contains(e.target)) close();
-    });
-
-    // Close on ESC
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') close();
-    });
-  }
-
-  // Run after DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHamburger);
-  } else {
-    initHamburger();
-  }
-})();
-</script>
-  <!-- REMOVE DUPLICATE HAMBURGER -->
-<script>
-(function () {
-  function removeDuplicate() {
-    // Find all hamburger buttons
-    const toggles = document.querySelectorAll('.menu-toggle, #gpMenuToggle');
-    if (toggles.length <= 1) return; // nothing to fix
-
-    // Keep the ORIGINAL one (the first one in the DOM)
-    // Remove all subsequent ones (the injected ones)
-    for (let i = 1; i < toggles.length; i++) {
-      toggles[i].remove();
-      console.log('🗑️ Removed duplicate hamburger #' + i);
-    }
-  }
-
-  // Run once when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', removeDuplicate);
-  } else {
-    removeDuplicate();
-  }
-
-  // Run again after 500ms to catch any late-injected duplicates
-  setTimeout(removeDuplicate, 500);
-
-  // Run a third time after 1500ms to be safe
-  setTimeout(removeDuplicate, 1500);
-})();
-</script>
-  <!-- ============================================================ -->
-<!-- HAMBURGER FIX — Drop-in, no file edits needed              -->
-<!-- Paste this ONE block before </body> on both pages          -->
+<!-- HAMBURGER FIX -->
 <!-- ============================================================ -->
 <script>
 (function () {
-  // Wait until page is fully loaded
   window.addEventListener('load', function () {
     setTimeout(function () {
-
-      // Find hamburger button and nav
       const toggle = document.querySelector('#gpMenuToggle, .menu-toggle');
       const nav = document.querySelector('.main-nav');
       const navGroup = document.querySelector('.nav-group');
-
-      if (!toggle || !nav) {
-        console.log('❌ Hamburger fix: toggle or nav not found');
-        return;
-      }
-
+      if (!toggle || !nav) { console.log('❌ Hamburger fix: toggle or nav not found'); return; }
       console.log('✅ Hamburger fix running');
 
-      // ─────────────────────────────────────────────
-      // 1. Clone the toggle to remove old handlers
-      // ─────────────────────────────────────────────
       const freshToggle = toggle.cloneNode(true);
       toggle.parentNode.replaceChild(freshToggle, toggle);
 
-      // ─────────────────────────────────────────────
-      // 2. Keep navGroup inside nav if separate
-      // ─────────────────────────────────────────────
       const innerGroup = nav.querySelector('.nav-group');
-      if (!innerGroup && navGroup && navGroup.parentElement !== nav) {
-        nav.appendChild(navGroup);
-      }
+      if (!innerGroup && navGroup && navGroup.parentElement !== nav) nav.appendChild(navGroup);
 
-      // ─────────────────────────────────────────────
-      // 3. Build the menu — but ONLY show on mobile
-      // ─────────────────────────────────────────────
       let menuPanel = document.getElementById('gpMenuPanel');
       if (!menuPanel) {
         menuPanel = document.createElement('div');
         menuPanel.id = 'gpMenuPanel';
-        menuPanel.style.cssText = `
-          display: none;
-          position: absolute;
-          top: 100%;
-          left: 12px;
-          right: 12px;
-          background: #fff;
-          padding: 10px;
-          border-radius: 14px;
-          box-shadow: 0 12px 32px rgba(11,61,145,0.18);
-          z-index: 9999;
-          margin-top: 6px;
-        `;
-
-        // Copy the links from the existing nav
-        const linksHTML = nav.querySelector('.nav-group')?.innerHTML || `
-          <a href="index.html">Home</a>
-          <a href="track.html">Track</a>
-          <a href="portal.html">My Account</a>
-          <a href="support.html">Support</a>
-        `;
-
-        menuPanel.innerHTML = `
-          <div style="display:flex;flex-direction:column;gap:4px;">
-            ${linksHTML.split('</a>').filter(Boolean).map(link => {
-              const match = link.match(/href="([^"]+)"[^>]*>([^<]+)/);
-              if (!match) return '';
-              const href = match[1];
-              const text = match[2].trim();
-              return `<a href="${href}" style="
-                display:block;
-                padding:14px 18px;
-                text-align:center;
-                border-radius:10px;
-                font-weight:700;
-                font-size:0.95rem;
-                color:#0f172a;
-                text-decoration:none;
-                background:#F7F9FC;
-                transition: all 0.15s;
-              ">${text}</a>`;
-            }).join('')}
-          </div>
-        `;
-
+        menuPanel.style.cssText = `display:none;position:absolute;top:100%;left:12px;right:12px;background:#fff;padding:10px;border-radius:14px;box-shadow:0 12px 32px rgba(11,61,145,0.18);z-index:9999;margin-top:6px;`;
+        const linksHTML = nav.querySelector('.nav-group')?.innerHTML || `<a href="index.html">Home</a><a href="track.html">Track</a><a href="portal.html">My Account</a><a href="support.html">Support</a>`;
+        menuPanel.innerHTML = `<div style="display:flex;flex-direction:column;gap:4px;">${linksHTML.split('</a>').filter(Boolean).map(link => {
+          const match = link.match(/href="([^"]+)"[^>]*>([^<]+)/);
+          if (!match) return '';
+          return `<a href="${match[1]}" style="display:block;padding:14px 18px;text-align:center;border-radius:10px;font-weight:700;font-size:0.95rem;color:#0f172a;text-decoration:none;background:#F7F9FC;">${match[2].trim()}</a>`;
+        }).join('')}</div>`;
         nav.parentNode.insertBefore(menuPanel, nav.nextSibling);
       }
 
-      // ─────────────────────────────────────────────
-      // 4. Wire up the toggle
-      // ─────────────────────────────────────────────
       freshToggle.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
+        e.preventDefault(); e.stopPropagation();
         const isOpen = menuPanel.style.display === 'block';
-
-        if (isOpen) {
-          menuPanel.style.display = 'none';
-          freshToggle.textContent = '☰';
-        } else {
-          menuPanel.style.display = 'block';
-          freshToggle.textContent = '✕';
-        }
+        if (isOpen) { menuPanel.style.display = 'none'; freshToggle.textContent = '☰'; }
+        else { menuPanel.style.display = 'block'; freshToggle.textContent = '✕'; }
       });
 
-      // ─────────────────────────────────────────────
-      // 5. Auto-close on interactions
-      // ─────────────────────────────────────────────
       document.addEventListener('click', function (e) {
         if (!menuPanel.contains(e.target) && !freshToggle.contains(e.target)) {
-          if (menuPanel.style.display === 'block') {
-            menuPanel.style.display = 'none';
-            freshToggle.textContent = '☰';
-          }
+          if (menuPanel.style.display === 'block') { menuPanel.style.display = 'none'; freshToggle.textContent = '☰'; }
         }
       });
 
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-          menuPanel.style.display = 'none';
-          freshToggle.textContent = '☰';
-        }
+        if (e.key === 'Escape') { menuPanel.style.display = 'none'; freshToggle.textContent = '☰'; }
       });
 
-      // Close when a link is clicked
       menuPanel.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function () {
-          menuPanel.style.display = 'none';
-          freshToggle.textContent = '☰';
-        });
+        link.addEventListener('click', function () { menuPanel.style.display = 'none'; freshToggle.textContent = '☰'; });
       });
 
-      // ─────────────────────────────────────────────
-      // 6. Hide the original nav on mobile (only show on desktop)
-      // ─────────────────────────────────────────────
       function handleResize() {
         if (window.innerWidth <= 640) {
-          // Mobile: hide original nav, show toggle
           nav.style.display = 'none';
           freshToggle.style.display = 'flex';
         } else {
-          // Desktop: show original nav, hide toggle + menu panel
           nav.style.display = '';
           freshToggle.style.display = 'none';
           menuPanel.style.display = 'none';
           freshToggle.textContent = '☰';
         }
       }
-
       handleResize();
       window.addEventListener('resize', handleResize);
-
       console.log('✅ Hamburger menu ready');
-
-    }, 300); // Wait 300ms for other scripts
+    }, 300);
   });
 })();
 </script>
-  <!-- ============================================================ -->
-<!-- SPONSOR EMAIL TRIGGER — Auto-sends email 60s after submit -->
+
+<!-- ============================================================ -->
+<!-- SPONSOR EMAIL AUTO-TRIGGER — 5 SECONDS (reads from form) -->
 <!-- ============================================================ -->
 <script>
 (function () {
   window.addEventListener('load', function () {
     setTimeout(function () {
-
       const originalSubmit = window.submitApplication;
       if (typeof originalSubmit !== 'function' || originalSubmit._gpSponsorWrapped) return;
 
       window.submitApplication = async function () {
-        // Run original submit
+        // Read from form fields BEFORE original runs
+        const emailField = document.getElementById('email');
+        const nameField = document.getElementById('full_name');
+        const userEmail = emailField?.value?.trim() || '';
+        const userName = nameField?.value?.trim() || 'there';
+
         await originalSubmit.apply(this, arguments);
 
-        // Wait for success panel to render
         setTimeout(async () => {
           const refEl = document.getElementById('refNumber');
           const reference = refEl ? refEl.textContent.trim() : '';
 
-          if (!reference || !/^GP-/.test(reference)) {
-            console.log('❌ No reference found — skip sponsor email');
-            return;
-          }
+          console.log('🔍 Trigger check:', { reference, userEmail, userName });
 
-          const userEmail = (window.formData && window.formData.email) || '';
-          const userName = (window.formData && window.formData.full_name) || 'there';
+          if (!reference || !/^GP-/.test(reference)) { console.log('❌ No reference — skip'); return; }
+          if (!userEmail) { console.log('❌ No email — skip'); return; }
 
-          if (!userEmail) {
-            console.log('❌ No email in formData — skip sponsor email');
-            return;
-          }
-
-          // ⭐ Auto-trigger email 60 seconds after submit
+          // 5 seconds after submit
           setTimeout(async () => {
             try {
+              console.log('📧 Sending sponsor email...');
               const res = await fetch('https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev/send-sponsor-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  email: userEmail,
-                  name: userName,
-                  reference: reference
-                })
+                body: JSON.stringify({ email: userEmail, name: userName, reference })
               });
               const data = await res.json();
-              if (res.ok) {
-                console.log('✅ Sponsor email sent for', reference, data);
-              } else {
-                console.warn('⚠️ Sponsor email failed:', data.error);
-              }
+              console.log('📧 Response:', res.status, data);
             } catch (err) {
-              console.warn('⚠️ Sponsor email fetch error:', err.message);
+              console.warn('⚠️ Fetch error:', err.message);
             }
-          }, 60000); // 60 seconds after submit
-
+          }, 5000);
         }, 800);
       };
 
