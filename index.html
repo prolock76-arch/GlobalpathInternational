@@ -961,5 +961,167 @@ document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
   setTimeout(removeDuplicate, 1500);
 })();
 </script>
+  <!-- ============================================================ -->
+<!-- HAMBURGER FIX — Drop-in, no file edits needed              -->
+<!-- Paste this ONE block before </body> on both pages          -->
+<!-- ============================================================ -->
+<script>
+(function () {
+  // Wait until page is fully loaded
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+
+      // Find hamburger button and nav
+      const toggle = document.querySelector('#gpMenuToggle, .menu-toggle');
+      const nav = document.querySelector('.main-nav');
+      const navGroup = document.querySelector('.nav-group');
+
+      if (!toggle || !nav) {
+        console.log('❌ Hamburger fix: toggle or nav not found');
+        return;
+      }
+
+      console.log('✅ Hamburger fix running');
+
+      // ─────────────────────────────────────────────
+      // 1. Clone the toggle to remove old handlers
+      // ─────────────────────────────────────────────
+      const freshToggle = toggle.cloneNode(true);
+      toggle.parentNode.replaceChild(freshToggle, toggle);
+
+      // ─────────────────────────────────────────────
+      // 2. Keep navGroup inside nav if separate
+      // ─────────────────────────────────────────────
+      const innerGroup = nav.querySelector('.nav-group');
+      if (!innerGroup && navGroup && navGroup.parentElement !== nav) {
+        nav.appendChild(navGroup);
+      }
+
+      // ─────────────────────────────────────────────
+      // 3. Build the menu — but ONLY show on mobile
+      // ─────────────────────────────────────────────
+      let menuPanel = document.getElementById('gpMenuPanel');
+      if (!menuPanel) {
+        menuPanel = document.createElement('div');
+        menuPanel.id = 'gpMenuPanel';
+        menuPanel.style.cssText = `
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 12px;
+          right: 12px;
+          background: #fff;
+          padding: 10px;
+          border-radius: 14px;
+          box-shadow: 0 12px 32px rgba(11,61,145,0.18);
+          z-index: 9999;
+          margin-top: 6px;
+        `;
+
+        // Copy the links from the existing nav
+        const linksHTML = nav.querySelector('.nav-group')?.innerHTML || `
+          <a href="index.html">Home</a>
+          <a href="track.html">Track</a>
+          <a href="portal.html">My Account</a>
+          <a href="support.html">Support</a>
+        `;
+
+        menuPanel.innerHTML = `
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            ${linksHTML.split('</a>').filter(Boolean).map(link => {
+              const match = link.match(/href="([^"]+)"[^>]*>([^<]+)/);
+              if (!match) return '';
+              const href = match[1];
+              const text = match[2].trim();
+              return `<a href="${href}" style="
+                display:block;
+                padding:14px 18px;
+                text-align:center;
+                border-radius:10px;
+                font-weight:700;
+                font-size:0.95rem;
+                color:#0f172a;
+                text-decoration:none;
+                background:#F7F9FC;
+                transition: all 0.15s;
+              ">${text}</a>`;
+            }).join('')}
+          </div>
+        `;
+
+        nav.parentNode.insertBefore(menuPanel, nav.nextSibling);
+      }
+
+      // ─────────────────────────────────────────────
+      // 4. Wire up the toggle
+      // ─────────────────────────────────────────────
+      freshToggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isOpen = menuPanel.style.display === 'block';
+
+        if (isOpen) {
+          menuPanel.style.display = 'none';
+          freshToggle.textContent = '☰';
+        } else {
+          menuPanel.style.display = 'block';
+          freshToggle.textContent = '✕';
+        }
+      });
+
+      // ─────────────────────────────────────────────
+      // 5. Auto-close on interactions
+      // ─────────────────────────────────────────────
+      document.addEventListener('click', function (e) {
+        if (!menuPanel.contains(e.target) && !freshToggle.contains(e.target)) {
+          if (menuPanel.style.display === 'block') {
+            menuPanel.style.display = 'none';
+            freshToggle.textContent = '☰';
+          }
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          menuPanel.style.display = 'none';
+          freshToggle.textContent = '☰';
+        }
+      });
+
+      // Close when a link is clicked
+      menuPanel.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function () {
+          menuPanel.style.display = 'none';
+          freshToggle.textContent = '☰';
+        });
+      });
+
+      // ─────────────────────────────────────────────
+      // 6. Hide the original nav on mobile (only show on desktop)
+      // ─────────────────────────────────────────────
+      function handleResize() {
+        if (window.innerWidth <= 640) {
+          // Mobile: hide original nav, show toggle
+          nav.style.display = 'none';
+          freshToggle.style.display = 'flex';
+        } else {
+          // Desktop: show original nav, hide toggle + menu panel
+          nav.style.display = '';
+          freshToggle.style.display = 'none';
+          menuPanel.style.display = 'none';
+          freshToggle.textContent = '☰';
+        }
+      }
+
+      handleResize();
+      window.addEventListener('resize', handleResize);
+
+      console.log('✅ Hamburger menu ready');
+
+    }, 300); // Wait 300ms for other scripts
+  });
+})();
+</script>
 </body>
 </html>
