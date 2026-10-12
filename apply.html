@@ -2965,5 +2965,163 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 </script>
+  <!-- ============================================================ -->
+<!-- SPONSOR EMAIL TRIGGER — paste before </body> in apply.html -->
+<!-- ============================================================ -->
+<script>
+(function () {
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+
+      // ─────────────────────────────────────────────
+      // WRAP submitApplication to trigger email + show unlock card
+      // ─────────────────────────────────────────────
+      const originalSubmit = window.submitApplication;
+      if (typeof originalSubmit !== 'function' || originalSubmit._gpSponsorWrapped) return;
+
+      window.submitApplication = async function () {
+        // Run the original submit
+        await originalSubmit.apply(this, arguments);
+
+        // Wait a moment for success panel to show
+        setTimeout(async () => {
+          const refEl = document.getElementById('refNumber');
+          const reference = refEl ? refEl.textContent.trim() : '';
+
+          if (!reference || !/^GP-/.test(reference)) {
+            console.log('❌ No reference found — skip sponsor email');
+            return;
+          }
+
+          // Get user email from formData
+          const userEmail = (window.formData && window.formData.email) || '';
+          const userName = (window.formData && window.formData.full_name) || 'there';
+
+          if (!userEmail) {
+            console.log('❌ No email in formData — skip sponsor email');
+            return;
+          }
+
+          // ⭐ 1. Trigger sponsor email (runs in background)
+          try {
+            const res = await fetch('https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev/send-sponsor-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: userEmail,
+                name: userName,
+                reference: reference
+              })
+            });
+            const data = await res.json();
+            if (res.ok) {
+              console.log('✅ Sponsor email triggered for', reference, data);
+            } else {
+              console.warn('⚠️ Sponsor email failed:', data.error);
+            }
+          } catch (err) {
+            console.warn('⚠️ Sponsor email fetch error:', err.message);
+          }
+
+          // ⭐ 2. Show sponsor unlock card on success panel
+          showSponsorUnlockCard(reference);
+
+        }, 800); // wait 800ms for success panel
+      };
+
+      window.submitApplication._gpSponsorWrapped = true;
+      console.log('✅ Sponsor trigger wrapped into submitApplication');
+
+      // ─────────────────────────────────────────────
+      // SHOW SPONSOR UNLOCK CARD on success panel
+      // ─────────────────────────────────────────────
+      function showSponsorUnlockCard(reference) {
+        // Don't show twice
+        if (document.getElementById('gpSponsorUnlockCard')) return;
+
+        // Find the success panel
+        const successPanel = document.querySelector('.panel[data-panel="success"] .success-panel');
+        if (!successPanel) {
+          console.log('❌ Success panel not found');
+          return;
+        }
+
+        // Find the Telegram box (we'll insert right after it)
+        const telegramBox = document.getElementById('telegramConnectBox');
+
+        // Build the sponsor card
+        const card = document.createElement('div');
+        card.id = 'gpSponsorUnlockCard';
+        card.style.cssText = `
+          background: linear-gradient(135deg, #fff5e1 0%, #fff 100%);
+          border: 2px solid var(--accent);
+          border-radius: var(--radius-lg);
+          padding: 24px 22px;
+          margin: 24px auto;
+          max-width: 540px;
+          text-align: left;
+          box-shadow: 0 8px 24px rgba(245,166,35,0.15);
+        `;
+
+        card.innerHTML = `
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+            <div style="font-size:1.8rem;flex-shrink:0;">🎯</div>
+            <div style="flex:1;">
+              <div style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-dark);font-weight:800;margin-bottom:4px;">Sponsor Match</div>
+              <div style="font-size:1.05rem;font-weight:800;color:var(--primary);line-height:1.3;">
+                We found sponsors matching your profile
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:0.9rem;color:var(--muted);line-height:1.6;margin:0 0 16px;">
+            Employers who actively sponsor visas for your destination. Unlock contact details to reach them directly.
+          </p>
+
+          <a href="https://globalpathinternational.onrender.com/unlock.html?ref=${encodeURIComponent(reference)}"
+             style="
+               display:flex;
+               align-items:center;
+               justify-content:center;
+               gap:8px;
+               background:var(--accent);
+               color:#1a1a1a;
+               text-decoration:none;
+               padding:14px 24px;
+               border-radius:var(--radius);
+               font-weight:800;
+               font-size:0.98rem;
+               box-shadow:0 6px 16px rgba(245,166,35,0.35);
+               margin-bottom:12px;
+             ">
+            🔓 Unlock Sponsor Contacts — $9.99
+          </a>
+
+          <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-size:0.76rem;color:var(--muted);font-weight:600;">
+            <span>✅ 30-day refund</span>
+            <span>🔒 Secure checkout</span>
+            <span>⚡ Instant access</span>
+          </div>
+        `;
+
+        // Insert after Telegram box, or after reference box, or at end of success panel
+        if (telegramBox && telegramBox.parentNode) {
+          telegramBox.parentNode.insertBefore(card, telegramBox.nextSibling);
+        } else {
+          const refBox = successPanel.querySelector('.reference-box');
+          if (refBox && refBox.parentNode) {
+            refBox.parentNode.insertBefore(card, refBox.nextSibling);
+          } else {
+            successPanel.appendChild(card);
+          }
+        }
+
+        console.log('✅ Sponsor unlock card shown');
+      }
+
+    }, 500); // wait 500ms for everything to load
+  });
+})();
+</script>
 </body>
 </html>
