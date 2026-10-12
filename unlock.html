@@ -777,14 +777,12 @@ async function fetchApplication(reference) {
 }
 
 async function fetchSponsors(country) {
-  // Try matching the user's country first
   let query = supabaseClient.from('sponsors').select('*').eq('active', true).limit(5);
   if (country) query = query.eq('country', country);
 
   let { data, error } = await query;
   if (error) throw error;
 
-  // Fallback: any 5 active sponsors
   if (!data || data.length === 0) {
     const fb = await supabaseClient.from('sponsors').select('*').eq('active', true).limit(5);
     if (fb.error) throw fb.error;
@@ -1037,7 +1035,7 @@ window.handlePay = async function () {
   setTimeout(() => {
     alert(
       'Payment integration is coming soon.\n\n' +
-      'In the meantime, message our team on Telegram and we\\'ll unlock your sponsors manually.\n\n' +
+      "In the meantime, message our team on Telegram and we'll unlock your sponsors manually.\n\n" +
       'Reference: ' + ref
     );
     window.location.href = 'https://t.me/' + TELEGRAM_BOT + '?start=pay_' + encodeURIComponent(ref);
@@ -1048,32 +1046,44 @@ window.handlePay = async function () {
 // INIT
 // ============================================================
 (async function init() {
+  console.log('🔍 Unlock page starting...');
+
   const ref = getRef();
+  console.log('📋 Reference from URL:', ref);
+
   if (!ref) {
+    console.warn('⚠️ No reference in URL');
     showError('Missing reference', 'Open this page from the link in your email, or enter your reference on the tracker.');
     return;
   }
 
   try {
+    console.log('📡 Fetching application...');
     const app = await fetchApplication(ref);
+    console.log('✅ Application result:', app);
+
     if (!app) {
+      console.warn('⚠️ No application found for ref:', ref);
       showError('Application not found', `We couldn't find an application with the reference "${ref}".`);
       return;
     }
 
+    console.log('📡 Fetching sponsors for country:', app.country);
     const sponsors = await fetchSponsors(app.country);
+    console.log('✅ Sponsors result:', sponsors);
 
-    // Unlocked if explicitly paid, or if already marked as unlocked in Supabase
     const unlocked = isPaidParam() || app.unlocked === true;
+    console.log('🔓 Unlocked?', unlocked);
 
     if (unlocked) {
       renderUnlocked(app, sponsors);
     } else {
       renderLocked(app, sponsors);
     }
+    console.log('✅ Page rendered successfully');
   } catch (err) {
-    console.error('Unlock page error:', err);
-    showError('Something went wrong', 'Please try again in a moment, or contact support via Telegram.');
+    console.error('❌ Unlock page error:', err);
+    showError('Something went wrong', 'Error: ' + (err.message || 'unknown') + ' — contact support via Telegram.');
   }
 })();
 </script>
