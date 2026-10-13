@@ -476,6 +476,12 @@ a { color: var(--primary); text-decoration: none; }
   display: block;
   margin-top: 6px;
 }
+.cta-ksh-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
 .pay-btn {
   display: flex;
   align-items: center;
@@ -711,12 +717,18 @@ const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT = 'globalpath_support_bot';
-const PRICE = '$9.99';
+
+// ---------- PRICING ----------
+// Front-end display price (USD)
+const PRICE_DISPLAY = '$9.99';
+
+// Actual charge (KES) — Paystack charges in KES
+const CHARGE_AMOUNT = 135000;        // KES 1,350.00 in cents
+const CHARGE_CURRENCY = 'KES';
+const PRICE_KOBO_DISPLAY = 'KES 1,350'; // shown as a small note under the price
 
 // Paystack
 const PAYSTACK_PUBLIC_KEY = 'pk_live_26045fd878804b04793989c2f24c8c32e9adeb41';
-const PRICE_KOBO = 99900; // ₦999.00 in kobo
-const CURRENCY = 'NGN';
 const WORKER_VERIFY_URL = 'https://api.globalpathjobplacement.online/verify-paystack';
 
 const main = document.getElementById('unlockMain');
@@ -858,7 +870,7 @@ function renderLocked(app, sponsors) {
     </div>
 
     <div class="explain-block">
-      <h2>💡 What You Get For ${PRICE}</h2>
+      <h2>💡 What You Get For ${PRICE_DISPLAY}</h2>
       <ul class="explain-list">
         <li><span class="el-icon">✅</span><span>Full sponsor list with hiring focus and destination country</span></li>
         <li><span class="el-icon">✅</span><span>Confirmation your profile is forwarded to their agents</span></li>
@@ -870,9 +882,10 @@ function renderLocked(app, sponsors) {
 
     <div class="cta-block">
       <div class="cta-price">
-        ${PRICE}
+        ${PRICE_DISPLAY}
         <small>one-time · unlocks all ${count} sponsor${count === 1 ? '' : 's'}</small>
       </div>
+      <div class="cta-ksh-note">You'll be charged ${PRICE_KOBO_DISPLAY} at checkout</div>
 
       <button class="pay-btn" id="payBtn" onclick="handlePay()">
         <span style="font-size:1.2rem;">🔓</span>
@@ -989,7 +1002,7 @@ window.toggleReveal = function () {
 };
 
 // ============================================================
-// PAYMENT — Direct Paystack modal
+// PAYMENT — Direct Paystack modal (KES charge, USD display)
 // ============================================================
 window.handlePay = async function () {
   const btn = document.getElementById('payBtn');
@@ -1036,14 +1049,15 @@ window.handlePay = async function () {
     paystack.newTransaction({
       key: PAYSTACK_PUBLIC_KEY,
       email: email,
-      amount: PRICE_KOBO,
-      currency: CURRENCY,
+      amount: CHARGE_AMOUNT,         // KES 1,350.00 in cents
+      currency: CHARGE_CURRENCY,     // 'KES'
       reference: `GP-UNLOCK-${ref}-${Date.now()}`,
       metadata: {
         custom_fields: [
           { display_name: 'Application Reference', variable_name: 'application_ref', value: ref },
           { display_name: 'Customer Name', variable_name: 'customer_name', value: name },
-          { display_name: 'Product', variable_name: 'product', value: 'Sponsor Unlock' }
+          { display_name: 'Product', variable_name: 'product', value: 'Sponsor Unlock' },
+          { display_name: 'Displayed Price', variable_name: 'displayed_price', value: PRICE_DISPLAY }
         ]
       },
       onSuccess: function (transaction) {
@@ -1096,10 +1110,8 @@ window.handlePay = async function () {
     const sponsorLimit = Number(app.sponsor_match_count) || 3;
     const sponsors = await fetchSponsors(app.country, sponsorLimit);
 
-    // Trust the database — that's the source of truth
     let unlocked = app.unlocked === true;
 
-    // If coming back from Paystack, verify the payment first
     if (isPaid && paystackRef && !unlocked) {
       main.innerHTML = `
         <div class="loading-wrap" style="display:block;">
