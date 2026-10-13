@@ -717,6 +717,7 @@ const PRICE = '$9.99';
 const PAYSTACK_PUBLIC_KEY = 'pk_live_26045fd878804b04793989c2f24c8c32e9adeb41';
 const PRICE_KOBO = 99900; // ₦999.00 in kobo
 const CURRENCY = 'NGN';
+const WORKER_VERIFY_URL = 'https://api.globalpathjobplacement.online/verify-paystack';
 
 const main = document.getElementById('unlockMain');
 
@@ -743,11 +744,6 @@ function showError(title, msg) {
 function getRef() {
   const params = new URLSearchParams(window.location.search);
   return (params.get('ref') || '').toUpperCase().trim();
-}
-
-function isPaidParam() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('paid') === '1';
 }
 
 // ============================================================
@@ -993,7 +989,7 @@ window.toggleReveal = function () {
 };
 
 // ============================================================
-// PAYMENT — Direct Paystack modal (fast & smooth)
+// PAYMENT — Direct Paystack modal
 // ============================================================
 window.handlePay = async function () {
   const btn = document.getElementById('payBtn');
@@ -1008,7 +1004,6 @@ window.handlePay = async function () {
   btn.disabled = true;
   btn.innerHTML = '<span style="font-size:1.1rem;">⏳</span> Opening secure checkout…';
 
-  // Cache application fetch to avoid double-query
   let app;
   try {
     app = await fetchApplication(ref);
@@ -1030,7 +1025,6 @@ window.handlePay = async function () {
     return;
   }
 
-  // Reset button state so if user cancels, it's ready again
   const resetBtn = () => {
     btn.disabled = false;
     btn.innerHTML = originalHTML;
@@ -1054,7 +1048,6 @@ window.handlePay = async function () {
       },
       onSuccess: function (transaction) {
         console.log('✅ Paystack success:', transaction);
-        // Instant reload in unlocked state
         window.location.replace(`unlock.html?ref=${encodeURIComponent(ref)}&paid=1&paystack_ref=${encodeURIComponent(transaction.reference)}`);
       },
       onCancel: function () {
@@ -1068,7 +1061,6 @@ window.handlePay = async function () {
       }
     });
 
-    // If modal is still opening, re-enable after a short delay in case of silent failure
     setTimeout(() => {
       if (document.querySelector('#payBtn').disabled) resetBtn();
     }, 1500);
@@ -1081,10 +1073,13 @@ window.handlePay = async function () {
 };
 
 // ============================================================
-// INIT
+// INIT — verifies payment before unlocking
 // ============================================================
 (async function init() {
   const ref = getRef();
+  const params = new URLSearchParams(window.location.search);
+  const paystackRef = params.get('paystack_ref');
+  const isPaid = params.get('paid') === '1';
 
   if (!ref) {
     showError('Missing reference', 'Open this page from the link in your email, or enter your reference on the tracker.');
@@ -1101,7 +1096,44 @@ window.handlePay = async function () {
     const sponsorLimit = Number(app.sponsor_match_count) || 3;
     const sponsors = await fetchSponsors(app.country, sponsorLimit);
 
-    const unlocked = isPaidParam() || app.unlocked === true;
+    // Trust the database — that's the source of truth
+    let unlocked = app.unlocked === true;
+
+    // If coming back from Paystack, verify the payment first
+    if (isPaid && paystackRef && !unlocked) {
+      main.innerHTML = `
+        <div class="loading-wrap" style="display:block;">
+          <div class="spinner-lg"></div>
+          <p>Verifying your payment…</p>
+        </div>
+      `;
+
+      try {
+        const verifyRes = await fetch(WORKER_VERIFY_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paystack_ref: paystackRef, reference: ref })
+        });
+        const verifyData = await verifyRes.json();
+
+        if (verifyRes.ok && verifyData.ok) {
+          console.log('✅ Payment verified — unlocking');
+          unlocked = true;
+          window.history.replaceState({}, '', `unlock.html?ref=${encodeURIComponent(ref)}`);
+        } else {
+          console.warn('⚠️ Verification failed:', verifyData);
+          showError(
+            'Payment verification failed',
+            verifyData.error || 'We could not confirm your payment. If you were charged, contact support via Telegram.'
+          );
+          return;
+        }
+      } catch (err) {
+        console.error('Verification request error:', err);
+        showError('Could not verify payment', 'Please contact support via Telegram and include your reference.');
+        return;
+      }
+    }
 
     if (unlocked) {
       renderUnlocked(app, sponsors);
