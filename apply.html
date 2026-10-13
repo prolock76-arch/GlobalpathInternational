@@ -1738,26 +1738,36 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 <!-- ============================================================ -->
-<!-- SPONSOR EMAIL AUTO-TRIGGER v6 — Watches for reference, fires once -->
+<!-- SPONSOR EMAIL AUTO-TRIGGER v7 — Fires only on real submission -->
 <!-- ============================================================ -->
 <script>
 (function () {
-  console.log('🚀 Sponsor trigger v6 starting...');
+  console.log('🚀 Sponsor trigger v7 starting...');
 
   const WORKER_URL = 'https://api.globalpathjobplacement.online/send-sponsor-email';
+  const PLACEHOLDER_REF = 'GP-2026-00000';
   let fired = false;
-  let lastRef = '';
+  let capturedEmail = '';
+  let capturedName = '';
 
-  function captureUser() {
+  // ---- Capture email/name continuously from the form ----
+  // (They may be cleared after submit, so we snapshot them early)
+  function snapshotUser() {
     const emailField = document.getElementById('email');
     const nameField  = document.getElementById('full_name');
-    return {
-      email: emailField ? emailField.value.trim() : '',
-      name:  nameField  ? (nameField.value.trim() || 'there') : 'there'
-    };
+    const e = emailField ? emailField.value.trim() : '';
+    const n = nameField  ? nameField.value.trim() : '';
+    if (e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) capturedEmail = e;
+    if (n) capturedName = n;
   }
 
-  // Watch the DOM for the reference number to appear
+  // Take snapshot every 500ms so we always have the latest
+  setInterval(snapshotUser, 500);
+
+  // Also snapshot on any input change
+  document.addEventListener('input', snapshotUser, true);
+
+  // ---- Watch for the reference number to CHANGE from the placeholder ----
   const observer = new MutationObserver(async () => {
     if (fired) return;
 
@@ -1765,22 +1775,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!refEl) return;
 
     const ref = (refEl.textContent || '').trim();
-    if (!ref || !/^GP-\d{4}-\d+/.test(ref)) return;
 
-    // Guard: don't fire twice for the same ref
-    if (ref === lastRef) return;
-    lastRef = ref;
+    // Ignore the placeholder and empty values
+    if (!ref || ref === PLACEHOLDER_REF || !/^GP-\d{4}-\d{3,}/.test(ref)) return;
 
-    const { email, name } = captureUser();
-    console.log('🎯 Reference detected:', ref, '→ email:', email, 'name:', name);
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      console.log('❌ Invalid email — aborting send');
-      fired = true;
-      return;
-    }
+    // Ensure it's a real reference
+    if (!/^GP-\d{4}-\d{3,}$/.test(ref)) return;
 
     fired = true;
+    console.log('🎯 Real reference detected:', ref);
+    console.log('📧 Snapshot email:', capturedEmail, '| name:', capturedName);
+
+    if (!capturedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(capturedEmail)) {
+      console.log('❌ No valid email captured — aborting');
+      return;
+    }
 
     try {
       const res = await fetch(WORKER_URL, {
@@ -1788,15 +1797,19 @@ document.addEventListener('DOMContentLoaded', () => {
         mode: 'cors',
         cache: 'no-store',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ email, name, reference: ref })
+        body: JSON.stringify({
+          email: capturedEmail,
+          name: capturedName || 'there',
+          reference: ref
+        })
       });
       const data = await res.json().catch(() => ({}));
       console.log('✅ Worker response:', res.status, data);
     } catch (err) {
-      console.log('⚠️ Primary failed, trying GET:', err.message);
+      console.log('⚠️ Primary failed:', err.message);
       try {
-        const fb = WORKER_URL + '?email=' + encodeURIComponent(email) +
-                   '&name=' + encodeURIComponent(name) +
+        const fb = WORKER_URL + '?email=' + encodeURIComponent(capturedEmail) +
+                   '&name=' + encodeURIComponent(capturedName) +
                    '&reference=' + encodeURIComponent(ref);
         const r2 = await fetch(fb, { method: 'GET', mode: 'cors', cache: 'no-store' });
         console.log('✅ Fallback status:', r2.status);
@@ -1806,18 +1819,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Start observing when DOM is ready
   function start() {
-    const target = document.body;
-    if (!target) { setTimeout(start, 200); return; }
-
-    observer.observe(target, {
+    if (!document.body) { setTimeout(start, 200); return; }
+    observer.observe(document.body, {
       childList: true,
       subtree: true,
       characterData: true
     });
-
-    console.log('✅ Watcher active — submit the form');
+    console.log('✅ Watcher active (ignoring placeholder GP-2026-00000)');
   }
 
   if (document.readyState === 'loading') {
