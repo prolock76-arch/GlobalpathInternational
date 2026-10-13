@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://js.paystack.co/v2/inline.js"></script>
 
 <style>
 :root {
@@ -155,7 +156,7 @@ a { color: var(--primary); text-decoration: none; }
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
-  animation: heroIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: heroIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 @keyframes heroIn {
   from { opacity: 0; transform: translateY(14px) scale(0.98); }
@@ -175,11 +176,6 @@ a { color: var(--primary); text-decoration: none; }
   font-size: 2.4rem;
   margin-bottom: 8px;
   display: block;
-  animation: floatEmoji 3s ease-in-out infinite;
-}
-@keyframes floatEmoji {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-4px); }
 }
 .unlock-hero h1 {
   font-size: 1.75rem;
@@ -216,8 +212,8 @@ a { color: var(--primary); text-decoration: none; }
   padding: 26px 24px;
   box-shadow: 0 8px 24px rgba(11,61,145,0.06);
   margin-bottom: 16px;
-  animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: 0.1s;
+  animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: 0.05s;
 }
 @keyframes cardIn {
   from { opacity: 0; transform: translateY(16px); }
@@ -264,7 +260,6 @@ a { color: var(--primary); text-decoration: none; }
   gap: 14px;
   padding: 16px 0;
   border-bottom: 1px solid var(--border);
-  position: relative;
 }
 .sponsor-item:last-child { border-bottom: none; padding-bottom: 4px; }
 .sponsor-item .sp-flag {
@@ -280,7 +275,6 @@ a { color: var(--primary); text-decoration: none; }
   font-size: 1rem;
   line-height: 1.3;
   margin-bottom: 3px;
-  letter-spacing: -0.01em;
 }
 .sponsor-item .sp-meta {
   font-size: 0.83rem;
@@ -308,26 +302,17 @@ a { color: var(--primary); text-decoration: none; }
   border-radius: 16px;
   padding: 22px 20px 20px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
 .locked-teaser .lt-lock {
   font-size: 1.5rem;
   margin-bottom: 8px;
   display: inline-block;
-  animation: wiggle 2.4s ease-in-out infinite;
-}
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25%      { transform: rotate(-6deg); }
-  75%      { transform: rotate(6deg); }
 }
 .locked-teaser h3 {
   font-size: 1rem;
   color: var(--primary);
   font-weight: 800;
   margin-bottom: 6px;
-  letter-spacing: -0.01em;
 }
 .locked-teaser p {
   font-size: 0.86rem;
@@ -376,7 +361,7 @@ a { color: var(--primary); text-decoration: none; }
 .revealed {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.45s ease-out, opacity 0.3s;
+  transition: max-height 0.35s ease-out, opacity 0.25s;
   opacity: 0;
 }
 .revealed.open {
@@ -434,8 +419,8 @@ a { color: var(--primary); text-decoration: none; }
   padding: 26px 22px;
   margin-bottom: 16px;
   box-shadow: 0 12px 30px rgba(245,166,35,0.15);
-  animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: 0.2s;
+  animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: 0.1s;
 }
 .explain-block h2 {
   font-size: 1.18rem;
@@ -445,7 +430,6 @@ a { color: var(--primary); text-decoration: none; }
   display: flex;
   align-items: center;
   gap: 8px;
-  letter-spacing: -0.02em;
 }
 .explain-list {
   list-style: none;
@@ -473,8 +457,8 @@ a { color: var(--primary); text-decoration: none; }
   padding: 26px 22px;
   box-shadow: 0 12px 30px rgba(11,61,145,0.08);
   text-align: center;
-  animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: 0.3s;
+  animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: 0.15s;
 }
 .cta-price {
   font-family: var(--font-display);
@@ -500,7 +484,6 @@ a { color: var(--primary); text-decoration: none; }
   width: 100%;
   background: linear-gradient(135deg, #F5A623 0%, #d98c0f 100%);
   color: #1a1a1a;
-  text-decoration: none;
   padding: 18px 26px;
   border-radius: 14px;
   font-family: var(--font-display);
@@ -509,15 +492,10 @@ a { color: var(--primary); text-decoration: none; }
   border: none;
   cursor: pointer;
   box-shadow: 0 12px 28px rgba(245,166,35,0.45);
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   margin-top: 18px;
   position: relative;
   overflow: hidden;
-  animation: floatBtn 2.6s ease-in-out infinite;
-}
-@keyframes floatBtn {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-3px); }
 }
 .pay-btn::after {
   content: '';
@@ -526,22 +504,22 @@ a { color: var(--primary); text-decoration: none; }
   width: 50%; height: 100%;
   background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
   transform: skewX(-20deg);
-  animation: shine 2.8s ease-in-out infinite;
+  animation: shine 3.5s ease-in-out infinite;
 }
 @keyframes shine {
   0%   { left: -60%; }
   60%  { left: 130%; }
   100% { left: 130%; }
 }
-.pay-btn:hover {
-  transform: translateY(-3px) scale(1.02);
+.pay-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
   box-shadow: 0 16px 36px rgba(245,166,35,0.55);
 }
 .pay-btn:disabled {
   opacity: 0.7;
   cursor: wait;
-  animation: none;
 }
+.pay-btn:disabled::after { animation: none; }
 
 .trust-row {
   display: flex;
@@ -673,7 +651,7 @@ a { color: var(--primary); text-decoration: none; }
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 0.98rem;
-  transition: transform 0.2s;
+  transition: transform 0.15s;
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 .support-cta:hover { transform: translateY(-2px); color: var(--telegram-dark); }
@@ -734,6 +712,11 @@ const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT = 'globalpath_support_bot';
 const PRICE = '$9.99';
+
+// Paystack
+const PAYSTACK_PUBLIC_KEY = 'pk_live_26045fd878804b04793989c2f24c8c32e9adeb41';
+const PRICE_KOBO = 99900; // ₦999.00 in kobo
+const CURRENCY = 'NGN';
 
 const main = document.getElementById('unlockMain');
 
@@ -860,27 +843,19 @@ function renderLocked(app, sponsors) {
           <h3>⚙️ How Sponsorship Works</h3>
           <div class="how-step">
             <div class="hs-num">1</div>
-            <div class="hs-body">
-              <strong>We forward your profile</strong> to the matched sponsor agents handling your destination country.
-            </div>
+            <div class="hs-body"><strong>We forward your profile</strong> to the matched sponsor agents handling your destination country.</div>
           </div>
           <div class="how-step">
             <div class="hs-num">2</div>
-            <div class="hs-body">
-              <strong>An agent contacts you</strong> by email or phone within 48 hours to confirm your details and interest.
-            </div>
+            <div class="hs-body"><strong>An agent contacts you</strong> by email or phone within 48 hours to confirm your details and interest.</div>
           </div>
           <div class="how-step">
             <div class="hs-num">3</div>
-            <div class="hs-body">
-              <strong>You receive role details</strong> — position, salary range, and visa pathway — directly from the sponsor.
-            </div>
+            <div class="hs-body"><strong>You receive role details</strong> — position, salary range, and visa pathway — directly from the sponsor.</div>
           </div>
           <div class="how-step">
             <div class="hs-num">4</div>
-            <div class="hs-body">
-              <strong>Interview & offer</strong> — the sponsor schedules an interview and issues a formal offer if you're a fit.
-            </div>
+            <div class="hs-body"><strong>Interview & offer</strong> — the sponsor schedules an interview and issues a formal offer if you're a fit.</div>
           </div>
         </div>
       </div>
@@ -1018,7 +993,7 @@ window.toggleReveal = function () {
 };
 
 // ============================================================
-// PAYMENT HANDLER — redirects to checkout.html
+// PAYMENT — Direct Paystack modal (fast & smooth)
 // ============================================================
 window.handlePay = async function () {
   const btn = document.getElementById('payBtn');
@@ -1029,34 +1004,79 @@ window.handlePay = async function () {
     return;
   }
 
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '<span style="font-size:1.1rem;">⏳</span> Opening checkout…';
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span style="font-size:1.1rem;">⏳</span> Opening secure checkout…';
+
+  // Cache application fetch to avoid double-query
+  let app;
+  try {
+    app = await fetchApplication(ref);
+  } catch (err) {
+    console.error('Fetch error:', err);
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
+    alert('Could not load your details. Please refresh and try again.');
+    return;
   }
 
+  const email = app?.email || '';
+  const name  = app?.full_name || '';
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
+    alert('We could not find your email. Please contact support.');
+    return;
+  }
+
+  // Reset button state so if user cancels, it's ready again
+  const resetBtn = () => {
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
+  };
+
   try {
-    const app = await fetchApplication(ref);
-    const email = app?.email || '';
-    const name  = app?.full_name || '';
+    const paystack = new PaystackPop();
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = '<span style="font-size:1.2rem;">🔓</span> Pay Now — Unlock Sponsors <span style="font-size:1.15rem;">→</span>';
+    paystack.newTransaction({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: email,
+      amount: PRICE_KOBO,
+      currency: CURRENCY,
+      reference: `GP-UNLOCK-${ref}-${Date.now()}`,
+      metadata: {
+        custom_fields: [
+          { display_name: 'Application Reference', variable_name: 'application_ref', value: ref },
+          { display_name: 'Customer Name', variable_name: 'customer_name', value: name },
+          { display_name: 'Product', variable_name: 'product', value: 'Sponsor Unlock' }
+        ]
+      },
+      onSuccess: function (transaction) {
+        console.log('✅ Paystack success:', transaction);
+        // Instant reload in unlocked state
+        window.location.replace(`unlock.html?ref=${encodeURIComponent(ref)}&paid=1&paystack_ref=${encodeURIComponent(transaction.reference)}`);
+      },
+      onCancel: function () {
+        console.log('❌ Paystack cancelled');
+        resetBtn();
+      },
+      onError: function (error) {
+        console.error('❌ Paystack error:', error);
+        resetBtn();
+        alert('Payment could not be completed. Please try again.');
       }
-      alert('We could not find your email. Please contact support.');
-      return;
-    }
+    });
 
-    // Redirect to checkout page with ref, email, AND name
-    window.location.href = `checkout.html?ref=${encodeURIComponent(ref)}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`;
+    // If modal is still opening, re-enable after a short delay in case of silent failure
+    setTimeout(() => {
+      if (document.querySelector('#payBtn').disabled) resetBtn();
+    }, 1500);
+
   } catch (err) {
-    console.error('Checkout redirect error:', err);
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<span style="font-size:1.2rem;">🔓</span> Pay Now — Unlock Sponsors <span style="font-size:1.15rem;">→</span>';
-    }
-    alert('Something went wrong. Please try again.');
+    console.error('Paystack init error:', err);
+    resetBtn();
+    alert('Could not open the payment window. Please try again.');
   }
 };
 
@@ -1064,45 +1084,32 @@ window.handlePay = async function () {
 // INIT
 // ============================================================
 (async function init() {
-  console.log('🔍 Unlock page starting...');
-
   const ref = getRef();
-  console.log('📋 Reference from URL:', ref);
 
   if (!ref) {
-    console.warn('⚠️ No reference in URL');
     showError('Missing reference', 'Open this page from the link in your email, or enter your reference on the tracker.');
     return;
   }
 
   try {
-    console.log('📡 Fetching application...');
     const app = await fetchApplication(ref);
-    console.log('✅ Application result:', app);
-
     if (!app) {
-      console.warn('⚠️ No application found for ref:', ref);
       showError('Application not found', `We couldn't find an application with the reference "${ref}".`);
       return;
     }
 
     const sponsorLimit = Number(app.sponsor_match_count) || 3;
-    console.log('📡 Fetching sponsors for country:', app.country, '(limit:', sponsorLimit + ')');
-
     const sponsors = await fetchSponsors(app.country, sponsorLimit);
-    console.log('✅ Sponsors result:', sponsors.length, 'loaded');
 
     const unlocked = isPaidParam() || app.unlocked === true;
-    console.log('🔓 Unlocked?', unlocked);
 
     if (unlocked) {
       renderUnlocked(app, sponsors);
     } else {
       renderLocked(app, sponsors);
     }
-    console.log('✅ Page rendered successfully');
   } catch (err) {
-    console.error('❌ Unlock page error:', err);
+    console.error('Unlock page error:', err);
     showError('Something went wrong', 'Error: ' + (err.message || 'unknown') + ' — contact support via Telegram.');
   }
 })();
