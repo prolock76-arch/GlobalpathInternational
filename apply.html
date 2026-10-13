@@ -1737,118 +1737,84 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 </script>
-
 <!-- ============================================================ -->
-<!-- SPONSOR EMAIL AUTO-TRIGGER v4 — HARDENED FOR ALL DEVICES -->
+<!-- SPONSOR EMAIL AUTO-TRIGGER v5 — Document-level, works everywhere -->
 <!-- ============================================================ -->
 <script>
 (function () {
-  console.log('🚀 Sponsor trigger v4 starting...');
+  console.log('🚀 Sponsor trigger v5 starting...');
 
-  window.addEventListener('load', function () {
-    setTimeout(function () {
-      const submitBtn = document.getElementById('submitBtn');
-      const emailField = document.getElementById('email');
-      const nameField = document.getElementById('full_name');
-      const refNumber = document.getElementById('refNumber');
+  const WORKER_URL = 'https://api.globalpathjobplacement.online/send-sponsor-email';
+  let lastFiredRef = '';
 
-      if (!submitBtn || !emailField || !refNumber) {
-        console.log('❌ Missing elements');
-        return;
-      }
+  // Listen at document level — catches clicks even if button is re-rendered
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('#submitBtn');
+    if (!btn) return;
 
-      console.log('✅ All elements found');
+    console.log('👆 Submit clicked (document-level)');
 
-      let lastFiredRef = '';
+    const emailField = document.getElementById('email');
+    const nameField  = document.getElementById('full_name');
+    const refNumber  = document.getElementById('refNumber');
 
-      submitBtn.addEventListener('click', function () {
-        console.log('👆 Submit button clicked');
+    const userEmail = emailField ? emailField.value.trim() : '';
+    const userName  = nameField ? nameField.value.trim() || 'there' : 'there';
 
-        const userEmail = emailField.value.trim();
-        const userName = nameField?.value?.trim() || 'there';
+    console.log('📧 Captured:', { userEmail, userName });
 
-        console.log('📧 Captured:', { userEmail, userName });
+    if (!userEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+      console.log('❌ Invalid email — skipping');
+      return;
+    }
 
-        if (!userEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
-          console.log('❌ Invalid or empty email — skipping');
+    // Poll for reference number to appear
+    let attempts = 0;
+    const maxAttempts = 40; // 40 × 500ms = 20 seconds
+    const interval = setInterval(async () => {
+      attempts++;
+      const ref = refNumber ? refNumber.textContent.trim() : '';
+      console.log('🔁 Poll ' + attempts + ' — ref =', ref);
+
+      if (ref && /^GP-/.test(ref)) {
+        clearInterval(interval);
+
+        if (ref === lastFiredRef) {
+          console.log('⏭️ Already sent for', ref);
           return;
         }
+        lastFiredRef = ref;
 
-        // ---- Wait for submission + success panel ----
-        setTimeout(async () => {
-          let reference = refNumber.textContent.trim();
-          console.log('🔍 Initial reference:', reference);
-
-          // ---- Extended retry: up to 30 attempts × 700ms = 21 seconds ----
-          let attempts = 0;
-          while ((!reference || !/^GP-/.test(reference)) && attempts < 30) {
-            attempts++;
-            await new Promise(r => setTimeout(r, 700));
-            reference = refNumber.textContent.trim();
-            console.log('🔁 Attempt ' + attempts + ' — reference =', reference);
-          }
-
-          if (!reference || !/^GP-/.test(reference)) {
-            console.log('❌ No valid reference after 30 retries — aborting email send');
-            return;
-          }
-
-          if (reference === lastFiredRef) {
-            console.log('⏭️ Already sent for', reference);
-            return;
-          }
-
-          lastFiredRef = reference;
-          await triggerEmail(userEmail, userName, reference);
-
-        }, 1000);
-      });
-
-      // ---- Robust email trigger with CORS + no-cache + fallback ----
-      async function triggerEmail(email, name, reference) {
-        console.log('📧 Sending sponsor email →', { email, name, reference });
+        console.log('📧 Sending email →', { email: userEmail, name: userName, reference: ref });
 
         try {
-          const res = await fetch(WORKER_SEND_URL, {
+          const res = await fetch(WORKER_URL, {
             method: 'POST',
             mode: 'cors',
             cache: 'no-store',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify({ email, name, reference })
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ email: userEmail, name: userName, reference: ref })
           });
-
-          let data = null;
-          try { data = await res.json(); } catch (e) { data = { raw: 'non-json response' }; }
-
-          console.log('📧 Worker response:', res.status, data);
-
-          if (!res.ok) {
-            console.warn('⚠️ Worker returned non-OK status:', res.status);
-          }
-
+          const data = await res.json().catch(() => ({}));
+          console.log('✅ Worker response:', res.status, data);
         } catch (err) {
-          console.warn('⚠️ Primary send failed, trying fallback GET:', err.message);
-
-          // ---- Fallback: try a GET with query params (some proxies strip POST) ----
+          console.log('⚠️ Primary failed, trying fallback GET:', err.message);
           try {
-            const fallbackUrl = WORKER_SEND_URL +
-              '?email=' + encodeURIComponent(email) +
-              '&name=' + encodeURIComponent(name) +
-              '&reference=' + encodeURIComponent(reference);
-            const res2 = await fetch(fallbackUrl, { method: 'GET', mode: 'cors', cache: 'no-store' });
-            console.log('📧 Fallback response:', res2.status);
+            const fb = WORKER_URL + '?email=' + encodeURIComponent(userEmail) +
+                       '&name=' + encodeURIComponent(userName) +
+                       '&reference=' + encodeURIComponent(ref);
+            const r2 = await fetch(fb, { method: 'GET', mode: 'cors', cache: 'no-store' });
+            console.log('✅ Fallback status:', r2.status);
           } catch (err2) {
-            console.warn('⚠️ Fallback also failed:', err2.message);
+            console.log('❌ Fallback also failed:', err2.message);
           }
         }
+      } else if (attempts >= maxAttempts) {
+        clearInterval(interval);
+        console.log('❌ Reference never appeared after ' + maxAttempts + ' polls');
       }
-
-      console.log('✅ Sponsor email auto-trigger v4 installed');
     }, 500);
-  });
+  }, true); // capture=true so we get it before other handlers
 })();
 </script>
 </body>
