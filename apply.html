@@ -1738,83 +1738,93 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 <!-- ============================================================ -->
-<!-- SPONSOR EMAIL AUTO-TRIGGER v5 — Document-level, works everywhere -->
+<!-- SPONSOR EMAIL AUTO-TRIGGER v6 — Watches for reference, fires once -->
 <!-- ============================================================ -->
 <script>
 (function () {
-  console.log('🚀 Sponsor trigger v5 starting...');
+  console.log('🚀 Sponsor trigger v6 starting...');
 
   const WORKER_URL = 'https://api.globalpathjobplacement.online/send-sponsor-email';
-  let lastFiredRef = '';
+  let fired = false;
+  let lastRef = '';
 
-  // Listen at document level — catches clicks even if button is re-rendered
-  document.addEventListener('click', function (e) {
-    const btn = e.target.closest('#submitBtn');
-    if (!btn) return;
-
-    console.log('👆 Submit clicked (document-level)');
-
+  function captureUser() {
     const emailField = document.getElementById('email');
     const nameField  = document.getElementById('full_name');
-    const refNumber  = document.getElementById('refNumber');
+    return {
+      email: emailField ? emailField.value.trim() : '',
+      name:  nameField  ? (nameField.value.trim() || 'there') : 'there'
+    };
+  }
 
-    const userEmail = emailField ? emailField.value.trim() : '';
-    const userName  = nameField ? nameField.value.trim() || 'there' : 'there';
+  // Watch the DOM for the reference number to appear
+  const observer = new MutationObserver(async () => {
+    if (fired) return;
 
-    console.log('📧 Captured:', { userEmail, userName });
+    const refEl = document.getElementById('refNumber');
+    if (!refEl) return;
 
-    if (!userEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
-      console.log('❌ Invalid email — skipping');
+    const ref = (refEl.textContent || '').trim();
+    if (!ref || !/^GP-\d{4}-\d+/.test(ref)) return;
+
+    // Guard: don't fire twice for the same ref
+    if (ref === lastRef) return;
+    lastRef = ref;
+
+    const { email, name } = captureUser();
+    console.log('🎯 Reference detected:', ref, '→ email:', email, 'name:', name);
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.log('❌ Invalid email — aborting send');
+      fired = true;
       return;
     }
 
-    // Poll for reference number to appear
-    let attempts = 0;
-    const maxAttempts = 40; // 40 × 500ms = 20 seconds
-    const interval = setInterval(async () => {
-      attempts++;
-      const ref = refNumber ? refNumber.textContent.trim() : '';
-      console.log('🔁 Poll ' + attempts + ' — ref =', ref);
+    fired = true;
 
-      if (ref && /^GP-/.test(ref)) {
-        clearInterval(interval);
-
-        if (ref === lastFiredRef) {
-          console.log('⏭️ Already sent for', ref);
-          return;
-        }
-        lastFiredRef = ref;
-
-        console.log('📧 Sending email →', { email: userEmail, name: userName, reference: ref });
-
-        try {
-          const res = await fetch(WORKER_URL, {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-store',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ email: userEmail, name: userName, reference: ref })
-          });
-          const data = await res.json().catch(() => ({}));
-          console.log('✅ Worker response:', res.status, data);
-        } catch (err) {
-          console.log('⚠️ Primary failed, trying fallback GET:', err.message);
-          try {
-            const fb = WORKER_URL + '?email=' + encodeURIComponent(userEmail) +
-                       '&name=' + encodeURIComponent(userName) +
-                       '&reference=' + encodeURIComponent(ref);
-            const r2 = await fetch(fb, { method: 'GET', mode: 'cors', cache: 'no-store' });
-            console.log('✅ Fallback status:', r2.status);
-          } catch (err2) {
-            console.log('❌ Fallback also failed:', err2.message);
-          }
-        }
-      } else if (attempts >= maxAttempts) {
-        clearInterval(interval);
-        console.log('❌ Reference never appeared after ' + maxAttempts + ' polls');
+    try {
+      const res = await fetch(WORKER_URL, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-store',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email, name, reference: ref })
+      });
+      const data = await res.json().catch(() => ({}));
+      console.log('✅ Worker response:', res.status, data);
+    } catch (err) {
+      console.log('⚠️ Primary failed, trying GET:', err.message);
+      try {
+        const fb = WORKER_URL + '?email=' + encodeURIComponent(email) +
+                   '&name=' + encodeURIComponent(name) +
+                   '&reference=' + encodeURIComponent(ref);
+        const r2 = await fetch(fb, { method: 'GET', mode: 'cors', cache: 'no-store' });
+        console.log('✅ Fallback status:', r2.status);
+      } catch (err2) {
+        console.log('❌ Fallback failed:', err2.message);
       }
-    }, 500);
-  }, true); // capture=true so we get it before other handlers
+    }
+  });
+
+  // Start observing when DOM is ready
+  function start() {
+    const target = document.body;
+    if (!target) { setTimeout(start, 200); return; }
+
+    observer.observe(target, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+
+    console.log('✅ Watcher active — submit the form');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
 })();
 </script>
 </body>
