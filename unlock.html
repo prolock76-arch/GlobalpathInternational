@@ -53,7 +53,6 @@ body {
 h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 a { color: var(--primary); text-decoration: none; }
 
-/* ---------- HEADER ---------- */
 .site-header {
   background: rgba(255,255,255,0.95);
   backdrop-filter: saturate(180%) blur(12px);
@@ -100,7 +99,6 @@ a { color: var(--primary); text-decoration: none; }
   margin-top: 2px;
 }
 
-/* ---------- MAIN ---------- */
 .unlock-main {
   flex: 1;
   max-width: 780px;
@@ -109,7 +107,6 @@ a { color: var(--primary); text-decoration: none; }
   padding: 28px 20px 90px;
 }
 
-/* Loading state */
 .loading-wrap {
   text-align: center;
   padding: 60px 20px;
@@ -126,7 +123,6 @@ a { color: var(--primary); text-decoration: none; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Error state */
 .error-wrap {
   background: #fff;
   border: 1px solid var(--border);
@@ -149,7 +145,6 @@ a { color: var(--primary); text-decoration: none; }
 }
 .error-wrap .err-cta:hover { background: var(--primary-dark); color: #fff; }
 
-/* Hero */
 .unlock-hero {
   background: linear-gradient(135deg, #0B3D91 0%, #1a5bc4 100%);
   border-radius: 24px;
@@ -214,7 +209,6 @@ a { color: var(--primary); text-decoration: none; }
   margin-top: 14px;
 }
 
-/* Preview card */
 .preview-card {
   background: #fff;
   border-radius: 20px;
@@ -307,7 +301,6 @@ a { color: var(--primary); text-decoration: none; }
   border: 1px solid rgba(11,61,145,0.15);
 }
 
-/* Locked teaser */
 .locked-teaser {
   margin-top: 20px;
   background: linear-gradient(135deg, #f8fafc 0%, #eef4ff 100%);
@@ -353,7 +346,6 @@ a { color: var(--primary); text-decoration: none; }
   opacity: 0.7;
 }
 
-/* See button */
 .see-btn {
   display: flex;
   align-items: center;
@@ -381,7 +373,6 @@ a { color: var(--primary); text-decoration: none; }
 }
 .see-btn.open .arrow { transform: rotate(180deg); }
 
-/* Revealed */
 .revealed {
   max-height: 0;
   overflow: hidden;
@@ -436,7 +427,6 @@ a { color: var(--primary); text-decoration: none; }
 }
 .how-step .hs-body strong { color: var(--primary); }
 
-/* Explanation block */
 .explain-block {
   background: linear-gradient(135deg, #fff8e8 0%, #fff 60%, #fff5e1 100%);
   border: 2px solid var(--accent);
@@ -476,7 +466,6 @@ a { color: var(--primary); text-decoration: none; }
   margin-top: 1px;
 }
 
-/* CTA block */
 .cta-block {
   background: #fff;
   border-radius: 20px;
@@ -574,7 +563,6 @@ a { color: var(--primary); text-decoration: none; }
   font-weight: 700;
 }
 
-/* Unlocked state */
 .unlocked-badge {
   display: inline-flex;
   align-items: center;
@@ -652,7 +640,6 @@ a { color: var(--primary); text-decoration: none; }
   margin-bottom: 12px;
 }
 
-/* Support block */
 .support-block {
   background: linear-gradient(135deg, var(--telegram) 0%, var(--telegram-dark) 100%);
   border-radius: 20px;
@@ -793,7 +780,6 @@ async function fetchApplication(reference) {
   return data && data.length ? data[0] : null;
 }
 
-// Fetch only as many sponsors as the application's sponsor_match_count
 async function fetchSponsors(country, limit) {
   const max = Math.max(1, Math.min(limit || 3, 10));
 
@@ -803,7 +789,6 @@ async function fetchSponsors(country, limit) {
   let { data, error } = await query;
   if (error) throw error;
 
-  // Fallback: any active sponsors
   if (!data || data.length === 0) {
     const fb = await supabaseClient.from('sponsors').select('*').eq('active', true).limit(max);
     if (fb.error) throw fb.error;
@@ -818,10 +803,8 @@ async function fetchSponsors(country, limit) {
 function renderLocked(app, sponsors) {
   const ref = app.reference;
   const country = app.country || 'your destination';
-
-  // Use the SAME count as the email (sponsor_match_count), fall back to sponsors.length
   const emailCount = Number(app.sponsor_match_count) || sponsors.length;
-  const count = Math.min(emailCount, sponsors.length); // never show more than we loaded
+  const count = Math.min(emailCount, sponsors.length);
   const displaySponsors = sponsors.slice(0, count);
 
   const sponsorRows = displaySponsors.map(s => `
@@ -954,7 +937,6 @@ function renderLocked(app, sponsors) {
 function renderUnlocked(app, sponsors) {
   const ref = app.reference;
   const country = app.country || 'your destination';
-
   const emailCount = Number(app.sponsor_match_count) || sponsors.length;
   const count = Math.min(emailCount, sponsors.length);
   const displaySponsors = sponsors.slice(0, count);
@@ -1053,9 +1035,9 @@ window.handlePay = async function () {
   }
 
   try {
-    // Refetch the application so we get the email
     const app = await fetchApplication(ref);
     const email = app?.email || '';
+    const name  = app?.full_name || '';
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       if (btn) {
@@ -1066,8 +1048,8 @@ window.handlePay = async function () {
       return;
     }
 
-    // Redirect to checkout page
-    window.location.href = `checkout.html?ref=${encodeURIComponent(ref)}&email=${encodeURIComponent(email)}`;
+    // Redirect to checkout page with ref, email, AND name
+    window.location.href = `checkout.html?ref=${encodeURIComponent(ref)}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`;
   } catch (err) {
     console.error('Checkout redirect error:', err);
     if (btn) {
@@ -1104,7 +1086,6 @@ window.handlePay = async function () {
       return;
     }
 
-    // ⭐ Use the sponsor_match_count from the application — matches the email exactly
     const sponsorLimit = Number(app.sponsor_match_count) || 3;
     console.log('📡 Fetching sponsors for country:', app.country, '(limit:', sponsorLimit + ')');
 
