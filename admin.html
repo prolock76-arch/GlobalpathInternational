@@ -52,7 +52,6 @@ button { font-family: inherit; }
 .btn-telegram { background: var(--telegram); color: #fff; }
 .btn-telegram:hover { background: #1a7ab0; color: #fff; }
 .btn-sm { padding: 8px 14px; font-size: 0.8rem; }
-.btn-block { width: 100%; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
 .main { flex: 1; max-width: 1300px; width: 100%; margin: 0 auto; padding: 24px 20px 60px; }
@@ -62,17 +61,18 @@ button { font-family: inherit; }
 
 .tabs { display: flex; gap: 4px; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 22px; overflow-x: auto; box-shadow: var(--shadow); }
 .tabs::-webkit-scrollbar { display: none; }
-.tab-btn { flex: 1; min-width: 120px; padding: 12px 18px; border: none; background: transparent; border-radius: 8px; font-weight: 700; font-size: 0.88rem; color: var(--muted); cursor: pointer; transition: all 0.18s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
+.tab-btn { flex: 1; min-width: 130px; padding: 12px 18px; border: none; background: transparent; border-radius: 8px; font-weight: 700; font-size: 0.88rem; color: var(--muted); cursor: pointer; transition: all 0.18s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
 .tab-btn:hover { background: var(--bg); color: var(--primary); }
 .tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(11,61,145,0.25); }
 .tab-btn .tab-count { background: rgba(255,255,255,0.25); padding: 1px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; }
 .tab-btn:not(.active) .tab-count { background: var(--danger-bg); color: var(--danger); }
+.tab-btn:not(.active) .tab-count.empty { background: var(--border); color: var(--muted); }
 
 .tab-content { display: none; }
 .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-.toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
 .toolbar input, .toolbar select { padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 0.9rem; background: #fff; color: var(--text); transition: border 0.2s; }
 .toolbar input:focus, .toolbar select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(11,61,145,0.08); }
 .toolbar input { flex: 1; min-width: 200px; }
@@ -118,6 +118,8 @@ button { font-family: inherit; }
 .info-item { background: var(--bg); border-radius: var(--radius); padding: 12px 14px; }
 .info-item .ii-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
 .info-item .ii-value { font-size: 0.92rem; font-weight: 700; color: var(--text); word-break: break-word; }
+.info-item.applied-job { background: linear-gradient(135deg, #fff8e8 0%, #fff 100%); border: 1.5px solid var(--accent); grid-column: 1 / -1; }
+.info-item.applied-job .ii-value { color: var(--accent-dark); font-size: 1rem; }
 
 .status-changer { display: flex; gap: 8px; flex-wrap: wrap; }
 .status-opt { flex: 1; min-width: 90px; padding: 11px 12px; border: 2px solid var(--border); border-radius: var(--radius); background: #fff; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-align: center; transition: all 0.18s; color: var(--muted); }
@@ -155,6 +157,25 @@ button { font-family: inherit; }
 .form-group textarea { min-height: 100px; resize: vertical; }
 .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
 
+/* Category/Type list rows */
+.mgmt-list { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow); overflow: hidden; }
+.mgmt-row { display: grid; grid-template-columns: 60px 1fr auto; gap: 14px; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.mgmt-row:last-child { border-bottom: none; }
+.mgmt-row:hover { background: var(--bg); }
+.mgmt-order { display: flex; flex-direction: column; gap: 2px; align-items: center; }
+.mgmt-order-btn { width: 28px; height: 22px; border-radius: 6px; border: 1px solid var(--border); background: #fff; cursor: pointer; font-size: 0.7rem; color: var(--muted); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.mgmt-order-btn:hover { border-color: var(--primary); color: var(--primary); }
+.mgmt-order-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.mgmt-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.mgmt-emoji { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+.mgmt-name { font-weight: 800; color: var(--text); font-size: 0.95rem; }
+.mgmt-sub { font-size: 0.78rem; color: var(--muted); }
+.mgmt-status { display: inline-block; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; }
+.mgmt-status.active { background: var(--success-bg); color: var(--success); }
+.mgmt-status.inactive { background: var(--border); color: var(--muted); }
+.mgmt-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.mgmt-actions .btn { padding: 7px 12px; font-size: 0.75rem; }
+
 .alert { padding: 14px 18px; border-radius: var(--radius); font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; display: none; }
 .alert.show { display: block; }
 .alert-success { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
@@ -171,6 +192,7 @@ button { font-family: inherit; }
 .chat-msg.staff { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; }
 .chat-msg .cm-meta { font-size: 0.62rem; opacity: 0.75; margin-bottom: 4px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
 .chat-msg .cm-body { white-space: pre-wrap; word-wrap: break-word; }
+.chat-empty { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 0.88rem; }
 
 .reply-methods { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
 .reply-method { flex: 1; min-width: 100px; padding: 10px 12px; border: 2px solid var(--border); border-radius: var(--radius); background: #fff; font-family: inherit; font-weight: 700; font-size: 0.82rem; color: var(--muted); cursor: pointer; text-align: center; transition: all 0.18s; }
@@ -203,11 +225,13 @@ button { font-family: inherit; }
   .page-head h1 { font-size: 1.3rem; }
   .header-user { display: none; }
   .form-row { grid-template-columns: 1fr; }
-  .tab-btn { min-width: 100px; font-size: 0.8rem; padding: 10px 14px; }
+  .tab-btn { min-width: 110px; font-size: 0.78rem; padding: 10px 12px; }
   .data-table { font-size: 0.82rem; }
   .data-table th, .data-table td { padding: 10px 12px; }
   .modal { padding: 24px 20px; }
   .chat-msg { max-width: 88%; }
+  .mgmt-row { grid-template-columns: 50px 1fr; gap: 10px; padding: 12px 14px; }
+  .mgmt-actions { grid-column: 1 / -1; justify-content: flex-end; }
 }
 </style>
 </head>
@@ -241,7 +265,7 @@ button { font-family: inherit; }
   <div class="page-head">
     <div>
       <h1>Admin Dashboard</h1>
-      <p>Manage applications, jobs, and messages in one place.</p>
+      <p>Manage applications, jobs, messages, categories, and job types.</p>
     </div>
     <button class="btn btn-ghost btn-sm" onclick="refreshAll()">🔄 Refresh</button>
   </div>
@@ -251,10 +275,16 @@ button { font-family: inherit; }
       📋 Applications <span class="tab-count" id="appsCount">0</span>
     </button>
     <button class="tab-btn" data-tab="messages" onclick="switchTab('messages')">
-      💬 Messages <span class="tab-count" id="msgsCount">0</span>
+      💬 Messages <span class="tab-count empty" id="msgsCount">0</span>
     </button>
     <button class="tab-btn" data-tab="jobs" onclick="switchTab('jobs')">
       💼 Jobs <span class="tab-count" id="jobsCount">0</span>
+    </button>
+    <button class="tab-btn" data-tab="categories" onclick="switchTab('categories')">
+      🏷️ Categories <span class="tab-count" id="catCount">0</span>
+    </button>
+    <button class="tab-btn" data-tab="types" onclick="switchTab('types')">
+      📂 Job Types <span class="tab-count" id="typeCount">0</span>
     </button>
   </div>
 
@@ -302,6 +332,26 @@ button { font-family: inherit; }
     </div>
     <div id="jobsWrap">
       <div class="loading"><div class="spinner-lg"></div><p>Loading jobs…</p></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-categories">
+    <div class="toolbar">
+      <input type="text" id="catSearch" placeholder="Search categories…" oninput="filterCats()">
+      <button class="btn btn-primary" onclick="openCatForm()">+ Add Category</button>
+    </div>
+    <div id="catsWrap">
+      <div class="loading"><div class="spinner-lg"></div><p>Loading categories…</p></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-types">
+    <div class="toolbar">
+      <input type="text" id="typeSearch" placeholder="Search job types…" oninput="filterTypes()">
+      <button class="btn btn-primary" onclick="openTypeForm()">+ Add Job Type</button>
+    </div>
+    <div id="typesWrap">
+      <div class="loading"><div class="spinner-lg"></div><p>Loading job types…</p></div>
     </div>
   </div>
 </main>
@@ -389,13 +439,26 @@ button { font-family: inherit; }
           <label>Category *</label>
           <select id="jCategory" required>
             <option value="">Select…</option>
-            <option>Healthcare</option><option>Construction</option><option>Hospitality</option>
-            <option>IT & Tech</option><option>Logistics</option><option>Agriculture</option>
-            <option>Education</option><option>Engineering</option><option>Finance</option>
-            <option>Domestic</option><option>Other</option>
           </select>
         </div>
+        <div class="form-group">
+          <label>Job Type</label>
+          <select id="jJobType">
+            <option value="">Select…</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
         <div class="form-group"><label>Salary</label><input type="text" id="jSalary" placeholder="e.g. £32,000–£42,000/yr"></div>
+        <div class="form-group"><label>Experience Level</label>
+          <select id="jExperience">
+            <option value="">— Select —</option>
+            <option value="Entry">Entry level</option>
+            <option value="Mid">Mid level</option>
+            <option value="Senior">Senior level</option>
+            <option value="Executive">Executive</option>
+          </select>
+        </div>
       </div>
       <div class="form-group"><label>Description</label><textarea id="jDescription" placeholder="Short description of the role…"></textarea></div>
       <div class="form-row">
@@ -417,12 +480,47 @@ button { font-family: inherit; }
   </div>
 </div>
 
+<!-- CATEGORY MODAL -->
+<div class="modal-overlay" id="catModal" onclick="if(event.target===this)closeCatModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCatModal()">✕</button>
+    <h2 id="catModalTitle">Add Category</h2>
+    <p class="modal-ref" style="font-family:var(--font-body);letter-spacing:0;">Add a job category for both admin and visitor.</p>
+    <form id="catForm" onsubmit="saveCat(event)">
+      <div class="form-row">
+        <div class="form-group"><label>Category Name *</label><input type="text" id="cName" required placeholder="e.g. Healthcare"></div>
+        <div class="form-group"><label>Emoji</label><input type="text" id="cEmoji" maxlength="4" placeholder="🏥"></div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" onclick="closeCatModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="catSaveBtn">💾 Save Category</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- JOB TYPE MODAL -->
+<div class="modal-overlay" id="typeModal" onclick="if(event.target===this)closeTypeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeTypeModal()">✕</button>
+    <h2 id="typeModalTitle">Add Job Type</h2>
+    <p class="modal-ref" style="font-family:var(--font-body);letter-spacing:0;">Add a job type like Full-time, Part-time, etc.</p>
+    <form id="typeForm" onsubmit="saveType(event)">
+      <div class="form-group"><label>Job Type Name *</label><input type="text" id="tName" required placeholder="e.g. Full-time"></div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" onclick="closeTypeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="typeSaveBtn">💾 Save Job Type</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- CONVERSATION MODAL -->
 <div class="modal-overlay" id="convModal" onclick="if(event.target===this)closeConv()">
   <div class="modal modal-lg">
     <button class="modal-close" onclick="closeConv()">✕</button>
     <h2 id="convTitle">Conversation</h2>
-    <div class="modal-ref" id="convRef">GP-2026-00000</div>
+    <div class="modal-ref" id="convRef">—</div>
 
     <div class="modal-section">
       <h4>Message Thread</h4>
@@ -434,9 +532,8 @@ button { font-family: inherit; }
       <textarea id="convReply" placeholder="Type your reply…" style="width:100%;min-height:80px;padding:12px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:0.92rem;resize:vertical;"></textarea>
 
       <div class="reply-methods" id="replyMethods">
-        <button type="button" class="reply-method selected" data-method="email" onclick="selectReplyMethod('email')">📧 Email</button>
-        <button type="button" class="reply-method" data-method="app" onclick="selectReplyMethod('app')">💬 In-app</button>
-        <button type="button" class="reply-method" data-method="both" onclick="selectReplyMethod('both')">📧+💬 Both</button>
+        <button type="button" class="reply-method selected" data-method="telegram" onclick="selectReplyMethod('telegram')">✈️ Telegram</button>
+        <button type="button" class="reply-method" data-method="both" onclick="selectReplyMethod('both')">✈️+💬 Both</button>
       </div>
 
       <div style="display:flex;gap:8px;justify-content:flex-end;">
@@ -448,19 +545,35 @@ button { font-family: inherit; }
 </div>
 
 <script>
+// ============================================================
+// CONFIG
+// ============================================================
 const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const WORKER_URL = 'https://api.globalpathjobplacement.online';
+const ADMIN_SECRET = 'gp_admin_2026_secret';
+
+// ============================================================
+// STATE
+// ============================================================
 let allApps = [];
 let allConvs = [];
 let allJobs = [];
+let allCats = [];
+let allTypes = [];
 let currentApp = null;
 let currentStatus = null;
 let currentJobId = null;
+let currentCatId = null;
+let currentTypeId = null;
 let currentConv = null;
-let currentReplyMethod = 'email';
+let currentReplyMethod = 'telegram';
 
+// ============================================================
+// HELPERS
+// ============================================================
 function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function fmtDate(d) { if (!d) return '—'; try { return new Date(d).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}); } catch { return '—'; } }
 function fmtDateTime(d) { if (!d) return '—'; try { return new Date(d).toLocaleString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch { return '—'; } }
@@ -469,15 +582,11 @@ function showSuccess(msg) { const el = document.getElementById('globalSuccess');
 function showError(msg) { const el = document.getElementById('globalError'); el.textContent = '❌ ' + msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 5000); }
 
 // ============================================================
-// AUTH CHECK
+// AUTH
 // ============================================================
 async function checkAuth() {
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if (!session) {
-    console.log('❌ Not logged in — redirecting to login');
-    window.location.href = 'adminlogin.html';
-    return false;
-  }
+  if (!session) { window.location.href = 'adminlogin.html'; return false; }
   document.getElementById('adminEmail').textContent = session.user.email || 'Staff';
   return true;
 }
@@ -492,6 +601,8 @@ function switchTab(name) {
   document.querySelector(`.tab-btn[data-tab="${name}"]`).classList.add('active');
   document.getElementById(`tab-${name}`).classList.add('active');
   if (name === 'messages') setTimeout(loadConvs, 100);
+  if (name === 'categories') setTimeout(loadCats, 100);
+  if (name === 'types') setTimeout(loadTypes, 100);
 }
 
 // ============================================================
@@ -507,7 +618,6 @@ async function loadApps() {
     document.getElementById('appsCount').textContent = allApps.length;
     renderApps();
   } catch (err) {
-    console.error(err);
     wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load applications: ${esc(err.message)}</p></div>`;
   }
 }
@@ -522,13 +632,14 @@ function renderApps() {
   if (list.length === 0) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">📭</span><p>No applications match your filters.</p></div>`; return; }
   wrap.innerHTML = `
     <table class="data-table">
-      <thead><tr><th>Reference</th><th>Applicant</th><th>Service</th><th>Country</th><th>Status</th><th>Submitted</th></tr></thead>
+      <thead><tr><th>Reference</th><th>Applicant</th><th>Service</th><th>Applied Job</th><th>Country</th><th>Status</th><th>Submitted</th></tr></thead>
       <tbody>
         ${list.map(a => `
           <tr onclick="openAppModal('${esc(a.reference)}')">
             <td><span class="ref-code">${esc(a.reference)}</span></td>
             <td><div class="cell-strong">${esc(a.full_name || '—')}</div><div class="cell-muted">${esc(a.email || '')}</div></td>
             <td>${esc((a.service_type || '—').replace(/^\w/, c => c.toUpperCase()))}</td>
+            <td>${a.details?.applied_job_title ? `<span class="cell-strong">${esc(a.details.applied_job_title)}</span>` : '<span class="cell-muted">—</span>'}</td>
             <td>${esc(a.country || '—')}</td>
             <td><span class="pill ${statusCls(a.status)}">${esc(a.status || 'Submitted')}</span></td>
             <td class="cell-muted">${fmtDate(a.created_at)}</td>
@@ -557,9 +668,13 @@ function openAppModal(reference) {
     { label: 'Agent Requested', value: (app.agent_requested || details.agent_requested) ? '✅ Yes' : 'No' },
     { label: 'Submitted', value: fmtDateTime(app.created_at) }
   ];
-  document.getElementById('modalInfo').innerHTML = infoItems.map(i => `
+  let html = infoItems.map(i => `
     <div class="info-item"><div class="ii-label">${esc(i.label)}</div><div class="ii-value">${esc(String(i.value))}</div></div>
   `).join('');
+  if (details.applied_job_title) {
+    html = `<div class="info-item applied-job"><div class="ii-label">📋 Applied for job</div><div class="ii-value">${esc(details.applied_job_title)}</div></div>` + html;
+  }
+  document.getElementById('modalInfo').innerHTML = html;
   document.querySelectorAll('#statusChanger .status-opt').forEach(b => b.classList.toggle('selected', b.dataset.status === currentStatus));
   renderNotes(app.reference);
   document.getElementById('appModal').classList.add('show');
@@ -579,7 +694,7 @@ async function saveAppChanges() {
     renderApps();
     showSuccess(`Status updated to "${currentStatus}"`);
     closeAppModal();
-  } catch (err) { console.error(err); showError('Could not save: ' + err.message); }
+  } catch (err) { showError('Could not save: ' + err.message); }
 }
 
 async function renderNotes(reference) {
@@ -607,37 +722,50 @@ async function saveNote() {
 }
 
 // ============================================================
-// CONVERSATIONS
+// CONVERSATIONS (from tg_conversations + tg_messages)
 // ============================================================
 async function loadConvs() {
   const wrap = document.getElementById('convsTableWrap');
   wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading conversations…</p></div>';
   try {
-    const [msgsRes, appsRes] = await Promise.all([
-      supabaseClient.from('messages').select('*').order('created_at', { ascending: false }).limit(500),
-      supabaseClient.from('applications').select('id, reference, full_name, email').order('id', { ascending: false }).limit(500)
+    const [convsRes, msgsRes, appsRes] = await Promise.all([
+      supabaseClient.from('tg_conversations').select('*').order('last_message_at', { ascending: false }).limit(500),
+      supabaseClient.from('tg_messages').select('*').order('created_at', { ascending: false }).limit(1000),
+      supabaseClient.from('applications').select('id, reference, full_name, email').limit(500)
     ]);
-    if (msgsRes.error) throw msgsRes.error;
-    if (appsRes.error) throw appsRes.error;
+    if (convsRes.error) throw convsRes.error;
 
-    const appsById = {};
-    (appsRes.data || []).forEach(a => { appsById[a.id] = a; });
+    const appsByRef = {};
+    (appsRes.data || []).forEach(a => { if (a.reference) appsByRef[a.reference] = a; });
 
-    const threads = {};
+    const msgsByConv = {};
     (msgsRes.data || []).forEach(m => {
-      const key = m.application_id || 'orphan';
-      if (!threads[key]) {
-        threads[key] = { application_id: key, app: appsById[key] || null, messages: [], unread_count: 0, last_message_at: m.created_at, last_snippet: m.body || '', last_sender: m.sender_role };
-      }
-      threads[key].messages.push(m);
-      if (m.sender_role === 'customer' && m.read_by_staff === false) threads[key].unread_count++;
+      if (!msgsByConv[m.conversation_id]) msgsByConv[m.conversation_id] = [];
+      msgsByConv[m.conversation_id].push(m);
     });
 
-    allConvs = Object.values(threads).sort((a,b) => new Date(b.last_message_at) - new Date(a.last_message_at));
-    const unreadTotal = allConvs.reduce((sum, t) => sum + t.unread_count, 0);
-    document.getElementById('msgsCount').textContent = unreadTotal;
+    allConvs = (convsRes.data || []).map(c => {
+      const msgs = (msgsByConv[c.id] || []).sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      const last = msgs[msgs.length - 1];
+      const unread = msgs.filter(m => m.direction === 'in' && m.read_by_staff === false).length;
+      return {
+        ...c,
+        messages: msgs,
+        unread_count: unread,
+        last_snippet: last?.text || '—',
+        last_message_at: last?.created_at || c.last_message_at || c.created_at,
+        app: c.reference ? appsByRef[c.reference] : null
+      };
+    }).sort((a, b) => new Date(b.last_message_at || 0) - new Date(a.last_message_at || 0));
+
+    const unreadTotal = allConvs.reduce((s, t) => s + t.unread_count, 0);
+    const badge = document.getElementById('msgsCount');
+    badge.textContent = unreadTotal;
+    badge.className = 'tab-count' + (unreadTotal === 0 ? ' empty' : '');
     renderConvs();
-  } catch (err) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load: ${esc(err.message)}</p></div>`; }
+  } catch (err) {
+    wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load: ${esc(err.message)}</p></div>`;
+  }
 }
 function filterConvs() { renderConvs(); }
 function renderConvs() {
@@ -645,33 +773,33 @@ function renderConvs() {
   const q = (document.getElementById('msgSearch').value || '').toLowerCase().trim();
   const filter = document.getElementById('msgStatusFilter').value;
   let list = allConvs;
-  if (q) list = list.filter(t => (t.app?.full_name||'').toLowerCase().includes(q) || (t.app?.reference||'').toLowerCase().includes(q) || (t.app?.email||'').toLowerCase().includes(q) || (t.last_snippet||'').toLowerCase().includes(q));
+  if (q) list = list.filter(t => (t.telegram_first_name||'').toLowerCase().includes(q) || (t.reference||'').toLowerCase().includes(q) || (t.last_snippet||'').toLowerCase().includes(q));
   if (filter === 'unread') list = list.filter(t => t.unread_count > 0);
   if (filter === 'read') list = list.filter(t => t.unread_count === 0);
   if (list.length === 0) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">💬</span><p>No conversations found.</p></div>`; return; }
   wrap.innerHTML = `
     <table class="data-table">
-      <thead><tr><th>Applicant</th><th>Reference</th><th>Last message</th><th>Unread</th><th>Received</th><th></th></tr></thead>
+      <thead><tr><th>Visitor</th><th>Reference</th><th>Last message</th><th>Unread</th><th>Received</th><th></th></tr></thead>
       <tbody>
         ${list.map(t => `
           <tr>
-            <td><div class="cell-strong">${esc(t.app?.full_name || 'Unknown')}</div><div class="cell-muted">${esc(t.app?.email || '')}</div></td>
-            <td>${t.app?.reference ? `<span class="ref-code">${esc(t.app.reference)}</span>` : `<span class="cell-muted">App #${esc(t.application_id)}</span>`}</td>
-            <td><div class="cell-strong" style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc((t.last_snippet || '').slice(0, 60))}${t.last_snippet.length > 60 ? '…' : ''}</div><div class="cell-muted" style="font-size:0.7rem;">from ${esc(t.last_sender || 'unknown')}</div></td>
-            <td>${t.unread_count > 0 ? `<span class="pill unread">${t.unread_count} new</span>` : `<span class="cell-muted">${t.messages.length}</span>`}</td>
+            <td><div class="cell-strong">${esc(t.telegram_first_name || 'Unknown')}</div><div class="cell-muted">${esc(t.telegram_username ? '@' + t.telegram_username : ('ID: ' + t.telegram_chat_id))}</div></td>
+            <td>${t.reference ? `<span class="ref-code">${esc(t.reference)}</span>` : `<span class="cell-muted">—</span>`}</td>
+            <td><div class="cell-strong" style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc((t.last_snippet || '').slice(0, 60))}${(t.last_snippet || '').length > 60 ? '…' : ''}</div></td>
+            <td>${t.unread_count > 0 ? `<span class="pill unread">${t.unread_count} new</span>` : `<span class="cell-muted">${t.messages.length} msg</span>`}</td>
             <td class="cell-muted">${fmtDateTime(t.last_message_at)}</td>
-            <td><button class="btn btn-primary btn-sm" onclick="openConv('${esc(t.application_id)}')">Open →</button></td>
+            <td><button class="btn btn-primary btn-sm" onclick="openConv('${esc(t.id)}')">Open →</button></td>
           </tr>`).join('')}
       </tbody>
     </table>`;
 }
 
-function openConv(applicationId) {
-  const thread = allConvs.find(t => String(t.application_id) === String(applicationId));
+function openConv(convId) {
+  const thread = allConvs.find(t => String(t.id) === String(convId));
   if (!thread) return;
   currentConv = thread;
-  document.getElementById('convTitle').textContent = thread.app?.full_name || 'Conversation';
-  document.getElementById('convRef').textContent = thread.app?.reference || `App #${applicationId}`;
+  document.getElementById('convTitle').textContent = thread.telegram_first_name || 'Conversation';
+  document.getElementById('convRef').textContent = thread.reference || `Chat ID: ${thread.telegram_chat_id}`;
   document.getElementById('convReply').value = '';
   renderConvThread();
   document.getElementById('convModal').classList.add('show');
@@ -681,20 +809,23 @@ function closeConv() { document.getElementById('convModal').classList.remove('sh
 function renderConvThread() {
   const el = document.getElementById('convThread');
   if (!currentConv) return;
-  const sorted = [...currentConv.messages].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-  el.innerHTML = sorted.map(m => {
-    const isStaff = m.sender_role === 'staff';
-    return `<div class="chat-msg ${isStaff ? 'staff' : 'customer'}"><div class="cm-meta">${isStaff ? '👤 Staff' : '🧑 Applicant'} · ${fmtDateTime(m.created_at)}</div><div class="cm-body">${esc(m.body || '')}</div></div>`;
+  const msgs = currentConv.messages || [];
+  if (msgs.length === 0) {
+    el.innerHTML = `<div class="chat-empty">📭<br>No messages yet in this conversation.<br>Send a reply below to start.</div>`;
+    return;
+  }
+  el.innerHTML = msgs.map(m => {
+    const isStaff = m.direction === 'out';
+    return `<div class="chat-msg ${isStaff ? 'staff' : 'customer'}"><div class="cm-meta">${isStaff ? '👤 Staff' : '🧑 Visitor'} · ${fmtDateTime(m.created_at)}</div><div class="cm-body">${esc(m.text || '')}</div></div>`;
   }).join('');
   setTimeout(() => { el.scrollTop = el.scrollHeight; }, 50);
 }
 async function markThreadRead(thread) {
-  const unreadIds = thread.messages.filter(m => m.sender_role === 'customer' && m.read_by_staff === false).map(m => m.id);
+  const unreadIds = (thread.messages || []).filter(m => m.direction === 'in' && m.read_by_staff === false).map(m => m.id);
   if (unreadIds.length === 0) return;
   try {
-    const { error } = await supabaseClient.from('messages').update({ read_by_staff: true, status: 'read' }).in('id', unreadIds);
-    if (error) throw error;
-    thread.messages.forEach(m => { if (unreadIds.includes(m.id)) { m.read_by_staff = true; m.status = 'read'; } });
+    await supabaseClient.from('tg_messages').update({ read_by_staff: true }).in('id', unreadIds);
+    thread.messages.forEach(m => { if (unreadIds.includes(m.id)) m.read_by_staff = true; });
     thread.unread_count = 0;
     document.getElementById('msgsCount').textContent = allConvs.reduce((s, t) => s + t.unread_count, 0);
     renderConvs();
@@ -714,41 +845,77 @@ async function sendConvReply() {
   const btn = document.getElementById('convSendBtn');
   btn.disabled = true;
   btn.textContent = 'Sending…';
+
   try {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    const staffId = session?.user?.id || '00000000-0000-0000-0000-000000000000';
-    const applicantEmail = currentConv.app?.email || '';
-    const applicantName = currentConv.app?.full_name || 'Applicant';
-    const ref = currentConv.app?.reference || `App #${currentConv.application_id}`;
+    const staffName = document.getElementById('adminEmail').textContent || 'Staff';
+    let tgDelivered = false;
 
-    const { data, error } = await supabaseClient.from('messages').insert([{
-      application_id: currentConv.application_id,
-      sender_id: staffId,
-      sender_role: 'staff',
-      body: text,
-      read_by_customer: false,
-      read_by_staff: true,
-      status: 'read',
-      created_at: new Date().toISOString()
-    }]).select().single();
-    if (error) throw error;
-
-    currentConv.messages.push(data);
-    currentConv.last_message_at = data.created_at;
-    currentConv.last_snippet = data.body;
-    currentConv.last_sender = 'staff';
-    textarea.value = '';
-    renderConvThread();
-
-    if ((currentReplyMethod === 'email' || currentReplyMethod === 'both') && applicantEmail) {
-      const subject = encodeURIComponent(`Re: Your GlobalPath application ${ref}`);
-      const body = encodeURIComponent(`Hi ${applicantName},\n\n${text}\n\n—\nGlobalPath International\nReference: ${ref}`);
-      window.open(`mailto:${applicantEmail}?subject=${subject}&body=${body}`, '_blank');
+    // Send to Telegram via Worker
+    try {
+      const res = await fetch(`${WORKER_URL}/send-message`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: ADMIN_SECRET,
+          chat_id: currentConv.telegram_chat_id,
+          text,
+          staff_name: staffName
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) tgDelivered = true;
+      else console.warn('Worker send failed:', data);
+    } catch (err) {
+      console.warn('Worker fetch failed:', err);
     }
 
-    showSuccess('Reply sent.');
-  } catch (err) { console.error(err); showError('Could not send: ' + err.message); }
-  finally { btn.disabled = false; btn.textContent = '📤 Send Reply'; }
+    // Save outgoing message to tg_messages
+    const { data: saved, error } = await supabaseClient.from('tg_messages').insert([{
+      conversation_id: currentConv.id,
+      direction: 'out',
+      sender: 'staff',
+      staff_name: staffName,
+      text,
+      read_by_staff: true
+    }]).select().single();
+    if (error) console.warn('Save tg_messages error:', error);
+
+    if (saved) {
+      currentConv.messages.push(saved);
+      currentConv.last_snippet = saved.text;
+      currentConv.last_message_at = saved.created_at;
+    }
+
+    // Also save to messages table for the portal if we have a reference
+    if (currentConv.reference && (currentReplyMethod === 'both')) {
+      try {
+        const app = allApps.find(a => a.reference === currentConv.reference);
+        await supabaseClient.from('messages').insert([{
+          application_id: app?.id || null,
+          sender_role: 'staff',
+          body: text,
+          read_by_staff: true,
+          read_by_customer: false,
+          status: 'read',
+          created_at: new Date().toISOString()
+        }]);
+      } catch (e) { console.warn('Save messages error:', e); }
+    }
+
+    textarea.value = '';
+    renderConvThread();
+    renderConvs();
+
+    if (tgDelivered) showSuccess('Reply sent to Telegram.');
+    else showSuccess('Reply saved (Telegram delivery may be delayed).');
+
+    btn.textContent = '✅ Sent';
+    setTimeout(() => { btn.textContent = '📤 Send Reply'; btn.disabled = false; }, 1500);
+  } catch (err) {
+    showError('Could not send: ' + err.message);
+    btn.textContent = '📤 Send Reply';
+    btn.disabled = false;
+  }
 }
 
 // ============================================================
@@ -763,6 +930,7 @@ async function loadJobs() {
     allJobs = data || [];
     document.getElementById('jobsCount').textContent = allJobs.filter(j => j.active !== false).length;
     renderJobs();
+    populateJobDropdowns();
   } catch (err) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load jobs: ${esc(err.message)}</p></div>`; }
 }
 function filterJobs() { renderJobs(); }
@@ -779,7 +947,7 @@ function renderJobs() {
         <div><h4>${esc(j.flag || '🌍')} ${esc(j.title)}</h4><div class="jc-company">${esc(j.employer)} · ${esc(j.country)}</div></div>
         <span class="pill ${j.active !== false ? 'active' : 'inactive'}">${j.active !== false ? 'Active' : 'Inactive'}</span>
       </div>
-      <div class="jc-meta"><span>${esc(j.category || '—')}</span>${j.verified ? '<span>✓ Verified</span>' : ''}${j.urgent ? '<span style="background:var(--danger-bg);color:var(--danger);border-color:var(--danger);">🔥 Urgent</span>' : ''}</div>
+      <div class="jc-meta"><span>${esc(j.category || '—')}</span>${j.job_type ? `<span>💼 ${esc(j.job_type)}</span>` : ''}${j.verified ? '<span>✓ Verified</span>' : ''}${j.urgent ? '<span style="background:var(--danger-bg);color:var(--danger);border-color:var(--danger);">🔥 Urgent</span>' : ''}</div>
       <div class="jc-salary">💰 ${esc(j.salary || '—')}</div>
       <div class="jc-actions">
         <button class="btn btn-primary btn-sm" onclick="editJob('${esc(j.id)}')">✏️ Edit</button>
@@ -788,11 +956,22 @@ function renderJobs() {
       </div>
     </div>`).join('')}</div>`;
 }
+function populateJobDropdowns() {
+  const catSel = document.getElementById('jCategory');
+  const typeSel = document.getElementById('jJobType');
+  if (catSel && allCats.length > 0) {
+    catSel.innerHTML = '<option value="">Select…</option>' + allCats.filter(c => c.active !== false).map(c => `<option value="${esc(c.name)}">${esc(c.emoji || '📦')} ${esc(c.name)}</option>`).join('');
+  }
+  if (typeSel && allTypes.length > 0) {
+    typeSel.innerHTML = '<option value="">Select…</option>' + allTypes.filter(t => t.active !== false).map(t => `<option value="${esc(t.name)}">${esc(t.name)}</option>`).join('');
+  }
+}
 function openJobForm() {
   currentJobId = null;
   document.getElementById('jobModalTitle').textContent = 'Add Job';
   document.getElementById('jobForm').reset();
   if (typeof window.gpSetImageUrl === 'function') window.gpSetImageUrl('');
+  populateJobDropdowns();
   document.getElementById('jobModal').classList.add('show');
 }
 function closeJobModal() { document.getElementById('jobModal').classList.remove('show'); currentJobId = null; }
@@ -805,8 +984,11 @@ function editJob(id) {
   document.getElementById('jEmployer').value = j.employer || '';
   document.getElementById('jCountry').value = j.country || '';
   document.getElementById('jFlag').value = j.flag || '';
+  populateJobDropdowns();
   document.getElementById('jCategory').value = j.category || '';
+  document.getElementById('jJobType').value = j.job_type || '';
   document.getElementById('jSalary').value = j.salary || '';
+  document.getElementById('jExperience').value = j.experience || '';
   document.getElementById('jDescription').value = j.description || '';
   document.getElementById('jVerified').value = String(j.verified !== false);
   document.getElementById('jUrgent').value = String(j.urgent === true);
@@ -825,6 +1007,8 @@ async function saveJob(e) {
     country: document.getElementById('jCountry').value.trim(),
     flag: document.getElementById('jFlag').value.trim() || '🌍',
     category: document.getElementById('jCategory').value,
+    job_type: document.getElementById('jJobType').value || null,
+    experience: document.getElementById('jExperience').value || null,
     salary: document.getElementById('jSalary').value.trim(),
     description: document.getElementById('jDescription').value.trim(),
     image_url: (document.getElementById('jImageUrl')?.value || '').trim() || null,
@@ -867,6 +1051,224 @@ async function deleteJob(id) {
     await loadJobs();
     showSuccess('Job deleted.');
   } catch (err) { showError('Could not delete: ' + err.message); }
+}
+
+// ============================================================
+// CATEGORIES
+// ============================================================
+async function loadCats() {
+  const wrap = document.getElementById('catsWrap');
+  wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading categories…</p></div>';
+  try {
+    const { data, error } = await supabaseClient.from('job_categories').select('*').order('display_order', { ascending: true });
+    if (error) throw error;
+    allCats = data || [];
+    document.getElementById('catCount').textContent = allCats.filter(c => c.active !== false).length;
+    renderCats();
+    populateJobDropdowns();
+  } catch (err) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load categories: ${esc(err.message)}</p></div>`; }
+}
+function filterCats() { renderCats(); }
+function renderCats() {
+  const wrap = document.getElementById('catsWrap');
+  const q = document.getElementById('catSearch').value.toLowerCase().trim();
+  let list = allCats;
+  if (q) list = list.filter(c => (c.name||'').toLowerCase().includes(q));
+  if (list.length === 0) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">🏷️</span><p>No categories yet. Click <strong>+ Add Category</strong>.</p></div>`; return; }
+  wrap.innerHTML = `<div class="mgmt-list">${list.map((c, i) => `
+    <div class="mgmt-row">
+      <div class="mgmt-order">
+        <button class="mgmt-order-btn" onclick="moveCat(${i}, -1)" ${i === 0 ? 'disabled' : ''}>▲</button>
+        <button class="mgmt-order-btn" onclick="moveCat(${i}, 1)" ${i === list.length - 1 ? 'disabled' : ''}>▼</button>
+      </div>
+      <div class="mgmt-info">
+        <div class="mgmt-emoji">${esc(c.emoji || '📦')}</div>
+        <div>
+          <div class="mgmt-name">${esc(c.name)}</div>
+          <div class="mgmt-sub">Order: ${esc(c.display_order || 0)} · <span class="mgmt-status ${c.active !== false ? 'active' : 'inactive'}">${c.active !== false ? 'Active' : 'Inactive'}</span></div>
+        </div>
+      </div>
+      <div class="mgmt-actions">
+        <button class="btn btn-primary btn-sm" onclick="editCat('${esc(c.id)}')">✏️ Edit</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleCatActive('${esc(c.id)}')">${c.active !== false ? '⏸' : '▶'}</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCat('${esc(c.id)}')">🗑</button>
+      </div>
+    </div>`).join('')}</div>`;
+}
+function openCatForm() {
+  currentCatId = null;
+  document.getElementById('catModalTitle').textContent = 'Add Category';
+  document.getElementById('catForm').reset();
+  document.getElementById('catModal').classList.add('show');
+}
+function closeCatModal() { document.getElementById('catModal').classList.remove('show'); currentCatId = null; }
+function editCat(id) {
+  const c = allCats.find(x => String(x.id) === String(id));
+  if (!c) return;
+  currentCatId = id;
+  document.getElementById('catModalTitle').textContent = 'Edit Category';
+  document.getElementById('cName').value = c.name || '';
+  document.getElementById('cEmoji').value = c.emoji || '';
+  document.getElementById('catModal').classList.add('show');
+}
+async function saveCat(e) {
+  e.preventDefault();
+  const btn = document.getElementById('catSaveBtn');
+  btn.disabled = true;
+  const payload = {
+    name: document.getElementById('cName').value.trim(),
+    emoji: document.getElementById('cEmoji').value.trim() || '📦'
+  };
+  try {
+    if (currentCatId) {
+      const { error } = await supabaseClient.from('job_categories').update(payload).eq('id', currentCatId);
+      if (error) throw error;
+      showSuccess('Category updated.');
+    } else {
+      payload.display_order = 100;
+      payload.active = true;
+      const { error } = await supabaseClient.from('job_categories').insert([payload]);
+      if (error) throw error;
+      showSuccess('Category added.');
+    }
+    closeCatModal();
+    await loadCats();
+  } catch (err) { showError('Could not save: ' + err.message); }
+  finally { btn.disabled = false; }
+}
+async function toggleCatActive(id) {
+  const c = allCats.find(x => String(x.id) === String(id));
+  if (!c) return;
+  try {
+    await supabaseClient.from('job_categories').update({ active: c.active === false }).eq('id', id);
+    await loadCats();
+    showSuccess('Category updated.');
+  } catch (err) { showError('Could not update: ' + err.message); }
+}
+async function deleteCat(id) {
+  if (!confirm('Delete this category? Jobs using it will keep the name but no filter match.')) return;
+  try {
+    await supabaseClient.from('job_categories').delete().eq('id', id);
+    await loadCats();
+    showSuccess('Category deleted.');
+  } catch (err) { showError('Could not delete: ' + err.message); }
+}
+async function moveCat(idx, dir) {
+  const list = allCats;
+  const swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= list.length) return;
+  const a = list[idx], b = list[swapIdx];
+  try {
+    await supabaseClient.from('job_categories').update({ display_order: swapIdx }).eq('id', a.id);
+    await supabaseClient.from('job_categories').update({ display_order: idx }).eq('id', b.id);
+    await loadCats();
+  } catch (err) { showError('Could not reorder: ' + err.message); }
+}
+
+// ============================================================
+// JOB TYPES
+// ============================================================
+async function loadTypes() {
+  const wrap = document.getElementById('typesWrap');
+  wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading job types…</p></div>';
+  try {
+    const { data, error } = await supabaseClient.from('job_types').select('*').order('display_order', { ascending: true });
+    if (error) throw error;
+    allTypes = data || [];
+    document.getElementById('typeCount').textContent = allTypes.filter(t => t.active !== false).length;
+    renderTypes();
+    populateJobDropdowns();
+  } catch (err) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load job types: ${esc(err.message)}</p></div>`; }
+}
+function filterTypes() { renderTypes(); }
+function renderTypes() {
+  const wrap = document.getElementById('typesWrap');
+  const q = document.getElementById('typeSearch').value.toLowerCase().trim();
+  let list = allTypes;
+  if (q) list = list.filter(t => (t.name||'').toLowerCase().includes(q));
+  if (list.length === 0) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">📂</span><p>No job types yet. Click <strong>+ Add Job Type</strong>.</p></div>`; return; }
+  wrap.innerHTML = `<div class="mgmt-list">${list.map((t, i) => `
+    <div class="mgmt-row">
+      <div class="mgmt-order">
+        <button class="mgmt-order-btn" onclick="moveType(${i}, -1)" ${i === 0 ? 'disabled' : ''}>▲</button>
+        <button class="mgmt-order-btn" onclick="moveType(${i}, 1)" ${i === list.length - 1 ? 'disabled' : ''}>▼</button>
+      </div>
+      <div class="mgmt-info">
+        <div class="mgmt-emoji">📂</div>
+        <div>
+          <div class="mgmt-name">${esc(t.name)}</div>
+          <div class="mgmt-sub">Order: ${esc(t.display_order || 0)} · <span class="mgmt-status ${t.active !== false ? 'active' : 'inactive'}">${t.active !== false ? 'Active' : 'Inactive'}</span></div>
+        </div>
+      </div>
+      <div class="mgmt-actions">
+        <button class="btn btn-primary btn-sm" onclick="editType('${esc(t.id)}')">✏️ Edit</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTypeActive('${esc(t.id)}')">${t.active !== false ? '⏸' : '▶'}</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteType('${esc(t.id)}')">🗑</button>
+      </div>
+    </div>`).join('')}</div>`;
+}
+function openTypeForm() {
+  currentTypeId = null;
+  document.getElementById('typeModalTitle').textContent = 'Add Job Type';
+  document.getElementById('typeForm').reset();
+  document.getElementById('typeModal').classList.add('show');
+}
+function closeTypeModal() { document.getElementById('typeModal').classList.remove('show'); currentTypeId = null; }
+function editType(id) {
+  const t = allTypes.find(x => String(x.id) === String(id));
+  if (!t) return;
+  currentTypeId = id;
+  document.getElementById('typeModalTitle').textContent = 'Edit Job Type';
+  document.getElementById('tName').value = t.name || '';
+  document.getElementById('typeModal').classList.add('show');
+}
+async function saveType(e) {
+  e.preventDefault();
+  const btn = document.getElementById('typeSaveBtn');
+  btn.disabled = true;
+  const payload = { name: document.getElementById('tName').value.trim() };
+  try {
+    if (currentTypeId) {
+      await supabaseClient.from('job_types').update(payload).eq('id', currentTypeId);
+      showSuccess('Job type updated.');
+    } else {
+      payload.display_order = 100;
+      payload.active = true;
+      await supabaseClient.from('job_types').insert([payload]);
+      showSuccess('Job type added.');
+    }
+    closeTypeModal();
+    await loadTypes();
+  } catch (err) { showError('Could not save: ' + err.message); }
+  finally { btn.disabled = false; }
+}
+async function toggleTypeActive(id) {
+  const t = allTypes.find(x => String(x.id) === String(id));
+  if (!t) return;
+  try {
+    await supabaseClient.from('job_types').update({ active: t.active === false }).eq('id', id);
+    await loadTypes();
+    showSuccess('Job type updated.');
+  } catch (err) { showError('Could not update: ' + err.message); }
+}
+async function deleteType(id) {
+  if (!confirm('Delete this job type?')) return;
+  try {
+    await supabaseClient.from('job_types').delete().eq('id', id);
+    await loadTypes();
+    showSuccess('Job type deleted.');
+  } catch (err) { showError('Could not delete: ' + err.message); }
+}
+async function moveType(idx, dir) {
+  const list = allTypes;
+  const swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= list.length) return;
+  const a = list[idx], b = list[swapIdx];
+  try {
+    await supabaseClient.from('job_types').update({ display_order: swapIdx }).eq('id', a.id);
+    await supabaseClient.from('job_types').update({ display_order: idx }).eq('id', b.id);
+    await loadTypes();
+  } catch (err) { showError('Could not reorder: ' + err.message); }
 }
 
 // ============================================================
@@ -913,17 +1315,15 @@ async function deleteJob(id) {
       if (error) throw error;
       $('gpUploadBarFill').style.width = '90%';
       const { data: urlData } = supabaseClient.storage.from(BUCKET).getPublicUrl(data.path);
-      const publicUrl = urlData.publicUrl;
-      $('jImageUrl').value = publicUrl;
+      $('jImageUrl').value = urlData.publicUrl;
       $('gpUploadBarFill').style.width = '100%';
       $('gpUploadProgressText').textContent = '✅ Uploaded';
       setTimeout(() => {
         $('gpUploadProgress').style.display = 'none';
-        showPreview(publicUrl);
+        showPreview(urlData.publicUrl);
         setNote('✅ Image uploaded successfully.', 'success');
       }, 400);
     } catch (err) {
-      console.error('Upload error:', err);
       $('gpUploadProgress').style.display = 'none';
       $('gpUploadDrop').style.display = 'block';
       setNote('❌ Upload failed: ' + (err.message || 'unknown error'), 'error');
@@ -954,12 +1354,13 @@ async function deleteJob(id) {
 // REFRESH + INIT
 // ============================================================
 async function refreshAll() {
-  await Promise.all([loadApps(), loadConvs(), loadJobs()]);
+  await Promise.all([loadApps(), loadConvs(), loadJobs(), loadCats(), loadTypes()]);
   showSuccess('Refreshed.');
 }
 document.addEventListener('DOMContentLoaded', async () => {
   const ok = await checkAuth();
   if (!ok) return;
+  await Promise.all([loadCats(), loadTypes()]);
   await Promise.all([loadApps(), loadConvs(), loadJobs()]);
 });
 </script>
