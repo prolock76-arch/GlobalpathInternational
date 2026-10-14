@@ -234,7 +234,6 @@ button { font-family: inherit; }
 .filter-panel-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); }
 .filter-apply-btn { padding: 12px 26px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; border-radius: 10px; font-family: var(--font-display); font-weight: 800; font-size: 0.92rem; cursor: pointer; box-shadow: 0 6px 16px rgba(11,61,145,0.28); transition: all 0.15s; }
 .filter-apply-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(11,61,145,0.35); }
-.filter-apply-btn:active { transform: translateY(0); }
 
 .active-filters-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 16px; background: var(--primary-soft); border-radius: var(--radius); border-left: 3px solid var(--primary); margin-bottom: 16px; }
 .active-filters-bar .afb-label { font-size: 0.78rem; font-weight: 800; color: var(--primary); letter-spacing: 0.06em; text-transform: uppercase; }
@@ -285,27 +284,23 @@ button { font-family: inherit; }
 .no-results .empty-icon { font-size: 3rem; opacity: 0.4; margin-bottom: 12px; }
 .no-results p { max-width: 400px; margin: 0 auto 20px; }
 
-.selection-notice { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(200%); background: linear-gradient(135deg, var(--success) 0%, #0a6b3c 100%); color: #fff; padding: 16px 24px; border-radius: 14px; box-shadow: 0 16px 40px rgba(15,138,77,0.4); display: flex; align-items: center; gap: 14px; z-index: 9999; max-width: calc(100% - 32px); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); font-family: var(--font-body); visibility: hidden; }
-.selection-notice.show { transform: translateX(-50%) translateY(0); visibility: visible; }
-.selection-notice .sn-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.22); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
-.selection-notice .sn-body { flex: 1; min-width: 0; }
-.selection-notice .sn-title { font-size: 0.72rem; font-weight: 800; opacity: 0.9; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
-.selection-notice .sn-name { font-family: var(--font-display); font-size: 0.98rem; font-weight: 800; line-height: 1.25; margin-bottom: 2px; }
-.selection-notice .sn-hint { font-size: 0.78rem; opacity: 0.9; }
-
-.applying-banner { position: fixed; top: 70px; left: 50%; transform: translateX(-50%) translateY(-200%); width: calc(100% - 32px); max-width: 900px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-radius: 14px; padding: 14px 20px; box-shadow: 0 12px 32px rgba(11,61,145,0.35); z-index: 1500; display: flex; align-items: center; gap: 14px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s; opacity: 0; pointer-events: none; }
-.applying-banner.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
-.applying-banner .ab-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
-.applying-banner .ab-body { flex: 1; min-width: 0; }
-.applying-banner .ab-label { font-size: 0.68rem; font-weight: 800; opacity: 0.85; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
-.applying-banner .ab-title { font-family: var(--font-display); font-size: 1rem; font-weight: 800; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.applying-banner .ab-meta { font-size: 0.78rem; opacity: 0.9; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.applying-banner .ab-actions { display: flex; gap: 8px; flex-shrink: 0; }
-.applying-banner .ab-btn { padding: 8px 14px; border-radius: 8px; font-family: var(--font-display); font-weight: 800; font-size: 0.82rem; border: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-.applying-banner .ab-btn.primary { background: var(--accent); color: #1a1a1a; }
-.applying-banner .ab-btn.primary:hover { background: var(--accent-dark); color: #fff; }
-.applying-banner .ab-btn.ghost { background: rgba(255,255,255,0.15); color: #fff; border: 1.5px solid rgba(255,255,255,0.3); }
-.applying-banner .ab-btn.ghost:hover { background: rgba(255,255,255,0.25); }
+.applying-banner-inline { display: none; margin-top: 24px; padding: 16px 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-radius: 14px; box-shadow: 0 12px 32px rgba(11,61,145,0.25); align-items: center; gap: 14px; animation: slideDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.applying-banner-inline.show { display: flex; }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.applying-banner-inline .ab-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+.applying-banner-inline .ab-body { flex: 1; min-width: 0; }
+.applying-banner-inline .ab-label { font-size: 0.68rem; font-weight: 800; opacity: 0.85; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+.applying-banner-inline .ab-title { font-family: var(--font-display); font-size: 1rem; font-weight: 800; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.applying-banner-inline .ab-meta { font-size: 0.78rem; opacity: 0.9; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.applying-banner-inline .ab-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.applying-banner-inline .ab-btn { padding: 10px 18px; border-radius: 8px; font-family: var(--font-display); font-weight: 800; font-size: 0.85rem; border: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.applying-banner-inline .ab-btn.primary { background: var(--accent); color: #1a1a1a; }
+.applying-banner-inline .ab-btn.primary:hover { background: var(--accent-dark); color: #fff; }
+.applying-banner-inline .ab-btn.ghost { background: rgba(255,255,255,0.15); color: #fff; border: 1.5px solid rgba(255,255,255,0.3); }
+.applying-banner-inline .ab-btn.ghost:hover { background: rgba(255,255,255,0.25); }
 
 .btn-row { display: flex; gap: 12px; justify-content: space-between; margin-top: 36px; flex-wrap: wrap; }
 .btn { display: inline-block; padding: 14px 30px; border-radius: var(--radius); font-family: var(--font-body); font-weight: 700; font-size: 0.98rem; cursor: pointer; border: none; transition: all 0.2s; text-align: center; white-space: nowrap; }
@@ -370,13 +365,12 @@ button { font-family: inherit; }
   .p-dot { width: 28px; height: 28px; font-size: 0.7rem; }
   .jobs-grid.list-view .job-card-mini { grid-template-columns: 1fr; }
   .jobs-grid.list-view .job-card-mini > *:not(.jc-image-wrap):not(.jc-urgent) { grid-column: 1; }
-  .selection-notice { bottom: 90px; }
-  .applying-banner { top: 64px; padding: 12px 14px; flex-wrap: wrap; }
-  .applying-banner .ab-icon { width: 36px; height: 36px; font-size: 1.2rem; }
-  .applying-banner .ab-title { font-size: 0.92rem; }
-  .applying-banner .ab-meta { font-size: 0.72rem; }
-  .applying-banner .ab-actions { width: 100%; margin-top: 4px; }
-  .applying-banner .ab-btn { flex: 1; padding: 10px; font-size: 0.8rem; }
+  .applying-banner-inline { padding: 14px 16px; flex-wrap: wrap; }
+  .applying-banner-inline .ab-icon { width: 36px; height: 36px; font-size: 1.2rem; }
+  .applying-banner-inline .ab-title { font-size: 0.92rem; }
+  .applying-banner-inline .ab-meta { font-size: 0.72rem; }
+  .applying-banner-inline .ab-actions { width: 100%; margin-top: 8px; }
+  .applying-banner-inline .ab-btn { flex: 1; padding: 12px; font-size: 0.85rem; }
 }
 
 @media (max-width: 480px) {
@@ -820,7 +814,20 @@ button { font-family: inherit; }
 
       <div class="jobs-grid" id="jobsGrid"></div>
 
-      <div class="jobs-footer-cta" style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border);">
+      <div class="applying-banner-inline" id="applyingBanner">
+        <div class="ab-icon">📋</div>
+        <div class="ab-body">
+          <div class="ab-label">Applying For</div>
+          <div class="ab-title" id="abTitle">—</div>
+          <div class="ab-meta" id="abMeta">—</div>
+        </div>
+        <div class="ab-actions">
+          <button class="ab-btn ghost" onclick="clearJobSelection()">Change job</button>
+          <button class="ab-btn primary" onclick="continueToBasic()">Continue →</button>
+        </div>
+      </div>
+
+      <div class="jobs-footer-cta" style="text-align:center;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);">
         <p style="color:var(--muted);font-size:0.92rem;margin-bottom:14px;">Ready to apply for a job? Complete the form and we'll match you with verified employers.</p>
         <button class="btn btn-primary btn-lg" onclick="continueApplication()">Continue Application →</button>
       </div>
@@ -834,34 +841,11 @@ button { font-family: inherit; }
   <button class="mab-next" id="mabNext" onclick="mobileNext()">Continue →</button>
 </div>
 
-<div class="applying-banner" id="applyingBanner">
-  <div class="ab-icon">📋</div>
-  <div class="ab-body">
-    <div class="ab-label">Applying For</div>
-    <div class="ab-title" id="abTitle">—</div>
-    <div class="ab-meta" id="abMeta">—</div>
-  </div>
-  <div class="ab-actions">
-    <button class="ab-btn ghost" onclick="clearJobSelection()">Change job</button>
-    <button class="ab-btn primary" onclick="scrollToForm()">Continue →</button>
-  </div>
-</div>
-
-<div class="selection-notice" id="selectionNotice">
-  <div class="sn-icon">✓</div>
-  <div class="sn-body">
-    <div class="sn-title">Job Selected</div>
-    <div class="sn-name" id="snName">—</div>
-    <div class="sn-hint">Scrolling you to the application form…</div>
-  </div>
-</div>
-
 <script>
 const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
-const WORKER_SEND_URL = 'https://api.globalpathjobplacement.online/send-sponsor-email';
 
 const DEFAULT_CATEGORIES = [
   { name: 'Healthcare', emoji: '🏥' }, { name: 'Construction', emoji: '🏗' }, { name: 'Hospitality', emoji: '🍽' },
@@ -1090,7 +1074,6 @@ async function loadJobTypes() {
 }
 
 async function loadFeaturedJobs() {
-  console.log('📥 Loading featured jobs…');
   try {
     const { data, error } = await supabaseClient
       .from('featured_jobs')
@@ -1110,9 +1093,8 @@ async function loadFeaturedJobs() {
     const fhCountries = document.getElementById('fhCountries');
     if (fhVerified) fhVerified.textContent = FEATURED_JOBS.filter(j => j.verified).length;
     if (fhCountries) fhCountries.textContent = countries.length;
-    console.log('✅ Loaded', FEATURED_JOBS.length, 'jobs');
   } catch (e) {
-    console.error('❌ Fetch failed:', e);
+    console.error('Fetch failed:', e);
     FEATURED_JOBS = [];
   }
   renderJobs();
@@ -1387,31 +1369,14 @@ function selectJob(job, e) {
   formData.details.job_title = job.title;
   formData.details.preferred_country = job.country;
   formData.details.job_id = job.id;
-  try { localStorage.setItem('gp_selected_job', JSON.stringify(job)); } catch (e) {}
-  showSelectionNotice(job.title, job.country);
+  try { localStorage.setItem('gp_selected_job', JSON.stringify(job)); } catch (err) {}
   showApplyingBanner(job.title, job.country);
-  renderJobs();
-
-  formData.service_type = 'job';
-  const jobOption = document.querySelector('.path-option[data-path="job"]');
-  if (jobOption) {
-    document.querySelectorAll('.path-option').forEach(el => el.classList.remove('selected'));
-    jobOption.classList.add('selected');
-  }
-  flow = buildFlow();
-  if (flow[currentIndex] === 'path') {
-    currentIndex = 1;
-    renderProgress();
-  }
   if (job.country) {
     document.querySelectorAll('#jobDestinations .d_job_dest').forEach(cb => {
       if (cb.value.toLowerCase() === job.country.toLowerCase()) cb.checked = true;
     });
   }
-  setTimeout(() => {
-    const form = document.querySelector('.form-wrap');
-    if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 500);
+  renderJobs();
 }
 
 function showApplyingBanner(title, country) {
@@ -1422,6 +1387,9 @@ function showApplyingBanner(title, country) {
   titleEl.textContent = title;
   metaEl.textContent = country || '';
   banner.classList.add('show');
+  setTimeout(() => {
+    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 300);
 }
 
 function hideApplyingBanner() {
@@ -1436,28 +1404,24 @@ function clearJobSelection() {
     delete formData.details.preferred_country;
     delete formData.details.job_id;
   }
-  try { localStorage.removeItem('gp_selected_job'); } catch (e) {}
+  try { localStorage.removeItem('gp_selected_job'); } catch (err) {}
   hideApplyingBanner();
   renderJobs();
   const grid = document.getElementById('jobsGrid');
   if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function scrollToForm() {
-  const form = document.querySelector('.form-wrap');
-  if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function showSelectionNotice(title, country) {
-  const notice = document.getElementById('selectionNotice');
-  const nameEl = document.getElementById('snName');
-  if (!notice || !nameEl) return;
-  nameEl.textContent = `${title} · ${country}`;
-  notice.classList.add('show');
-  clearTimeout(window._snTimeout);
-  window._snTimeout = setTimeout(() => {
-    notice.classList.remove('show');
-  }, 4500);
+function continueToBasic() {
+  formData.service_type = 'job';
+  const jobOption = document.querySelector('.path-option[data-path="job"]');
+  if (jobOption) {
+    document.querySelectorAll('.path-option').forEach(el => el.classList.remove('selected'));
+    jobOption.classList.add('selected');
+  }
+  flow = buildFlow();
+  currentIndex = 1;
+  renderProgress();
+  showPanel('basic');
 }
 
 function scrollToJobs(e) {
@@ -1471,13 +1435,6 @@ function continueApplication() {
   if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function showAlert(msg, type = 'info') {
-  const el = document.getElementById('errorMsg'); el.textContent = msg;
-  el.style.background = type === 'success' ? 'var(--success-bg)' : 'var(--danger-bg)';
-  el.style.color = type === 'success' ? 'var(--success)' : 'var(--danger)';
-  el.style.borderLeftColor = type === 'success' ? 'var(--success)' : 'var(--danger)';
-  el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 4000);
-}
 function showError(msg) {
   const el = document.getElementById('errorMsg'); el.textContent = msg;
   el.style.background = ''; el.style.color = ''; el.style.borderLeftColor = '';
@@ -1582,7 +1539,7 @@ async function submitApplication() {
     document.getElementById('featuredJobsSection').style.display = 'none';
     document.getElementById('trackNowBtn').href = `track.html?ref=${encodeURIComponent(reference)}`;
     showPanel('success');
-    try { localStorage.removeItem('gp_selected_job'); } catch (e) {}
+    try { localStorage.removeItem('gp_selected_job'); } catch (err) {}
     hideApplyingBanner();
     const notice = document.getElementById('redirectNotice');
     const counter = document.getElementById('redirectCountdown');
@@ -1716,7 +1673,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
     document.addEventListener('click', (e) => { if (!isOpen()) return; if (!nav.contains(e.target) && !toggle.contains(e.target)) close(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) close(); });
-    console.log('✅ Hamburger menu ready');
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMenu);
   else initMenu();
@@ -1725,7 +1681,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 <script>
 (function () {
-  console.log('🚀 Sponsor trigger v7 starting...');
   const WORKER_URL = 'https://api.globalpathjobplacement.online/send-sponsor-email';
   const PLACEHOLDER_REF = 'GP-2026-00000';
   let fired = false;
@@ -1751,14 +1706,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     fired = true;
     if (!capturedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(capturedEmail)) return;
     try {
-      const res = await fetch(WORKER_URL, {
+      await fetch(WORKER_URL, {
         method: 'POST', mode: 'cors', cache: 'no-store',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ email: capturedEmail, name: capturedName || 'there', reference: ref })
       });
-      const data = await res.json().catch(() => ({}));
-      console.log('✅ Worker response:', res.status, data);
-    } catch (err) { console.log('⚠️ Primary failed:', err.message); }
+    } catch (err) {}
   });
   function start() {
     if (!document.body) { setTimeout(start, 200); return; }
