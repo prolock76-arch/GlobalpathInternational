@@ -136,8 +136,9 @@ button { font-family: inherit; }
 .note-item .ni-text { color: var(--text); line-height: 1.6; white-space: pre-wrap; }
 
 .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
-.job-card-admin { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow); transition: all 0.2s; position: relative; }
+.job-card-admin { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow); transition: all 0.2s; position: relative; overflow: hidden; }
 .job-card-admin:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.job-card-admin .jc-thumb { width: 100%; height: 140px; object-fit: cover; border-radius: var(--radius); margin-bottom: 12px; background: var(--bg); }
 .job-card-admin .jc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
 .job-card-admin h4 { font-size: 1.02rem; color: var(--primary); font-weight: 800; margin-bottom: 4px; }
 .job-card-admin .jc-company { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
@@ -176,6 +177,27 @@ button { font-family: inherit; }
 .reply-method:hover { border-color: var(--primary); color: var(--primary); }
 .reply-method.selected { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
 
+/* IMAGE UPLOADER */
+.gp-image-uploader { position: relative; margin-bottom: 8px; }
+.gp-uploader-drop { border: 2px dashed var(--border); border-radius: var(--radius-lg); background: var(--bg); padding: 26px 20px; text-align: center; cursor: pointer; transition: all 0.2s; }
+.gp-uploader-drop:hover { border-color: var(--primary); background: var(--primary-soft); }
+.gp-uploader-drop.dragover { border-color: var(--primary); background: var(--primary-soft); border-style: solid; }
+.gp-uploader-icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.7; }
+.gp-uploader-text { font-size: 0.92rem; color: var(--text); font-weight: 600; }
+.gp-uploader-text strong { color: var(--primary); }
+.gp-uploader-hint { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+.gp-uploader-preview { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 2px solid var(--border); background: var(--bg); }
+.gp-uploader-preview img { display: block; width: 100%; height: auto; max-height: 260px; object-fit: cover; }
+.gp-uploader-remove { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(220, 38, 38, 0.95); color: #fff; border: 2px solid #fff; cursor: pointer; font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform 0.15s; }
+.gp-uploader-remove:hover { transform: scale(1.08); background: #b91c1c; }
+.gp-uploader-progress { margin-top: 10px; }
+.gp-uploader-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.gp-uploader-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.25s ease-out; }
+.gp-uploader-progress-text { font-size: 0.78rem; color: var(--muted); margin-top: 4px; text-align: center; }
+.gp-uploader-note { font-size: 0.78rem; color: var(--muted); margin-top: 6px; min-height: 16px; }
+.gp-uploader-note.success { color: var(--success); font-weight: 600; }
+.gp-uploader-note.error { color: var(--danger); font-weight: 600; }
+
 @media (max-width: 720px) {
   .main { padding: 18px 14px 60px; }
   .page-head h1 { font-size: 1.3rem; }
@@ -209,7 +231,7 @@ button { font-family: inherit; }
       <span class="admin-badge">Admin</span>
     </a>
     <div class="header-actions">
-      <span class="header-user" id="adminEmail">admin@globalpath</span>
+      <span class="header-user" id="adminEmail">Loading…</span>
       <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
     </div>
   </div>
@@ -239,7 +261,6 @@ button { font-family: inherit; }
   <div class="alert alert-success" id="globalSuccess"></div>
   <div class="alert alert-error" id="globalError"></div>
 
-  <!-- APPLICATIONS TAB -->
   <div class="tab-content active" id="tab-apps">
     <div class="toolbar">
       <input type="text" id="appSearch" placeholder="Search by reference, name, email…" oninput="filterApps()">
@@ -258,7 +279,6 @@ button { font-family: inherit; }
     </div>
   </div>
 
-  <!-- MESSAGES TAB (chat-style) -->
   <div class="tab-content" id="tab-messages">
     <div class="toolbar">
       <input type="text" id="msgSearch" placeholder="Search conversations…" oninput="filterConvs()">
@@ -275,7 +295,6 @@ button { font-family: inherit; }
     </div>
   </div>
 
-  <!-- JOBS TAB -->
   <div class="tab-content" id="tab-jobs">
     <div class="toolbar">
       <input type="text" id="jobSearch" placeholder="Search jobs…" oninput="filterJobs()">
@@ -342,6 +361,29 @@ button { font-family: inherit; }
         <div class="form-group"><label>Country *</label><input type="text" id="jCountry" required></div>
         <div class="form-group"><label>Flag (emoji)</label><input type="text" id="jFlag" placeholder="🇬🇧" maxlength="4"></div>
       </div>
+
+      <div class="form-group">
+        <label>Job Image (optional)</label>
+        <div id="gpImageUploader" class="gp-image-uploader">
+          <input type="file" id="jImageInput" accept="image/jpeg,image/png,image/webp" style="display:none;">
+          <div class="gp-uploader-drop" id="gpUploadDrop" onclick="document.getElementById('jImageInput').click()">
+            <div class="gp-uploader-icon">📸</div>
+            <div class="gp-uploader-text"><strong>Click to upload</strong> or drag & drop</div>
+            <div class="gp-uploader-hint">JPG, PNG, or WebP · Max 5MB</div>
+          </div>
+          <div class="gp-uploader-preview" id="gpUploadPreview" style="display:none;">
+            <img id="gpPreviewImg" alt="Preview">
+            <button type="button" class="gp-uploader-remove" onclick="gpRemoveImage(event)">✕</button>
+          </div>
+          <div class="gp-uploader-progress" id="gpUploadProgress" style="display:none;">
+            <div class="gp-uploader-bar"><div class="gp-uploader-bar-fill" id="gpUploadBarFill"></div></div>
+            <div class="gp-uploader-progress-text" id="gpUploadProgressText">Uploading…</div>
+          </div>
+        </div>
+        <input type="hidden" id="jImageUrl">
+        <div class="gp-uploader-note" id="gpUploadNote"></div>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label>Category *</label>
@@ -375,7 +417,7 @@ button { font-family: inherit; }
   </div>
 </div>
 
-<!-- CONVERSATION MODAL (chat) -->
+<!-- CONVERSATION MODAL -->
 <div class="modal-overlay" id="convModal" onclick="if(event.target===this)closeConv()">
   <div class="modal modal-lg">
     <button class="modal-close" onclick="closeConv()">✕</button>
@@ -419,7 +461,6 @@ let currentJobId = null;
 let currentConv = null;
 let currentReplyMethod = 'email';
 
-// HELPERS
 function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function fmtDate(d) { if (!d) return '—'; try { return new Date(d).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}); } catch { return '—'; } }
 function fmtDateTime(d) { if (!d) return '—'; try { return new Date(d).toLocaleString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch { return '—'; } }
@@ -427,13 +468,22 @@ function statusCls(s) { return (s || 'Submitted').toLowerCase().replace(/\s+/g,'
 function showSuccess(msg) { const el = document.getElementById('globalSuccess'); el.textContent = '✅ ' + msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3500); }
 function showError(msg) { const el = document.getElementById('globalError'); el.textContent = '❌ ' + msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 5000); }
 
+// ============================================================
+// AUTH CHECK
+// ============================================================
 async function checkAuth() {
   const { data: { session } } = await supabaseClient.auth.getSession();
-  document.getElementById('adminEmail').textContent = session?.user?.email || 'Staff';
+  if (!session) {
+    console.log('❌ Not logged in — redirecting to login');
+    window.location.href = 'adminlogin.html';
+    return false;
+  }
+  document.getElementById('adminEmail').textContent = session.user.email || 'Staff';
+  return true;
 }
 async function signOut() {
   await supabaseClient.auth.signOut();
-  window.location.href = 'index.html';
+  window.location.href = 'adminlogin.html';
 }
 
 function switchTab(name) {
@@ -441,6 +491,7 @@ function switchTab(name) {
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   document.querySelector(`.tab-btn[data-tab="${name}"]`).classList.add('active');
   document.getElementById(`tab-${name}`).classList.add('active');
+  if (name === 'messages') setTimeout(loadConvs, 100);
 }
 
 // ============================================================
@@ -531,13 +582,12 @@ async function saveAppChanges() {
   } catch (err) { console.error(err); showError('Could not save: ' + err.message); }
 }
 
-// NOTES
 async function renderNotes(reference) {
   const list = document.getElementById('notesList');
   list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">Loading notes…</div>';
   try {
     const { data, error } = await supabaseClient.from('application_notes').select('*').eq('reference', reference).order('created_at', { ascending: false });
-    if (error) { list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">No notes yet. (Notes table not set up.)</div>'; return; }
+    if (error) { list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">No notes yet.</div>'; return; }
     if (!data || data.length === 0) { list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">No notes yet.</div>'; return; }
     list.innerHTML = data.map(n => `<div class="note-item"><div class="ni-meta">${esc(fmtDateTime(n.created_at))} · ${esc(n.author || 'Staff')}</div><div class="ni-text">${esc(n.note)}</div></div>`).join('');
   } catch (err) { list.innerHTML = '<div class="cell-muted" style="padding:10px 0;">Could not load notes.</div>'; }
@@ -557,7 +607,7 @@ async function saveNote() {
 }
 
 // ============================================================
-// CONVERSATIONS (chat-style messages)
+// CONVERSATIONS
 // ============================================================
 async function loadConvs() {
   const wrap = document.getElementById('convsTableWrap');
@@ -666,12 +716,11 @@ async function sendConvReply() {
   btn.textContent = 'Sending…';
   try {
     const { data: { session } } = await supabaseClient.auth.getSession();
-    const staffId = session?.user?.id || 'f467579e-2a6b-48aa-a7e5-e6c66129d7a3';
+    const staffId = session?.user?.id || '00000000-0000-0000-0000-000000000000';
     const applicantEmail = currentConv.app?.email || '';
     const applicantName = currentConv.app?.full_name || 'Applicant';
     const ref = currentConv.app?.reference || `App #${currentConv.application_id}`;
 
-    // Save to messages table (for email + app + both)
     const { data, error } = await supabaseClient.from('messages').insert([{
       application_id: currentConv.application_id,
       sender_id: staffId,
@@ -691,7 +740,6 @@ async function sendConvReply() {
     textarea.value = '';
     renderConvThread();
 
-    // Open email client if email or both
     if ((currentReplyMethod === 'email' || currentReplyMethod === 'both') && applicantEmail) {
       const subject = encodeURIComponent(`Re: Your GlobalPath application ${ref}`);
       const body = encodeURIComponent(`Hi ${applicantName},\n\n${text}\n\n—\nGlobalPath International\nReference: ${ref}`);
@@ -726,6 +774,7 @@ function renderJobs() {
   if (list.length === 0) { wrap.innerHTML = `<div class="table-empty"><span class="te-icon">💼</span><p>No jobs yet. Click <strong>+ Add Job</strong> to create one.</p></div>`; return; }
   wrap.innerHTML = `<div class="job-grid">${list.map(j => `
     <div class="job-card-admin">
+      ${j.image_url ? `<img class="jc-thumb" src="${esc(j.image_url)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ''}
       <div class="jc-head">
         <div><h4>${esc(j.flag || '🌍')} ${esc(j.title)}</h4><div class="jc-company">${esc(j.employer)} · ${esc(j.country)}</div></div>
         <span class="pill ${j.active !== false ? 'active' : 'inactive'}">${j.active !== false ? 'Active' : 'Inactive'}</span>
@@ -743,6 +792,7 @@ function openJobForm() {
   currentJobId = null;
   document.getElementById('jobModalTitle').textContent = 'Add Job';
   document.getElementById('jobForm').reset();
+  if (typeof window.gpSetImageUrl === 'function') window.gpSetImageUrl('');
   document.getElementById('jobModal').classList.add('show');
 }
 function closeJobModal() { document.getElementById('jobModal').classList.remove('show'); currentJobId = null; }
@@ -761,6 +811,7 @@ function editJob(id) {
   document.getElementById('jVerified').value = String(j.verified !== false);
   document.getElementById('jUrgent').value = String(j.urgent === true);
   document.getElementById('jActive').value = String(j.active !== false);
+  if (typeof window.gpSetImageUrl === 'function') window.gpSetImageUrl(j.image_url || '');
   document.getElementById('jobModal').classList.add('show');
 }
 async function saveJob(e) {
@@ -776,6 +827,7 @@ async function saveJob(e) {
     category: document.getElementById('jCategory').value,
     salary: document.getElementById('jSalary').value.trim(),
     description: document.getElementById('jDescription').value.trim(),
+    image_url: (document.getElementById('jImageUrl')?.value || '').trim() || null,
     verified: document.getElementById('jVerified').value === 'true',
     urgent: document.getElementById('jUrgent').value === 'true',
     active: document.getElementById('jActive').value === 'true',
@@ -818,6 +870,87 @@ async function deleteJob(id) {
 }
 
 // ============================================================
+// IMAGE UPLOADER
+// ============================================================
+(function () {
+  const BUCKET = 'job-images';
+  const MAX_MB = 5;
+  const ALLOWED = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  function $(id) { return document.getElementById(id); }
+  function setNote(msg, type = '') {
+    const note = $('gpUploadNote');
+    if (!note) return;
+    note.className = 'gp-uploader-note' + (type ? ' ' + type : '');
+    note.textContent = msg || '';
+  }
+  window.gpRemoveImage = function (e) {
+    if (e) e.preventDefault();
+    $('jImageUrl').value = '';
+    $('jImageInput').value = '';
+    $('gpUploadPreview').style.display = 'none';
+    $('gpUploadDrop').style.display = 'block';
+    setNote('');
+  };
+  function showPreview(url) {
+    $('gpPreviewImg').src = url;
+    $('gpUploadPreview').style.display = 'block';
+    $('gpUploadDrop').style.display = 'none';
+  }
+  async function uploadFile(file) {
+    if (!file) return;
+    if (!ALLOWED.includes(file.type)) { setNote('❌ Only JPG, PNG, or WebP allowed.', 'error'); return; }
+    if (file.size > MAX_MB * 1024 * 1024) { setNote(`❌ File too large (max ${MAX_MB}MB).`, 'error'); return; }
+    $('gpUploadDrop').style.display = 'none';
+    $('gpUploadPreview').style.display = 'none';
+    $('gpUploadProgress').style.display = 'block';
+    $('gpUploadBarFill').style.width = '10%';
+    $('gpUploadProgressText').textContent = 'Uploading…';
+    try {
+      const ext = file.name.split('.').pop().toLowerCase();
+      const path = `jobs/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      $('gpUploadBarFill').style.width = '40%';
+      const { data, error } = await supabaseClient.storage.from(BUCKET).upload(path, file, { cacheControl: '3600', upsert: false, contentType: file.type });
+      if (error) throw error;
+      $('gpUploadBarFill').style.width = '90%';
+      const { data: urlData } = supabaseClient.storage.from(BUCKET).getPublicUrl(data.path);
+      const publicUrl = urlData.publicUrl;
+      $('jImageUrl').value = publicUrl;
+      $('gpUploadBarFill').style.width = '100%';
+      $('gpUploadProgressText').textContent = '✅ Uploaded';
+      setTimeout(() => {
+        $('gpUploadProgress').style.display = 'none';
+        showPreview(publicUrl);
+        setNote('✅ Image uploaded successfully.', 'success');
+      }, 400);
+    } catch (err) {
+      console.error('Upload error:', err);
+      $('gpUploadProgress').style.display = 'none';
+      $('gpUploadDrop').style.display = 'block';
+      setNote('❌ Upload failed: ' + (err.message || 'unknown error'), 'error');
+    }
+  }
+  function init() {
+    const input = $('jImageInput');
+    const drop = $('gpUploadDrop');
+    if (!input || !drop) return;
+    input.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (file) uploadFile(file);
+    });
+    ['dragenter', 'dragover'].forEach(evt => drop.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); drop.classList.add('dragover'); }));
+    ['dragleave', 'drop'].forEach(evt => drop.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); drop.classList.remove('dragover'); }));
+    drop.addEventListener('drop', (e) => { const file = e.dataTransfer?.files?.[0]; if (file) uploadFile(file); });
+    console.log('✅ Image uploader ready');
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+  window.gpSetImageUrl = function (url) {
+    if (url) { $('jImageUrl').value = url; showPreview(url); setNote(''); }
+    else { $('jImageUrl').value = ''; $('gpUploadDrop').style.display = 'block'; $('gpUploadPreview').style.display = 'none'; }
+  };
+})();
+
+// ============================================================
 // REFRESH + INIT
 // ============================================================
 async function refreshAll() {
@@ -825,671 +958,10 @@ async function refreshAll() {
   showSuccess('Refreshed.');
 }
 document.addEventListener('DOMContentLoaded', async () => {
-  await checkAuth();
+  const ok = await checkAuth();
+  if (!ok) return;
   await Promise.all([loadApps(), loadConvs(), loadJobs()]);
 });
-</script>
-  <!-- ============================================================ -->
-<!-- ADMIN MESSAGES OVERRIDE — paste before </body>              -->
-<!-- ============================================================ -->
-<style>
-/* Chat modal styles */
-.gp-chat-thread {
-  max-height: 420px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px;
-  background: var(--bg);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-.gp-chat-msg {
-  max-width: 78%;
-  padding: 10px 14px;
-  border-radius: 14px;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-.gp-chat-msg.customer {
-  align-self: flex-start;
-  background: #fff;
-  color: var(--text);
-  border-bottom-left-radius: 4px;
-}
-.gp-chat-msg.staff {
-  align-self: flex-end;
-  background: var(--primary);
-  color: #fff;
-  border-bottom-right-radius: 4px;
-}
-.gp-chat-msg .cm-meta {
-  font-size: 0.62rem;
-  opacity: 0.75;
-  margin-bottom: 4px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.gp-chat-msg .cm-body {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-.gp-reply-box textarea {
-  width: 100%;
-  min-height: 90px;
-  padding: 12px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  font-family: inherit;
-  font-size: 0.92rem;
-  resize: vertical;
-  margin-bottom: 10px;
-}
-.gp-reply-box textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(11,61,145,0.08);
-}
-.gp-reply-hint {
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-bottom: 10px;
-  font-style: italic;
-}
-</style>
-
-<script>
-(function () {
-  // ============================================================
-  // CONFIG — SAME AS WORKER
-  // ============================================================
-  const WORKER_URL = 'https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev';
-  const ADMIN_SECRET = 'gp_admin_2026_secret';
-
-  // ============================================================
-  // STATE
-  // ============================================================
-  let gpConvs = [];
-  let gpCurrentConv = null;
-
-  // ============================================================
-  // HELPERS (avoid name clashes with existing admin.html)
-  // ============================================================
-  function gpEsc(s) {
-    return String(s || '').replace(/[&<>"']/g, c => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
-  }
-  function gpFmtDateTime(d) {
-    if (!d) return '—';
-    try { return new Date(d).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
-    catch { return '—'; }
-  }
-
-  // ============================================================
-  // LOAD CONVERSATIONS (replace old renderMessages)
-  // ============================================================
-  async function gpLoadConvs() {
-    const wrap = document.getElementById('convsTableWrap') || document.getElementById('messagesTableWrap');
-    if (!wrap) return;
-    wrap.innerHTML = '<div class="loading"><div class="spinner-lg"></div><p>Loading conversations…</p></div>';
-
-    try {
-      const { data: msgs, error: mErr } = await supabaseClient
-        .from('messages')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(500);
-      if (mErr) throw mErr;
-
-      const { data: apps, error: aErr } = await supabaseClient
-        .from('applications')
-        .select('id, reference, full_name, email')
-        .limit(500);
-      if (aErr) throw aErr;
-
-      const appsById = {};
-      (apps || []).forEach(a => { appsById[a.id] = a; });
-
-      // Group by application_id
-      const threads = {};
-      (msgs || []).forEach(m => {
-        const key = m.application_id || 'orphan';
-        if (!threads[key]) {
-          threads[key] = {
-            application_id: key,
-            app: appsById[key] || null,
-            messages: [],
-            unread_count: 0,
-            last_message_at: m.created_at,
-            last_snippet: m.body || '',
-            last_sender: m.sender_role
-          };
-        }
-        threads[key].messages.push(m);
-        if (m.sender_role === 'customer' && m.read_by_staff === false) {
-          threads[key].unread_count++;
-        }
-      });
-
-      gpConvs = Object.values(threads).sort((a, b) =>
-        new Date(b.last_message_at) - new Date(a.last_message_at)
-      );
-
-      const unreadTotal = gpConvs.reduce((sum, t) => sum + t.unread_count, 0);
-      const badge = document.getElementById('msgsCount');
-      if (badge) badge.textContent = unreadTotal;
-
-      gpRenderConvs();
-    } catch (err) {
-      console.error('Load convs:', err);
-      wrap.innerHTML = `<div class="table-empty"><span class="te-icon">⚠️</span><p>Could not load: ${gpEsc(err.message)}</p></div>`;
-    }
-  }
-
-  function gpRenderConvs() {
-    const wrap = document.getElementById('convsTableWrap') || document.getElementById('messagesTableWrap');
-    if (!wrap) return;
-
-    const qEl = document.getElementById('msgSearch');
-    const fEl = document.getElementById('msgStatusFilter');
-    const q = (qEl?.value || '').toLowerCase().trim();
-    const filter = fEl?.value || '';
-
-    let list = gpConvs;
-    if (q) {
-      list = list.filter(t =>
-        (t.app?.full_name || '').toLowerCase().includes(q) ||
-        (t.app?.reference || '').toLowerCase().includes(q) ||
-        (t.app?.email || '').toLowerCase().includes(q) ||
-        (t.last_snippet || '').toLowerCase().includes(q)
-      );
-    }
-    if (filter === 'unread') list = list.filter(t => t.unread_count > 0);
-    if (filter === 'read')   list = list.filter(t => t.unread_count === 0);
-
-    if (list.length === 0) {
-      wrap.innerHTML = `<div class="table-empty"><span class="te-icon">💬</span><p>No conversations yet.</p></div>`;
-      return;
-    }
-
-    wrap.innerHTML = `
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Applicant</th>
-            <th>Reference</th>
-            <th>Last message</th>
-            <th>Unread</th>
-            <th>Received</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${list.map(t => `
-            <tr>
-              <td>
-                <div class="cell-strong">${gpEsc(t.app?.full_name || 'Unknown')}</div>
-                <div class="cell-muted">${gpEsc(t.app?.email || '')}</div>
-              </td>
-              <td>${t.app?.reference ? `<span class="ref-code">${gpEsc(t.app.reference)}</span>` : `<span class="cell-muted">App #${gpEsc(t.application_id)}</span>`}</td>
-              <td>
-                <div class="cell-strong" style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                  ${gpEsc((t.last_snippet || '').slice(0, 60))}${t.last_snippet.length > 60 ? '…' : ''}
-                </div>
-                <div class="cell-muted" style="font-size:0.7rem;">from ${gpEsc(t.last_sender || 'unknown')}</div>
-              </td>
-              <td>${t.unread_count > 0 ? `<span class="pill unread">${t.unread_count} new</span>` : `<span class="cell-muted">${t.messages.length}</span>`}</td>
-              <td class="cell-muted">${gpFmtDateTime(t.last_message_at)}</td>
-              <td><button class="btn btn-primary btn-sm" onclick="gpOpenConv('${gpEsc(t.application_id)}')">Open →</button></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
-  }
-
-  // ============================================================
-  // OPEN CONVERSATION (chat modal)
-  // ============================================================
-  window.gpOpenConv = function (applicationId) {
-    const thread = gpConvs.find(t => String(t.application_id) === String(applicationId));
-    if (!thread) return;
-    gpCurrentConv = thread;
-
-    let modal = document.getElementById('gpConvModal');
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = 'gpConvModal';
-      modal.className = 'modal-overlay';
-      modal.onclick = (e) => { if (e.target === modal) window.gpCloseConv(); };
-      modal.innerHTML = `
-        <div class="modal modal-lg" style="max-width:720px;">
-          <button class="modal-close" onclick="gpCloseConv()">✕</button>
-          <h2 id="gpConvTitle">Conversation</h2>
-          <div class="modal-ref" id="gpConvRef"></div>
-
-          <div class="modal-section">
-            <h4>Message Thread</h4>
-            <div class="gp-chat-thread" id="gpConvThread"></div>
-          </div>
-
-          <div class="modal-section">
-            <h4>Reply via Telegram</h4>
-            <div class="gp-reply-box">
-              <div class="gp-reply-hint">
-                💬 Your reply will be sent directly to the applicant on Telegram.
-              </div>
-              <textarea id="gpConvReply" placeholder="Type your reply…"></textarea>
-              <div style="display:flex;gap:8px;justify-content:flex-end;">
-                <button class="btn btn-ghost" onclick="gpCloseConv()">Close</button>
-                <button class="btn btn-primary" id="gpConvSendBtn" onclick="gpSendReply()">📤 Send via Telegram</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(modal);
-    }
-
-    document.getElementById('gpConvTitle').textContent = thread.app?.full_name || 'Conversation';
-    document.getElementById('gpConvRef').textContent = thread.app?.reference || `App #${applicationId}`;
-    document.getElementById('gpConvReply').value = '';
-    gpRenderThread();
-
-    modal.classList.add('show');
-    gpMarkRead(thread);
-  };
-
-  window.gpCloseConv = function () {
-    const modal = document.getElementById('gpConvModal');
-    if (modal) modal.classList.remove('show');
-    gpCurrentConv = null;
-  };
-
-  function gpRenderThread() {
-    const el = document.getElementById('gpConvThread');
-    if (!el || !gpCurrentConv) return;
-    const sorted = [...gpCurrentConv.messages].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-    el.innerHTML = sorted.map(m => {
-      const isStaff = m.sender_role === 'staff';
-      return `
-        <div class="gp-chat-msg ${isStaff ? 'staff' : 'customer'}">
-          <div class="cm-meta">${isStaff ? '👤 Staff' : '🧑 Applicant'} · ${gpFmtDateTime(m.created_at)}</div>
-          <div class="cm-body">${gpEsc(m.body || '')}</div>
-        </div>
-      `;
-    }).join('');
-    setTimeout(() => { el.scrollTop = el.scrollHeight; }, 50);
-  }
-
-  async function gpMarkRead(thread) {
-    const unreadIds = thread.messages
-      .filter(m => m.sender_role === 'customer' && m.read_by_staff === false)
-      .map(m => m.id);
-
-    if (unreadIds.length === 0) return;
-
-    try {
-      const { error } = await supabaseClient
-        .from('messages')
-        .update({ read_by_staff: true, status: 'read' })
-        .in('id', unreadIds);
-      if (error) throw error;
-
-      thread.messages.forEach(m => {
-        if (unreadIds.includes(m.id)) {
-          m.read_by_staff = true;
-          m.status = 'read';
-        }
-      });
-      thread.unread_count = 0;
-
-      const badge = document.getElementById('msgsCount');
-      if (badge) badge.textContent = gpConvs.reduce((s, t) => s + t.unread_count, 0);
-
-      gpRenderConvs();
-    } catch (err) { console.error('Mark read:', err); }
-  }
-
-  // ============================================================
-  // SEND REPLY (through Worker → Telegram)
-  // ============================================================
-  window.gpSendReply = async function () {
-    if (!gpCurrentConv) return;
-
-    const textarea = document.getElementById('gpConvReply');
-    const text = textarea.value.trim();
-    if (!text) return alert('Please write a reply.');
-
-    const btn = document.getElementById('gpConvSendBtn');
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-
-    try {
-      // Find telegram chat id from tg_conversations by reference
-      let chatId = null;
-
-      if (gpCurrentConv.app?.reference) {
-        const { data: tgConvs } = await supabaseClient
-          .from('tg_conversations')
-          .select('telegram_chat_id')
-          .eq('reference', gpCurrentConv.app.reference)
-          .limit(1);
-        if (tgConvs && tgConvs.length > 0) {
-          chatId = tgConvs[0].telegram_chat_id;
-        }
-      }
-
-      if (!chatId) {
-        // Fallback: try to find by any application_id → tg_conversations
-        const { data: tgConvs2 } = await supabaseClient
-          .from('tg_conversations')
-          .select('telegram_chat_id')
-          .limit(1);
-        if (tgConvs2 && tgConvs2.length > 0) chatId = tgConvs2[0].telegram_chat_id;
-      }
-
-      if (!chatId) {
-        throw new Error('Could not find Telegram chat for this applicant.');
-      }
-
-      // Send via Worker
-      const res = await fetch(`${WORKER_URL}/send-message`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          secret: ADMIN_SECRET,
-          chat_id: chatId,
-          text,
-          staff_name: document.getElementById('adminEmail')?.textContent || 'Staff'
-        })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Send failed');
-
-      // Save to messages table as staff
-      const { data: saved, error: sErr } = await supabaseClient
-        .from('messages')
-        .insert([{
-          application_id: gpCurrentConv.application_id,
-          sender_role: 'staff',
-          sender_id: '00000000-0000-0000-0000-000000000000',
-          body: text,
-          read_by_staff: true,
-          read_by_customer: false,
-          status: 'read',
-          created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
-      if (sErr) console.error('Save staff msg:', sErr);
-
-      if (saved) {
-        gpCurrentConv.messages.push(saved);
-        gpCurrentConv.last_message_at = saved.created_at;
-        gpCurrentConv.last_snippet = saved.body;
-        gpCurrentConv.last_sender = 'staff';
-      }
-
-      textarea.value = '';
-      gpRenderThread();
-      gpRenderConvs();
-
-      // Small success feedback
-      btn.textContent = '✓ Sent';
-      setTimeout(() => { btn.textContent = '📤 Send via Telegram'; btn.disabled = false; }, 1500);
-    } catch (err) {
-      console.error('Send reply:', err);
-      alert('Could not send: ' + err.message);
-      btn.textContent = '📤 Send via Telegram';
-      btn.disabled = false;
-    }
-  };
-
-  // ============================================================
-  // HOOK INTO EXISTING TAB SWITCH + REFRESH
-  // ============================================================
-  // Override the existing loadMessages() if it exists
-  window.loadMessages = gpLoadConvs;
-  window.loadConvs = gpLoadConvs;
-  window.filterMessages = gpRenderConvs;
-  window.filterConvs = gpRenderConvs;
-
-  // Re-load convs when Messages tab is switched to
-  const origSwitchTab = window.switchTab;
-  window.switchTab = function (name) {
-    if (typeof origSwitchTab === 'function') origSwitchTab(name);
-    if (name === 'messages') setTimeout(gpLoadConvs, 100);
-  };
-
-  // Also on page load
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(gpLoadConvs, 800);
-  });
-
-  // Fallback for pages already loaded
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    setTimeout(gpLoadConvs, 800);
-  }
-
-  console.log('✅ GlobalPath admin chat override loaded');
-})();
-</script>
-  <!-- ============================================================ -->
-<!-- AUTO-POST JOBS TO TELEGRAM CHANNEL — paste before </body>   -->
-<!-- ============================================================ -->
-<script>
-(function () {
-  // ============================================================
-  // CONFIG — must match your Cloudflare Worker
-  // ============================================================
-  const WORKER_URL = 'https://aged-mouse-1c73globalpath-bot-v2.prolock76.workers.dev';
-  const ADMIN_SECRET = 'gp_admin_2026_secret';
-
-  // ============================================================
-  // POST JOB TO CHANNEL
-  // ============================================================
-  async function postJobToChannel(job) {
-    const res = await fetch(`${WORKER_URL}/post-job`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ job, secret: ADMIN_SECRET })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Post failed');
-    return data;
-  }
-
-  async function removeJobFromChannel(jobId) {
-    const res = await fetch(`${WORKER_URL}/remove-job`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ job_id: jobId, secret: ADMIN_SECRET })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Remove failed');
-    return data;
-  }
-
-  // Expose globally so admin.html's saveJob can call them
-  window.postJobToChannel = postJobToChannel;
-  window.removeJobFromChannel = removeJobFromChannel;
-
-  // ============================================================
-  // HOOK INTO saveJob — auto-post when a job is saved
-  // ============================================================
-  // Wait for admin's main script to initialize, then wrap saveJob
-  const wrapSaveJob = () => {
-    const original = window.saveJob;
-    if (typeof original !== 'function') return false;
-
-    window.saveJob = async function (e) {
-      if (e) e.preventDefault();
-
-      const btn = document.getElementById('jobSaveBtn');
-      const isEdit = !!window.currentJobId;
-
-      // Read form values BEFORE calling original
-      const payload = {
-        title: (document.getElementById('jTitle')?.value || '').trim(),
-        employer: (document.getElementById('jEmployer')?.value || '').trim(),
-        country: (document.getElementById('jCountry')?.value || '').trim(),
-        flag: (document.getElementById('jFlag')?.value || '').trim() || '🌍',
-        category: document.getElementById('jCategory')?.value || '',
-        salary: (document.getElementById('jSalary')?.value || '').trim(),
-        description: (document.getElementById('jDescription')?.value || '').trim(),
-        verified: document.getElementById('jVerified')?.value === 'true',
-        urgent: document.getElementById('jUrgent')?.value === 'true',
-        active: document.getElementById('jActive')?.value === 'true',
-        updated_at: new Date().toISOString()
-      };
-
-      try {
-        btn.disabled = true;
-        btn.textContent = 'Saving…';
-
-        // Save to Supabase
-        let savedJob = null;
-        if (window.currentJobId) {
-          const { data, error } = await supabaseClient
-            .from('featured_jobs')
-            .update(payload)
-            .eq('id', window.currentJobId)
-            .select()
-            .single();
-          if (error) throw error;
-          savedJob = data;
-        } else {
-          payload.created_at = new Date().toISOString();
-          const { data, error } = await supabaseClient
-            .from('featured_jobs')
-            .insert([payload])
-            .select()
-            .single();
-          if (error) throw error;
-          savedJob = data;
-        }
-
-        // Auto-post to channel if active
-        if (savedJob && savedJob.active !== false) {
-          btn.textContent = 'Posting to channel…';
-          try {
-            await postJobToChannel(savedJob);
-            showSuccess(`Job ${isEdit ? 'updated' : 'added'} and posted to channel! 📢`);
-          } catch (postErr) {
-            console.error('Channel post failed:', postErr);
-            showSuccess(`Job ${isEdit ? 'updated' : 'added'}. (Channel post: ${postErr.message})`);
-          }
-        } else {
-          showSuccess(`Job ${isEdit ? 'updated' : 'added'}.`);
-        }
-
-        // Close modal + reload jobs list
-        if (typeof closeJobModal === 'function') closeJobModal();
-        if (typeof loadJobs === 'function') await loadJobs();
-
-      } catch (err) {
-        console.error('Save error:', err);
-        if (typeof showError === 'function') showError('Could not save: ' + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = '💾 Save Job';
-      }
-    };
-
-    console.log('✅ Auto-post hook installed');
-    return true;
-  };
-
-  // Try to wrap saveJob immediately or after page loads
-  if (!wrapSaveJob()) {
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(wrapSaveJob, 500);
-    });
-  }
-
-  // ============================================================
-  // HOOK INTO deleteJob — remove from channel
-  // ============================================================
-  const wrapDeleteJob = () => {
-    const original = window.deleteJob;
-    if (typeof original !== 'function') return false;
-
-    window.deleteJob = async function (id) {
-      if (!confirm('Delete this job? It will also be removed from the channel.')) return;
-
-      try {
-        // Remove from channel first
-        try { await removeJobFromChannel(id); } catch (e) { console.warn('Channel remove:', e); }
-        // Then delete from DB
-        const { error } = await supabaseClient.from('featured_jobs').delete().eq('id', id);
-        if (error) throw error;
-        if (typeof loadJobs === 'function') await loadJobs();
-        showSuccess('Job deleted.');
-      } catch (err) {
-        showError('Could not delete: ' + err.message);
-      }
-    };
-
-    console.log('✅ Delete hook installed');
-    return true;
-  };
-
-  if (!wrapDeleteJob()) {
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(wrapDeleteJob, 600);
-    });
-  }
-
-  // ============================================================
-  // HOOK INTO toggleJobActive — post/remove on toggle
-  // ============================================================
-  const wrapToggle = () => {
-    const original = window.toggleJobActive;
-    if (typeof original !== 'function') return false;
-
-    window.toggleJobActive = async function (id) {
-      const j = window.allJobs?.find(x => String(x.id) === String(id));
-      if (!j) return;
-      const newActive = j.active === false;
-
-      try {
-        const { error } = await supabaseClient
-          .from('featured_jobs')
-          .update({ active: newActive })
-          .eq('id', id);
-        if (error) throw error;
-
-        if (newActive) {
-          const { data } = await supabaseClient.from('featured_jobs').select('*').eq('id', id).single();
-          try { await postJobToChannel(data); } catch (e) { console.warn('Post:', e); }
-        } else {
-          try { await removeJobFromChannel(id); } catch (e) { console.warn('Remove:', e); }
-        }
-
-        if (typeof loadJobs === 'function') await loadJobs();
-        showSuccess(newActive ? 'Job reactivated and posted.' : 'Job deactivated and removed from channel.');
-      } catch (err) {
-        showError('Could not update: ' + err.message);
-      }
-    };
-
-    console.log('✅ Toggle hook installed');
-    return true;
-  };
-
-  if (!wrapToggle()) {
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(wrapToggle, 700);
-    });
-  }
-
-  console.log('✅ Auto-post extension loaded');
-})();
 </script>
 </body>
 </html>
