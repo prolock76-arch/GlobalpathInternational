@@ -159,404 +159,95 @@ button { font-family: inherit; }
 .checkbox-item input { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
 .checkbox-item span { font-size: 0.9rem; font-weight: 600; }
 
-/* ============================================================ */
-/* FEATURED JOBS SECTION */
-/* ============================================================ */
 .featured-section { background: #fff; border-radius: var(--radius-xl); padding: 36px 36px 32px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); margin-bottom: 32px; margin-top: 24px; }
 
-/* New heading block */
-.featured-header-block {
-  text-align: center;
-  padding-bottom: 24px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid var(--border);
-  position: relative;
-}
-.featured-header-block .fh-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--primary-soft);
-  color: var(--primary);
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 6px 16px;
-  border-radius: 20px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.featured-header-block h2 {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3vw, 1.9rem);
-  font-weight: 900;
-  color: var(--primary);
-  letter-spacing: -0.03em;
-  margin-bottom: 10px;
-  line-height: 1.15;
-}
+.featured-header-block { text-align: center; padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--border); position: relative; }
+.featured-header-block .fh-eyebrow { display: inline-flex; align-items: center; gap: 6px; background: var(--primary-soft); color: var(--primary); font-family: var(--font-display); font-size: 0.7rem; font-weight: 800; padding: 6px 16px; border-radius: 20px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
+.featured-header-block h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 900; color: var(--primary); letter-spacing: -0.03em; margin-bottom: 10px; line-height: 1.15; }
 .featured-header-block h2 .accent-text { color: var(--accent-dark); }
-.featured-header-block p {
-  font-size: 0.98rem;
-  color: var(--muted);
-  max-width: 620px;
-  margin: 0 auto;
-  line-height: 1.55;
-}
-.featured-header-block .fh-stats {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-.featured-header-block .fh-stat {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--muted);
-}
+.featured-header-block p { font-size: 0.98rem; color: var(--muted); max-width: 620px; margin: 0 auto; line-height: 1.55; }
+.featured-header-block .fh-stats { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+.featured-header-block .fh-stat { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 700; color: var(--muted); }
 .featured-header-block .fh-stat strong { color: var(--primary); font-family: var(--font-display); font-weight: 800; }
 
-/* ============================================================ */
-/* PRO FILTER — SINGLE BUTTON + PANEL */
-/* ============================================================ */
-.filter-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 22px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.94rem;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(11,61,145,0.28);
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-}
+.filter-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+.filter-btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; border-radius: 12px; font-family: var(--font-display); font-weight: 800; font-size: 0.94rem; cursor: pointer; box-shadow: 0 6px 18px rgba(11,61,145,0.28); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; }
 .filter-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(11,61,145,0.35); }
 .filter-btn:active { transform: translateY(0); }
-.filter-btn .fb-icon {
-  font-size: 1.05rem;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+.filter-btn .fb-icon { font-size: 1.05rem; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; }
 .filter-btn.open .fb-icon { transform: rotate(90deg); }
-.filter-btn .fb-count {
-  background: var(--accent);
-  color: #1a1a1a;
-  font-size: 0.72rem;
-  font-weight: 900;
-  padding: 2px 8px;
-  border-radius: 20px;
-  min-width: 20px;
-  text-align: center;
-  display: none;
-}
+.filter-btn .fb-count { background: var(--accent); color: #1a1a1a; font-size: 0.72rem; font-weight: 900; padding: 2px 8px; border-radius: 20px; min-width: 20px; text-align: center; display: none; }
 .filter-btn.has-filters .fb-count { display: inline-block; }
 .filter-btn .fb-arrow { font-size: 0.72rem; opacity: 0.85; transition: transform 0.3s ease; }
 .filter-btn.open .fb-arrow { transform: rotate(180deg); }
 
-.filter-summary {
-  font-size: 0.88rem;
-  color: var(--muted);
-  font-weight: 600;
-}
+.filter-summary { font-size: 0.88rem; color: var(--muted); font-weight: 600; }
 .filter-summary strong { color: var(--primary); font-family: var(--font-display); font-weight: 800; }
 
-.filter-sort-inline {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--muted);
-}
-.filter-sort-inline select {
-  padding: 9px 32px 9px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
-  background: #fff;
-  color: var(--text);
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-}
+.filter-sort-inline { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+.filter-sort-inline select { padding: 9px 32px 9px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 0.85rem; font-weight: 700; background: #fff; color: var(--text); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 12px center; }
 .filter-sort-inline select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(11,61,145,0.08); }
 
-.filter-panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
-  opacity: 0;
-  margin-bottom: 0;
-}
-.filter-panel.open {
-  max-height: 1400px;
-  opacity: 1;
-  margin-bottom: 20px;
-}
-.filter-panel-inner {
-  background: linear-gradient(135deg, #f8fafc 0%, #f0f6ff 100%);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px 22px 22px;
-}
-.filter-panel-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-.filter-panel-head h3 {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 900;
-  color: var(--primary);
-  letter-spacing: -0.02em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.filter-panel-head .fp-clear {
-  padding: 7px 14px;
-  background: transparent;
-  border: 1.5px solid var(--danger);
-  color: var(--danger);
-  border-radius: 20px;
-  font-family: inherit;
-  font-size: 0.78rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.15s;
-}
+.filter-panel { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.3s ease, margin 0.3s ease; opacity: 0; margin-bottom: 0; }
+.filter-panel.open { max-height: 2400px; opacity: 1; margin-bottom: 20px; }
+.filter-panel-inner { background: linear-gradient(135deg, #f8fafc 0%, #f0f6ff 100%); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 24px 22px 22px; }
+.filter-panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.filter-panel-head h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: var(--primary); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+.filter-panel-head .fp-clear { padding: 7px 14px; background: transparent; border: 1.5px solid var(--danger); color: var(--danger); border-radius: 20px; font-family: inherit; font-size: 0.78rem; font-weight: 800; cursor: pointer; transition: all 0.15s; }
 .filter-panel-head .fp-clear:hover { background: var(--danger); color: #fff; }
 
-.filter-group {
-  margin-bottom: 20px;
-}
+.filter-group { margin-bottom: 20px; }
 .filter-group:last-child { margin-bottom: 0; }
-.filter-group-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--text);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
+.filter-group-label { display: flex; align-items: center; gap: 6px; font-family: var(--font-display); font-size: 0.78rem; font-weight: 800; color: var(--text); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
 .filter-group-label span:first-child { font-size: 1rem; }
 
-.filter-search-inline {
-  position: relative;
-}
-.filter-search-inline input {
-  width: 100%;
-  padding: 12px 42px 12px 42px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  font-family: inherit;
-  font-size: 0.92rem;
-  background: #fff;
-  color: var(--text);
-}
+.filter-search-inline { position: relative; }
+.filter-search-inline input { width: 100%; padding: 12px 42px 12px 42px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 0.92rem; background: #fff; color: var(--text); }
 .filter-search-inline input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(11,61,145,0.08); }
-.filter-search-inline .fsi-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.95rem;
-  opacity: 0.5;
-}
-.filter-search-inline .fsi-clear {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: none;
-  background: var(--bg);
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 0.75rem;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
+.filter-search-inline .fsi-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 0.95rem; opacity: 0.5; }
+.filter-search-inline .fsi-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; border: none; background: var(--bg); color: var(--muted); cursor: pointer; font-size: 0.75rem; display: none; align-items: center; justify-content: center; }
 .filter-search-inline.has-value .fsi-clear { display: flex; }
 
-.filter-selects {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.filter-select-group label {
-  display: block;
-  font-weight: 700;
-  font-size: 0.82rem;
-  margin-bottom: 6px;
-  color: var(--text);
-}
-.filter-select-group select {
-  width: 100%;
-  padding: 12px 34px 12px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: #fff;
-  color: var(--text);
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-}
+.filter-selects { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.filter-select-group label { display: block; font-weight: 700; font-size: 0.82rem; margin-bottom: 6px; color: var(--text); }
+.filter-select-group select { width: 100%; padding: 12px 34px 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 0.9rem; font-weight: 600; background: #fff; color: var(--text); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 12px center; }
 .filter-select-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(11,61,145,0.08); }
 
-.filter-chips {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.filter-chip {
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: #fff;
-  border: 1.5px solid var(--border);
-  font-family: inherit;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
+.filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-chip { padding: 8px 14px; border-radius: 20px; background: #fff; border: 1.5px solid var(--border); font-family: inherit; font-size: 0.8rem; font-weight: 700; color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
 .filter-chip:hover { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
 .filter-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 3px 10px rgba(11,61,145,0.28); }
 
-.filter-panel-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 20px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-}
-.filter-apply-btn {
-  padding: 12px 26px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.92rem;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(11,61,145,0.28);
-  transition: all 0.15s;
-}
+.filter-chips-inline { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-chip-sm { padding: 8px 14px; border-radius: 20px; background: #fff; border: 1.5px solid var(--border); font-family: inherit; font-size: 0.82rem; font-weight: 700; color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.filter-chip-sm:hover { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+.filter-chip-sm.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 3px 10px rgba(11,61,145,0.28); }
+
+.filter-toggle-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #fff; border: 1.5px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: all 0.15s; user-select: none; }
+.filter-toggle-row:hover { border-color: var(--primary); }
+.filter-toggle-row .ftr-switch { position: relative; width: 40px; height: 22px; background: var(--border); border-radius: 20px; transition: background 0.2s; flex-shrink: 0; }
+.filter-toggle-row .ftr-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.filter-toggle-row.active .ftr-switch { background: var(--primary); }
+.filter-toggle-row.active .ftr-switch::after { transform: translateX(18px); }
+.filter-toggle-row .ftr-label { flex: 1; font-size: 0.9rem; font-weight: 700; }
+
+.filter-panel-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); }
+.filter-apply-btn { padding: 12px 26px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; border-radius: 10px; font-family: var(--font-display); font-weight: 800; font-size: 0.92rem; cursor: pointer; box-shadow: 0 6px 16px rgba(11,61,145,0.28); transition: all 0.15s; }
 .filter-apply-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(11,61,145,0.35); }
 .filter-apply-btn:active { transform: translateY(0); }
 
-/* Active chips row */
-.active-filters-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 12px 16px;
-  background: var(--primary-soft);
-  border-radius: var(--radius);
-  border-left: 3px solid var(--primary);
-  margin-bottom: 16px;
-}
-.active-filters-bar .afb-label {
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--primary);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
+.active-filters-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 16px; background: var(--primary-soft); border-radius: var(--radius); border-left: 3px solid var(--primary); margin-bottom: 16px; }
+.active-filters-bar .afb-label { font-size: 0.78rem; font-weight: 800; color: var(--primary); letter-spacing: 0.06em; text-transform: uppercase; }
 .active-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
-.active-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px 5px 12px;
-  background: #fff;
-  border: 1px solid rgba(11,61,145,0.2);
-  border-radius: 20px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--primary);
-}
-.active-chip button {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: none;
-  background: var(--primary-soft);
-  color: var(--primary);
-  cursor: pointer;
-  font-size: 0.65rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
+.active-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 12px; background: #fff; border: 1px solid rgba(11,61,145,0.2); border-radius: 20px; font-size: 0.78rem; font-weight: 700; color: var(--primary); }
+.active-chip button { width: 16px; height: 16px; border-radius: 50%; border: none; background: var(--primary-soft); color: var(--primary); cursor: pointer; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; line-height: 1; }
 .active-chip button:hover { background: var(--danger); color: #fff; }
 
 .view-toggle { display: flex; gap: 4px; }
-.view-toggle-btn {
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid var(--border);
-  background: #fff;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-}
+.view-toggle-btn { width: 36px; height: 36px; border: 1.5px solid var(--border); background: #fff; border-radius: 8px; cursor: pointer; font-size: 0.9rem; color: var(--muted); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
 .view-toggle-btn:hover { border-color: var(--primary); color: var(--primary); }
 .view-toggle-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-/* ============================================================ */
-/* JOB CARDS */
-/* ============================================================ */
 .jobs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
 .jobs-grid.list-view { grid-template-columns: 1fr; }
 .jobs-grid.list-view .job-card-mini { display: grid; grid-template-columns: 220px 1fr; gap: 22px; align-items: start; }
@@ -578,32 +269,9 @@ button { font-family: inherit; }
 .jc-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.78rem; color: var(--muted); margin-bottom: 12px; }
 .jc-salary { font-family: var(--font-display); font-size: 0.98rem; font-weight: 800; color: var(--success); margin-bottom: 14px; margin-top: auto; }
 
-/* Professional select button */
-.jc-select-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 13px 20px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 12px;
-  padding-top: 13px;
-  box-shadow: 0 4px 12px rgba(11,61,145,0.22);
-}
+.jc-select-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; border-radius: 10px; font-family: var(--font-display); font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; margin-top: 12px; padding-top: 13px; box-shadow: 0 4px 12px rgba(11,61,145,0.22); }
 .jc-select-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(11,61,145,0.32); }
-.jc-select-btn.selected {
-  background: linear-gradient(135deg, var(--success) 0%, #0a6b3c 100%);
-  box-shadow: 0 4px 12px rgba(15,138,77,0.28);
-}
+.jc-select-btn.selected { background: linear-gradient(135deg, var(--success) 0%, #0a6b3c 100%); box-shadow: 0 4px 12px rgba(15,138,77,0.28); }
 .jc-select-btn.selected::after { content: '✓'; font-size: 1rem; }
 .jc-select-btn .arrow { transition: transform 0.2s; }
 .jc-select-btn:hover .arrow { transform: translateX(4px); }
@@ -617,64 +285,28 @@ button { font-family: inherit; }
 .no-results .empty-icon { font-size: 3rem; opacity: 0.4; margin-bottom: 12px; }
 .no-results p { max-width: 400px; margin: 0 auto 20px; }
 
-/* ============================================================ */
-/* SELECTION CONFIRM CHIP */
-/* ============================================================ */
-.selection-notice {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(120%);
-  background: linear-gradient(135deg, var(--success) 0%, #0a6b3c 100%);
-  color: #fff;
-  padding: 16px 24px;
-  border-radius: 14px;
-  box-shadow: 0 16px 40px rgba(15,138,77,0.4);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  z-index: 9999;
-  max-width: calc(100% - 32px);
-  width: auto;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  font-family: var(--font-body);
-}
-.selection-notice.show { transform: translateX(-50%) translateY(0); }
-.selection-notice .sn-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba(255,255,255,0.22);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  flex-shrink: 0;
-}
+.selection-notice { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(200%); background: linear-gradient(135deg, var(--success) 0%, #0a6b3c 100%); color: #fff; padding: 16px 24px; border-radius: 14px; box-shadow: 0 16px 40px rgba(15,138,77,0.4); display: flex; align-items: center; gap: 14px; z-index: 9999; max-width: calc(100% - 32px); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); font-family: var(--font-body); visibility: hidden; }
+.selection-notice.show { transform: translateX(-50%) translateY(0); visibility: visible; }
+.selection-notice .sn-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.22); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
 .selection-notice .sn-body { flex: 1; min-width: 0; }
-.selection-notice .sn-title {
-  font-size: 0.72rem;
-  font-weight: 800;
-  opacity: 0.9;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-.selection-notice .sn-name {
-  font-family: var(--font-display);
-  font-size: 0.98rem;
-  font-weight: 800;
-  line-height: 1.25;
-  margin-bottom: 2px;
-}
-.selection-notice .sn-hint {
-  font-size: 0.78rem;
-  opacity: 0.9;
-}
+.selection-notice .sn-title { font-size: 0.72rem; font-weight: 800; opacity: 0.9; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+.selection-notice .sn-name { font-family: var(--font-display); font-size: 0.98rem; font-weight: 800; line-height: 1.25; margin-bottom: 2px; }
+.selection-notice .sn-hint { font-size: 0.78rem; opacity: 0.9; }
 
-/* ============================================================ */
-/* BUTTONS */
-/* ============================================================ */
+.applying-banner { position: fixed; top: 70px; left: 50%; transform: translateX(-50%) translateY(-200%); width: calc(100% - 32px); max-width: 900px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-radius: 14px; padding: 14px 20px; box-shadow: 0 12px 32px rgba(11,61,145,0.35); z-index: 1500; display: flex; align-items: center; gap: 14px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s; opacity: 0; pointer-events: none; }
+.applying-banner.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+.applying-banner .ab-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+.applying-banner .ab-body { flex: 1; min-width: 0; }
+.applying-banner .ab-label { font-size: 0.68rem; font-weight: 800; opacity: 0.85; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+.applying-banner .ab-title { font-family: var(--font-display); font-size: 1rem; font-weight: 800; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.applying-banner .ab-meta { font-size: 0.78rem; opacity: 0.9; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.applying-banner .ab-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.applying-banner .ab-btn { padding: 8px 14px; border-radius: 8px; font-family: var(--font-display); font-weight: 800; font-size: 0.82rem; border: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.applying-banner .ab-btn.primary { background: var(--accent); color: #1a1a1a; }
+.applying-banner .ab-btn.primary:hover { background: var(--accent-dark); color: #fff; }
+.applying-banner .ab-btn.ghost { background: rgba(255,255,255,0.15); color: #fff; border: 1.5px solid rgba(255,255,255,0.3); }
+.applying-banner .ab-btn.ghost:hover { background: rgba(255,255,255,0.25); }
+
 .btn-row { display: flex; gap: 12px; justify-content: space-between; margin-top: 36px; flex-wrap: wrap; }
 .btn { display: inline-block; padding: 14px 30px; border-radius: var(--radius); font-family: var(--font-body); font-weight: 700; font-size: 0.98rem; cursor: pointer; border: none; transition: all 0.2s; text-align: center; white-space: nowrap; }
 .btn:hover { transform: translateY(-2px); }
@@ -739,6 +371,12 @@ button { font-family: inherit; }
   .jobs-grid.list-view .job-card-mini { grid-template-columns: 1fr; }
   .jobs-grid.list-view .job-card-mini > *:not(.jc-image-wrap):not(.jc-urgent) { grid-column: 1; }
   .selection-notice { bottom: 90px; }
+  .applying-banner { top: 64px; padding: 12px 14px; flex-wrap: wrap; }
+  .applying-banner .ab-icon { width: 36px; height: 36px; font-size: 1.2rem; }
+  .applying-banner .ab-title { font-size: 0.92rem; }
+  .applying-banner .ab-meta { font-size: 0.72rem; }
+  .applying-banner .ab-actions { width: 100%; margin-top: 4px; }
+  .applying-banner .ab-btn { flex: 1; padding: 10px; font-size: 0.8rem; }
 }
 
 @media (max-width: 480px) {
@@ -1040,13 +678,9 @@ button { font-family: inherit; }
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- FEATURED JOBS SECTION -->
-  <!-- ============================================================ -->
   <div id="featuredJobsSection" style="display:none;">
     <div class="featured-section">
 
-      <!-- New professional heading block -->
       <div class="featured-header-block">
         <span class="fh-eyebrow">🌍 Global Opportunities</span>
         <h2>Find Your Next Role <span class="accent-text">Abroad</span></h2>
@@ -1058,10 +692,18 @@ button { font-family: inherit; }
         </div>
       </div>
 
-      <!-- Filter bar with single professional button -->
       <div class="filter-bar">
         <button class="filter-btn" id="filterBtn" onclick="toggleFilterPanel()">
-          <span class="fb-icon">⚙️</span>
+          <span class="fb-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="6" x2="20" y2="6"/>
+              <line x1="4" y1="12" x2="14" y2="12"/>
+              <line x1="4" y1="18" x2="18" y2="18"/>
+              <circle cx="18" cy="6" r="2" fill="currentColor"/>
+              <circle cx="10" cy="12" r="2" fill="currentColor"/>
+              <circle cx="16" cy="18" r="2" fill="currentColor"/>
+            </svg>
+          </span>
           <span>Filters</span>
           <span class="fb-count" id="filterCount">0</span>
           <span class="fb-arrow">▾</span>
@@ -1081,7 +723,6 @@ button { font-family: inherit; }
         </div>
       </div>
 
-      <!-- Collapsible filter panel -->
       <div class="filter-panel" id="filterPanel">
         <div class="filter-panel-inner">
           <div class="filter-panel-head">
@@ -1100,9 +741,7 @@ button { font-family: inherit; }
 
           <div class="filter-group">
             <div class="filter-group-label"><span>📋</span> Category</div>
-            <div class="filter-chips" id="catFilters">
-              <!-- Populated dynamically -->
-            </div>
+            <div class="filter-chips" id="catFilters"></div>
           </div>
 
           <div class="filter-group">
@@ -1123,19 +762,52 @@ button { font-family: inherit; }
             </div>
           </div>
 
+          <div class="filter-group">
+            <div class="filter-group-label"><span>💰</span> Minimum Salary</div>
+            <div class="filter-chips-inline" id="salaryFilter">
+              <button class="filter-chip-sm active" data-salary="0">Any salary</button>
+              <button class="filter-chip-sm" data-salary="20000">$20k+</button>
+              <button class="filter-chip-sm" data-salary="40000">$40k+</button>
+              <button class="filter-chip-sm" data-salary="60000">$60k+</button>
+              <button class="filter-chip-sm" data-salary="80000">$80k+</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label"><span>🕒</span> Posted</div>
+            <div class="filter-chips-inline" id="postedFilter">
+              <button class="filter-chip-sm active" data-posted="0">Any time</button>
+              <button class="filter-chip-sm" data-posted="1">Last 24 hours</button>
+              <button class="filter-chip-sm" data-posted="7">Last 7 days</button>
+              <button class="filter-chip-sm" data-posted="30">Last 30 days</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label"><span>✨</span> Show Only</div>
+            <div style="display:grid;gap:8px;">
+              <label class="filter-toggle-row" id="toggleVerified">
+                <span class="ftr-switch"></span>
+                <span class="ftr-label">✅ Verified employers only</span>
+              </label>
+              <label class="filter-toggle-row" id="toggleUrgent">
+                <span class="ftr-switch"></span>
+                <span class="ftr-label">🔥 Urgent hiring only</span>
+              </label>
+            </div>
+          </div>
+
           <div class="filter-panel-actions">
             <button class="filter-apply-btn" onclick="applyFilters()">Apply Filters</button>
           </div>
         </div>
       </div>
 
-      <!-- Active filter chips -->
       <div class="active-filters-bar" id="activeFiltersBar" style="display:none;">
         <span class="afb-label">Applied:</span>
         <div class="active-chips" id="activeChips"></div>
       </div>
 
-      <!-- Results + view toggle -->
       <div class="pro-results-bar" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
         <div class="pro-results-count" id="proResultsCount" style="font-size:0.9rem;color:var(--muted);font-weight:600;">
           <strong>0</strong> jobs
@@ -1162,7 +834,19 @@ button { font-family: inherit; }
   <button class="mab-next" id="mabNext" onclick="mobileNext()">Continue →</button>
 </div>
 
-<!-- Selection confirmation toast -->
+<div class="applying-banner" id="applyingBanner">
+  <div class="ab-icon">📋</div>
+  <div class="ab-body">
+    <div class="ab-label">Applying For</div>
+    <div class="ab-title" id="abTitle">—</div>
+    <div class="ab-meta" id="abMeta">—</div>
+  </div>
+  <div class="ab-actions">
+    <button class="ab-btn ghost" onclick="clearJobSelection()">Change job</button>
+    <button class="ab-btn primary" onclick="scrollToForm()">Continue →</button>
+  </div>
+</div>
+
 <div class="selection-notice" id="selectionNotice">
   <div class="sn-icon">✓</div>
   <div class="sn-body">
@@ -1173,51 +857,25 @@ button { font-family: inherit; }
 </div>
 
 <script>
-// ============================================================
-// SUPABASE
-// ============================================================
 const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const TELEGRAM_BOT_USERNAME = 'globalpath_support_bot';
 const WORKER_SEND_URL = 'https://api.globalpathjobplacement.online/send-sponsor-email';
 
-// ============================================================
-// DEFAULT CATEGORIES (fallback if DB fetch fails)
-// ============================================================
 const DEFAULT_CATEGORIES = [
-  { name: 'All', emoji: '📋' },
-  { name: 'Healthcare', emoji: '🏥' },
-  { name: 'Construction', emoji: '🏗' },
-  { name: 'Hospitality', emoji: '🍽' },
-  { name: 'IT & Tech', emoji: '💻' },
-  { name: 'Logistics', emoji: '🚚' },
-  { name: 'Agriculture', emoji: '🌾' },
-  { name: 'Education', emoji: '🎓' },
-  { name: 'Engineering', emoji: '⚙️' },
-  { name: 'Finance', emoji: '💰' },
-  { name: 'Domestic', emoji: '🏠' },
-  { name: 'Retail', emoji: '🛒' },
-  { name: 'Cleaning', emoji: '🧹' },
-  { name: 'Security', emoji: '🛡' },
-  { name: 'Driver', emoji: '🚗' },
-  { name: 'Sales', emoji: '📈' },
-  { name: 'Customer Service', emoji: '🎧' },
-  { name: 'Manufacturing', emoji: '🏭' },
-  { name: 'Marine', emoji: '⚓' },
-  { name: 'Mining', emoji: '⛏' },
-  { name: 'Oil & Gas', emoji: '🛢' },
-  { name: 'Beauty', emoji: '💅' },
-  { name: 'Fitness', emoji: '🏋' },
-  { name: 'Media', emoji: '🎬' },
-  { name: 'Other', emoji: '📦' }
+  { name: 'Healthcare', emoji: '🏥' }, { name: 'Construction', emoji: '🏗' }, { name: 'Hospitality', emoji: '🍽' },
+  { name: 'IT & Tech', emoji: '💻' }, { name: 'Logistics', emoji: '🚚' }, { name: 'Agriculture', emoji: '🌾' },
+  { name: 'Education', emoji: '🎓' }, { name: 'Engineering', emoji: '⚙️' }, { name: 'Finance', emoji: '💰' },
+  { name: 'Domestic', emoji: '🏠' }, { name: 'Retail', emoji: '🛒' }, { name: 'Cleaning', emoji: '🧹' },
+  { name: 'Security', emoji: '🛡' }, { name: 'Driver', emoji: '🚗' }, { name: 'Sales', emoji: '📈' },
+  { name: 'Customer Service', emoji: '🎧' }, { name: 'Manufacturing', emoji: '🏭' }, { name: 'Marine', emoji: '⚓' },
+  { name: 'Mining', emoji: '⛏' }, { name: 'Oil & Gas', emoji: '🛢' }, { name: 'Beauty', emoji: '💅' },
+  { name: 'Fitness', emoji: '🏋' }, { name: 'Media', emoji: '🎬' }, { name: 'Other', emoji: '📦' }
 ];
 
 const ALL_COUNTRIES = ['Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso','Burundi','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China','Colombia','Comoros','Congo (DRC)','Congo (Republic)','Costa Rica','Croatia','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia','Fiji','Finland','France','Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kosovo','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar','Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia','Norway','Oman','Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis','Saint Lucia','Saint Vincent and the Grenadines','Samoa','San Marino','Sao Tome and Principe','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Vanuatu','Vatican City','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'];
 
-// ============================================================
-// STATE
-// ============================================================
 const DISPLAY_STEPS = [
   { key: 'path', label: 'Path' }, { key: 'basic', label: 'Details' }, { key: 'passport-check', label: 'Passport' },
   { key: 'job-destination', label: 'Destination' }, { key: 'documents', label: 'Documents' },
@@ -1236,6 +894,10 @@ let redirectTimer = null;
 let currentView = 'grid';
 let filterPanelOpen = false;
 let selectedJobId = null;
+let minSalary = 0;
+let postedWithin = 0;
+let onlyVerified = false;
+let onlyUrgent = false;
 
 let formData = {
   service_type: '', visa_type: '', full_name: '', email: '', phone: '',
@@ -1300,7 +962,6 @@ function renderProgress() {
 function scrollToFormTop() {
   const progressBar = document.querySelector('.progress-bar');
   if (!progressBar) return;
-  const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 70;
   const progressH = progressBar.offsetHeight || 92;
   window.scrollTo({ top: Math.max(0, progressBar.offsetTop + progressH + 16), behavior: 'smooth' });
 }
@@ -1389,20 +1050,16 @@ function goPrev() {
   }
 }
 
-// ============================================================
-// LOAD CATEGORIES & JOB TYPES
-// ============================================================
 async function loadCategories() {
   try {
     const { data, error } = await supabaseClient.from('job_categories').select('*').eq('active', true).order('display_order', { ascending: true });
     if (error || !data || data.length === 0) {
-      DB_CATEGORIES = DEFAULT_CATEGORIES.filter(c => c.name !== 'All');
+      DB_CATEGORIES = DEFAULT_CATEGORIES;
     } else {
       DB_CATEGORIES = data.map(c => ({ name: c.name, emoji: c.emoji || '📦' }));
     }
   } catch (e) {
-    console.warn('Categories fetch failed, using defaults:', e);
-    DB_CATEGORIES = DEFAULT_CATEGORIES.filter(c => c.name !== 'All');
+    DB_CATEGORIES = DEFAULT_CATEGORIES;
   }
   renderCategoryChips();
 }
@@ -1432,9 +1089,6 @@ async function loadJobTypes() {
   }
 }
 
-// ============================================================
-// LOAD JOBS
-// ============================================================
 async function loadFeaturedJobs() {
   console.log('📥 Loading featured jobs…');
   try {
@@ -1446,21 +1100,16 @@ async function loadFeaturedJobs() {
       .limit(50);
     if (error) throw error;
     FEATURED_JOBS = data || [];
-
-    // Populate country filter
     const countries = [...new Set(FEATURED_JOBS.map(j => j.country).filter(Boolean))].sort();
     const countrySelect = document.getElementById('filterCountry');
     if (countrySelect) {
       countrySelect.innerHTML = '<option value="">All countries</option>' +
         countries.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
     }
-
-    // Update stats
     const fhVerified = document.getElementById('fhVerified');
     const fhCountries = document.getElementById('fhCountries');
     if (fhVerified) fhVerified.textContent = FEATURED_JOBS.filter(j => j.verified).length;
     if (fhCountries) fhCountries.textContent = countries.length;
-
     console.log('✅ Loaded', FEATURED_JOBS.length, 'jobs');
   } catch (e) {
     console.error('❌ Fetch failed:', e);
@@ -1477,9 +1126,6 @@ function computeDaysAgo(iso) {
   } catch { return 0; }
 }
 
-// ============================================================
-// FILTER PANEL TOGGLE
-// ============================================================
 function toggleFilterPanel() {
   filterPanelOpen = !filterPanelOpen;
   const panel = document.getElementById('filterPanel');
@@ -1491,7 +1137,6 @@ function toggleFilterPanel() {
 function applyFilters() {
   toggleFilterPanel();
   renderJobs();
-  // Scroll to results
   const grid = document.getElementById('jobsGrid');
   if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -1521,7 +1166,15 @@ function clearAllFilters() {
   if (type) type.value = '';
   if (sort) sort.value = 'newest';
   selectedCategory = 'all';
+  minSalary = 0;
+  postedWithin = 0;
+  onlyVerified = false;
+  onlyUrgent = false;
   document.querySelectorAll('#catFilters .filter-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === 'all'));
+  document.querySelectorAll('#salaryFilter .filter-chip-sm').forEach(c => c.classList.toggle('active', c.dataset.salary === '0'));
+  document.querySelectorAll('#postedFilter .filter-chip-sm').forEach(c => c.classList.toggle('active', c.dataset.posted === '0'));
+  document.getElementById('toggleVerified')?.classList.remove('active');
+  document.getElementById('toggleUrgent')?.classList.remove('active');
   const wrap = document.getElementById('filterSearchWrap');
   if (wrap) wrap.classList.remove('has-value');
   renderJobs();
@@ -1529,7 +1182,6 @@ function clearAllFilters() {
 
 function filterJobs() { renderJobs(); }
 
-// Category chip click
 document.getElementById('catFilters')?.addEventListener('click', (e) => {
   const chip = e.target.closest('.filter-chip'); if (!chip) return;
   document.querySelectorAll('#catFilters .filter-chip').forEach(c => c.classList.remove('active'));
@@ -1538,9 +1190,35 @@ document.getElementById('catFilters')?.addEventListener('click', (e) => {
   renderJobs();
 });
 
-// ============================================================
-// RENDER JOBS
-// ============================================================
+document.getElementById('salaryFilter')?.addEventListener('click', (e) => {
+  const chip = e.target.closest('.filter-chip-sm'); if (!chip) return;
+  document.querySelectorAll('#salaryFilter .filter-chip-sm').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  minSalary = parseInt(chip.dataset.salary || '0', 10);
+  renderJobs();
+});
+
+document.getElementById('postedFilter')?.addEventListener('click', (e) => {
+  const chip = e.target.closest('.filter-chip-sm'); if (!chip) return;
+  document.querySelectorAll('#postedFilter .filter-chip-sm').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  postedWithin = parseInt(chip.dataset.posted || '0', 10);
+  renderJobs();
+});
+
+document.getElementById('toggleVerified')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  onlyVerified = !onlyVerified;
+  e.currentTarget.classList.toggle('active', onlyVerified);
+  renderJobs();
+});
+document.getElementById('toggleUrgent')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  onlyUrgent = !onlyUrgent;
+  e.currentTarget.classList.toggle('active', onlyUrgent);
+  renderJobs();
+});
+
 function renderJobs() {
   const grid = document.getElementById('jobsGrid');
   if (!grid) return;
@@ -1554,6 +1232,20 @@ function renderJobs() {
   if (selectedCategory !== 'all') filtered = filtered.filter(j => j.category === selectedCategory);
   if (countryF) filtered = filtered.filter(j => j.country === countryF);
   if (typeF) filtered = filtered.filter(j => (j.job_type || '') === typeF);
+  if (onlyVerified) filtered = filtered.filter(j => j.verified === true);
+  if (onlyUrgent) filtered = filtered.filter(j => j.urgent === true);
+  if (minSalary > 0) {
+    filtered = filtered.filter(j => {
+      const nums = String(j.salary || '').replace(/[^0-9]/g, '');
+      if (!nums) return false;
+      const val = parseInt(nums.slice(0, 6), 10);
+      return val >= minSalary;
+    });
+  }
+  if (postedWithin > 0) {
+    const cutoff = Date.now() - (postedWithin * 24 * 60 * 60 * 1000);
+    filtered = filtered.filter(j => new Date(j.created_at).getTime() >= cutoff);
+  }
   if (search) {
     filtered = filtered.filter(j =>
       (j.title||'').toLowerCase().includes(search) ||
@@ -1572,14 +1264,12 @@ function renderJobs() {
     return new Date(b.created_at) - new Date(a.created_at);
   });
 
-  // Update filter button count
   const filterCount = document.getElementById('filterCount');
   const filterBtn = document.getElementById('filterBtn');
-  const activeCount = (selectedCategory !== 'all' ? 1 : 0) + (countryF ? 1 : 0) + (typeF ? 1 : 0) + (search ? 1 : 0);
+  const activeCount = (selectedCategory !== 'all' ? 1 : 0) + (countryF ? 1 : 0) + (typeF ? 1 : 0) + (search ? 1 : 0) + (minSalary > 0 ? 1 : 0) + (postedWithin > 0 ? 1 : 0) + (onlyVerified ? 1 : 0) + (onlyUrgent ? 1 : 0);
   if (filterCount) filterCount.textContent = activeCount;
   if (filterBtn) filterBtn.classList.toggle('has-filters', activeCount > 0);
 
-  // Update summary
   const summary = document.getElementById('filterSummary');
   if (summary) {
     summary.innerHTML = activeCount === 0
@@ -1587,16 +1277,13 @@ function renderJobs() {
       : `<strong>${filtered.length}</strong> matching`;
   }
 
-  // Results count
   const countEl = document.getElementById('proResultsCount');
   if (countEl) {
     countEl.innerHTML = filtered.length === 0 ? 'No jobs found' : `<strong>${filtered.length}</strong> job${filtered.length === 1 ? '' : 's'}`;
   }
 
-  // Active chips
   renderActiveChips(search, countryF, typeF);
 
-  // Empty state
   if (filtered.length === 0) {
     grid.innerHTML = `
       <div class="no-results">
@@ -1654,6 +1341,10 @@ function renderActiveChips(search, countryF, typeF) {
   if (countryF) chips.push({ label: countryF, key: 'country' });
   if (typeF) chips.push({ label: typeF, key: 'type' });
   if (search) chips.push({ label: `"${search}"`, key: 'search' });
+  if (minSalary > 0) chips.push({ label: `$${(minSalary/1000)}k+`, key: 'salary' });
+  if (postedWithin > 0) chips.push({ label: `Last ${postedWithin}d`, key: 'posted' });
+  if (onlyVerified) chips.push({ label: 'Verified', key: 'verified' });
+  if (onlyUrgent) chips.push({ label: 'Urgent', key: 'urgent' });
 
   if (chips.length === 0) { bar.style.display = 'none'; return; }
   bar.style.display = 'flex';
@@ -1673,6 +1364,10 @@ function removeFilter(key) {
   if (key === 'country') { const el = document.getElementById('filterCountry'); if (el) el.value = ''; }
   if (key === 'type') { const el = document.getElementById('filterType'); if (el) el.value = ''; }
   if (key === 'search') { const el = document.getElementById('jobSearch'); if (el) el.value = ''; const w = document.getElementById('filterSearchWrap'); if (w) w.classList.remove('has-value'); }
+  if (key === 'salary') { minSalary = 0; document.querySelectorAll('#salaryFilter .filter-chip-sm').forEach(c => c.classList.toggle('active', c.dataset.salary === '0')); }
+  if (key === 'posted') { postedWithin = 0; document.querySelectorAll('#postedFilter .filter-chip-sm').forEach(c => c.classList.toggle('active', c.dataset.posted === '0')); }
+  if (key === 'verified') { onlyVerified = false; document.getElementById('toggleVerified')?.classList.remove('active'); }
+  if (key === 'urgent') { onlyUrgent = false; document.getElementById('toggleUrgent')?.classList.remove('active'); }
   renderJobs();
 }
 
@@ -1685,27 +1380,72 @@ function setView(v, e) {
   if (e && e.currentTarget) e.currentTarget.classList.add('active');
 }
 
-// ============================================================
-// SELECT JOB — Professional flow
-// ============================================================
 function selectJob(job, e) {
   if (e) { e.preventDefault(); e.stopPropagation(); }
   selectedJobId = job.id;
   formData.details = formData.details || {};
   formData.details.job_title = job.title;
   formData.details.preferred_country = job.country;
-
-  // Show confirmation toast
+  formData.details.job_id = job.id;
+  try { localStorage.setItem('gp_selected_job', JSON.stringify(job)); } catch (e) {}
   showSelectionNotice(job.title, job.country);
-
-  // Re-render to show "Selected" state
+  showApplyingBanner(job.title, job.country);
   renderJobs();
 
-  // Scroll to form and highlight
+  formData.service_type = 'job';
+  const jobOption = document.querySelector('.path-option[data-path="job"]');
+  if (jobOption) {
+    document.querySelectorAll('.path-option').forEach(el => el.classList.remove('selected'));
+    jobOption.classList.add('selected');
+  }
+  flow = buildFlow();
+  if (flow[currentIndex] === 'path') {
+    currentIndex = 1;
+    renderProgress();
+  }
+  if (job.country) {
+    document.querySelectorAll('#jobDestinations .d_job_dest').forEach(cb => {
+      if (cb.value.toLowerCase() === job.country.toLowerCase()) cb.checked = true;
+    });
+  }
   setTimeout(() => {
     const form = document.querySelector('.form-wrap');
     if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 500);
+}
+
+function showApplyingBanner(title, country) {
+  const banner = document.getElementById('applyingBanner');
+  const titleEl = document.getElementById('abTitle');
+  const metaEl = document.getElementById('abMeta');
+  if (!banner || !titleEl || !metaEl) return;
+  titleEl.textContent = title;
+  metaEl.textContent = country || '';
+  banner.classList.add('show');
+}
+
+function hideApplyingBanner() {
+  const banner = document.getElementById('applyingBanner');
+  if (banner) banner.classList.remove('show');
+}
+
+function clearJobSelection() {
+  selectedJobId = null;
+  if (formData.details) {
+    delete formData.details.job_title;
+    delete formData.details.preferred_country;
+    delete formData.details.job_id;
+  }
+  try { localStorage.removeItem('gp_selected_job'); } catch (e) {}
+  hideApplyingBanner();
+  renderJobs();
+  const grid = document.getElementById('jobsGrid');
+  if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function scrollToForm() {
+  const form = document.querySelector('.form-wrap');
+  if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function showSelectionNotice(title, country) {
@@ -1720,12 +1460,6 @@ function showSelectionNotice(title, country) {
   }, 4500);
 }
 
-// Remove old pickJob alias
-window.pickJob = function(title, country) {
-  // Fallback for any legacy onclick
-  selectJob({ title, country, id: null });
-};
-
 function scrollToJobs(e) {
   if (e) e.preventDefault();
   const section = document.getElementById('featuredJobsSection');
@@ -1737,9 +1471,6 @@ function continueApplication() {
   if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// ============================================================
-// ALERTS
-// ============================================================
 function showAlert(msg, type = 'info') {
   const el = document.getElementById('errorMsg'); el.textContent = msg;
   el.style.background = type === 'success' ? 'var(--success-bg)' : 'var(--danger-bg)';
@@ -1754,9 +1485,6 @@ function showError(msg) {
 }
 function hideError() { document.getElementById('errorMsg').classList.remove('show'); }
 
-// ============================================================
-// PATH / VISA / CHOICES
-// ============================================================
 const pathGrid = document.getElementById('pathGrid');
 if (pathGrid) { pathGrid.addEventListener('click', (e) => { const option = e.target.closest('.path-option'); if (option) selectPath(option); }); }
 function selectPath(option) {
@@ -1834,7 +1562,14 @@ async function submitApplication() {
     const payload = {
       reference, service_type: formData.service_type, full_name: formData.full_name,
       email: formData.email, phone: formData.phone, country: formData.country,
-      details: { city: formData.city, has_passport: formData.has_passport, visa_type: formData.visa_type || null, ...(formData.details || {}) },
+      details: {
+        city: formData.city,
+        has_passport: formData.has_passport,
+        visa_type: formData.visa_type || null,
+        applied_job_id: formData.details?.job_id || null,
+        applied_job_title: formData.details?.job_title || null,
+        ...(formData.details || {})
+      },
       status: 'Submitted', agent_requested: formData.agent_requested === true
     };
     const { error } = await supabaseClient.from('applications').insert([payload]).select().single();
@@ -1847,6 +1582,8 @@ async function submitApplication() {
     document.getElementById('featuredJobsSection').style.display = 'none';
     document.getElementById('trackNowBtn').href = `track.html?ref=${encodeURIComponent(reference)}`;
     showPanel('success');
+    try { localStorage.removeItem('gp_selected_job'); } catch (e) {}
+    hideApplyingBanner();
     const notice = document.getElementById('redirectNotice');
     const counter = document.getElementById('redirectCountdown');
     if (notice && counter) {
@@ -1913,9 +1650,21 @@ window.addEventListener('scroll', () => {
 
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-// ============================================================
-// INIT
-// ============================================================
+(function restoreSavedJob() {
+  try {
+    const saved = localStorage.getItem('gp_selected_job');
+    if (!saved) return;
+    const job = JSON.parse(saved);
+    if (!job || !job.title) return;
+    selectedJobId = job.id;
+    formData.details = formData.details || {};
+    formData.details.job_title = job.title;
+    formData.details.preferred_country = job.country;
+    formData.details.job_id = job.id;
+    setTimeout(() => showApplyingBanner(job.title, job.country), 800);
+  } catch (e) {}
+})();
+
 document.addEventListener('DOMContentLoaded', async () => {
   const countrySelect = document.getElementById('country');
   if (countrySelect) {
@@ -1926,7 +1675,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Load dynamic categories and job types first
   await Promise.all([loadCategories(), loadJobTypes()]);
   await loadFeaturedJobs();
 
