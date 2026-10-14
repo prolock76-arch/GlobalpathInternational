@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — GlobalPath International</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --primary: #0B3D91;
+  --primary-dark: #062a66;
+  --primary-soft: #eef4ff;
+  --bg: #F7F9FC;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e5e9f0;
+  --danger: #c0392b;
+  --danger-bg: #fdeceb;
+  --success: #0f8a4d;
+  --success-bg: #e7f6ee;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+.login-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: linear-gradient(135deg, var(--primary-soft) 0%, #fff 60%);
+}
+.login-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(11,61,145,0.12);
+  padding: 40px 32px 32px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+.login-logo {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(11,61,145,0.28);
+}
+.login-logo svg { display: block; width: 100%; height: 100%; }
+.login-card h1 {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: var(--primary);
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+.login-card .login-sub {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 26px;
+}
+.login-badge {
+  display: inline-block;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.login-form { text-align: left; }
+.login-form .field { margin-bottom: 16px; }
+.login-form label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.login-form input {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #fff;
+  color: var(--text);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.login-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(11,61,145,0.08);
+}
+.login-btn {
+  width: 100%;
+  padding: 15px 22px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+  box-shadow: 0 8px 20px rgba(11,61,145,0.28);
+}
+.login-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(11,61,145,0.38);
+}
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.login-msg {
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: none;
+  text-align: left;
+  line-height: 1.5;
+}
+.login-msg.show { display: block; }
+.login-msg.error { background: var(--danger-bg); color: var(--danger); border-left: 4px solid var(--danger); }
+.login-msg.success { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+.login-footer {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.login-footer a { color: var(--primary); font-weight: 700; text-decoration: none; }
+.login-footer a:hover { text-decoration: underline; }
+@media (max-width: 480px) {
+  .login-card { padding: 30px 22px 26px; }
+  .login-card h1 { font-size: 1.35rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gpGrad" x1="0" y1="0" x2="44" y2="44">
+            <stop offset="0%" stop-color="#1a5bc4"/>
+            <stop offset="100%" stop-color="#0B3D91"/>
+          </linearGradient>
+        </defs>
+        <rect width="44" height="44" rx="12" fill="url(#gpGrad)"/>
+        <circle cx="22" cy="22" r="13" stroke="#fff" stroke-width="1.6" fill="none" opacity="0.35"/>
+        <path d="M 9 22 Q 22 9 35 22" stroke="#F5A623" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M 9 22 Q 22 35 35 22" stroke="#F5A623" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <circle cx="22" cy="22" r="4" fill="#F5A623"/>
+        <circle cx="22" cy="22" r="2" fill="#fff"/>
+      </svg>
+    </div>
+
+    <div class="login-badge">Admin Access</div>
+    <h1>Welcome Back</h1>
+    <p class="login-sub">Sign in to manage applications, jobs, and messages.</p>
+
+    <div class="login-msg" id="loginMsg"></div>
+
+    <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@globalpath..." autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+      </div>
+      <button class="login-btn" id="loginBtn" type="submit">🔒 Sign In</button>
+    </form>
+
+    <div class="login-footer">
+      Not an admin? <a href="index.html">Return to homepage →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://gpciexntoxrmxerboawm.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_dI8etzUXk7kfDvrepR4Inw_jlFLeZ25';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function showMsg(text, type = 'error') {
+  const el = document.getElementById('loginMsg');
+  el.className = 'login-msg ' + type;
+  el.textContent = text;
+  el.classList.add('show');
+}
+function hideMsg() {
+  document.getElementById('loginMsg').classList.remove('show');
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  hideMsg();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    showMsg('Please enter your email and password.');
+    return;
+  }
+
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+
+    showMsg('✓ Signed in! Redirecting…', 'success');
+
+    setTimeout(() => {
+      window.location.href = 'admin.html';
+    }, 500);
+
+  } catch (err) {
+    console.error('Login error:', err);
+    showMsg(err.message === 'Invalid login credentials'
+      ? '❌ Wrong email or password. Please try again.'
+      : '❌ ' + (err.message || 'Login failed.'));
+    btn.disabled = false;
+    btn.textContent = '🔒 Sign In';
+  }
+}
+
+(async function checkSession() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (session?.user) {
+    console.log('✅ Already logged in — redirecting');
+    window.location.href = 'admin.html';
+  }
+})();
+</script>
+</body>
+</html>
