@@ -1364,5 +1364,214 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([loadApps(), loadConvs(), loadJobs()]);
 });
 </script>
+  <!-- ============================================================ -->
+<!-- AUTO-POST TO CHANNEL TOGGLE + HOOK                            -->
+<!-- Paste this just before </body> in admin.html                  -->
+<!-- ============================================================ -->
+<style>
+  .gp-autopost {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #eef4ff 0%, #fff 100%);
+    border: 1.5px solid var(--primary-soft);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+  }
+  .gp-autopost-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .gp-autopost-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: var(--telegram); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(34,158,217,0.3);
+  }
+  .gp-autopost-text { min-width: 0; }
+  .gp-autopost-title { font-weight: 800; font-size: 0.9rem; color: var(--text); }
+  .gp-autopost-sub { font-size: 0.75rem; color: var(--muted); margin-top: 1px; }
+
+  /* Toggle switch */
+  .gp-switch { position: relative; display: inline-block; width: 52px; height: 30px; flex-shrink: 0; }
+  .gp-switch input { opacity: 0; width: 0; height: 0; }
+  .gp-switch-slider {
+    position: absolute; cursor: pointer; inset: 0;
+    background: #cbd5e1; border-radius: 30px;
+    transition: background 0.25s ease;
+  }
+  .gp-switch-slider:before {
+    content: "";
+    position: absolute; height: 22px; width: 22px;
+    left: 4px; top: 4px; background: #fff;
+    border-radius: 50%; transition: transform 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+  .gp-switch input:checked + .gp-switch-slider { background: var(--success); }
+  .gp-switch input:checked + .gp-switch-slider:before { transform: translateX(22px); }
+  .gp-switch input:disabled + .gp-switch-slider { opacity: 0.55; cursor: not-allowed; }
+
+  .gp-autopost-status {
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em;
+    text-transform: uppercase; margin-top: 2px;
+  }
+  .gp-autopost-status.on { color: var(--success); }
+  .gp-autopost-status.off { color: var(--muted); }
+</style>
+
+<script>
+// ============================================================
+// AUTO-POST TO CHANNEL — injected before </body>
+// ============================================================
+(function () {
+  const WORKER_URL   = 'https://api.globalpathjobplacement.online';
+  const ADMIN_SECRET = 'gp_admin_2026_secret';
+  const PUBLIC_CHANNEL = 'globalpath_updates';
+
+  // ---------------------------------------------
+  // 1. Inject toggle UI above the Save Job button
+  // ---------------------------------------------
+  function injectToggle() {
+    const form = document.getElementById('jobForm');
+    if (!form) return false;
+    if (document.getElementById('gpAutoPostWrap')) return true; // already injected
+
+    const actions = form.querySelector('.form-actions');
+    if (!actions) return false;
+
+    const wrap = document.createElement('div');
+    wrap.id = 'gpAutoPostWrap';
+    wrap.className = 'gp-autopost';
+    wrap.innerHTML = `
+      <div class="gp-autopost-info">
+        <div class="gp-autopost-icon">✈️</div>
+        <div class="gp-autopost-text">
+          <div class="gp-autopost-title">Auto-post to Telegram channel</div>
+          <div class="gp-autopost-sub">Publish this job to <strong>@${PUBLIC_CHANNEL}</strong> after saving</div>
+          <div class="gp-autopost-status off" id="gpAutoPostStatus">OFF — will only save</div>
+        </div>
+      </div>
+      <label class="gp-switch" title="Toggle auto-post">
+        <input type="checkbox" id="gpAutoPostToggle">
+        <span class="gp-switch-slider"></span>
+      </label>
+    `;
+
+    // Insert toggle just ABOVE the .form-actions row (i.e., before Save button)
+    actions.parentNode.insertBefore(wrap, actions);
+
+    // Wire the status text
+    const toggle = document.getElementById('gpAutoPostToggle');
+    const status = document.getElementById('gpAutoPostStatus');
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        status.textContent = 'ON — will post to @' + PUBLIC_CHANNEL;
+        status.classList.remove('off');
+        status.classList.add('on');
+      } else {
+        status.textContent = 'OFF — will only save';
+        status.classList.remove('on');
+        status.classList.add('off');
+      }
+    });
+    return true;
+  }
+
+  // Run injection attempts (modal may not be in DOM yet, but it is — just be safe)
+  if (!injectToggle()) {
+    document.addEventListener('DOMContentLoaded', injectToggle);
+  }
+
+  // ---------------------------------------------
+  // 2. Hook into saveJob() to auto-post when ON
+  // ---------------------------------------------
+  const _origSaveJob = window.saveJob;
+  window.saveJob = async function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const toggle = document.getElementById('gpAutoPostToggle');
+    const autoPost = !!(toggle && toggle.checked);
+
+    // Call original save (this saves to Supabase + closes modal + reloads jobs)
+    try {
+      if (typeof _origSaveJob === 'function') {
+        await _origSaveJob.call(this, e);
+      } else {
+        // Fallback: submit the form natively so the original handler runs
+        const form = document.getElementById('jobForm');
+        if (form) form.requestSubmit();
+      }
+    } catch (err) {
+      console.error('saveJob error:', err);
+      return;
+    }
+
+    if (!autoPost) return;
+
+    // Find the freshly-saved job (latest updated_at matching title)
+    const title = (document.getElementById('jTitle')?.value || '').trim();
+    if (!title) return;
+
+    // Wait a tick for loadJobs() to complete
+    await new Promise(r => setTimeout(r, 400));
+
+    let job = null;
+    if (window.allJobs && Array.isArray(window.allJobs)) {
+      job = window.allJobs.find(j => (j.title || '').trim() === title);
+    }
+    // allJobs is a module-scope variable inside the main <script>; it IS on window via closure only if declared with var.
+    // Try the DOM/global fallback:
+    if (!job && typeof allJobs !== 'undefined' && Array.isArray(allJobs)) {
+      job = allJobs.find(j => (j.title || '').trim() === title);
+    }
+    if (!job) {
+      showError && showError('Job saved, but could not auto-post (job lookup failed).');
+      return;
+    }
+
+    // Post to worker
+    try {
+      const res = await fetch(`${WORKER_URL}/post-job`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ secret: ADMIN_SECRET, job })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.ok) {
+        showSuccess && showSuccess('✅ Posted to @' + PUBLIC_CHANNEL);
+        // If worker returned message_id, persist it for later removal
+        if (data.message_id && job.id) {
+          try {
+            await supabaseClient
+              .from('featured_jobs')
+              .update({ telegram_message_id: data.message_id })
+              .eq('id', job.id);
+          } catch (e) { console.warn('Could not save telegram_message_id:', e); }
+        }
+      } else {
+        console.error('post-job failed:', data);
+        showError && showError('Channel post failed: ' + (data.error || 'unknown error'));
+      }
+    } catch (err) {
+      console.error('post-job fetch error:', err);
+      showError && showError('Channel post failed: ' + err.message);
+    } finally {
+      // Reset toggle to OFF after posting
+      if (toggle) {
+        toggle.checked = false;
+        const status = document.getElementById('gpAutoPostStatus');
+        if (status) {
+          status.textContent = 'OFF — will only save';
+          status.classList.remove('on');
+          status.classList.add('off');
+        }
+      }
+    }
+  };
+
+  console.log('✅ Auto-post to channel toggle installed');
+})();
+</script>
 </body>
 </html>
